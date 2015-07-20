@@ -1,0 +1,26 @@
+﻿<Window x:Class="MikiEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Miki Editor" Height="768" Width="1204">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open"/>
+                    <MenuItem Header="_Close"/>
+                    <MenuItem Header="_Save"/>
+                </MenuItem>
+            </Menu>
+            <ToolBarTray DockPanel.Dock="Top">
+                <ToolBar>
+                    <Button Command="New" Content="New" Height="32" Width="48" Margin="0,0,20,0" />
+                    <Button Command="Save" Content="Open" Height="32" Width="48" Margin="0,0,20,0" />
+                    <Button Command="Export" Content="Export" Height="32" Width="48" Margin="0,0,20,0"></Button>
+                </ToolBar>
+            </ToolBarTray>
+            <TextBox AcceptsReturn="True" />
+        </DockPanel>
+
+    </Grid>
+
+</Window>
