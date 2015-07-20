@@ -8,14 +8,13 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_Open"/>
                     <MenuItem Header="_Close"/>
-                    <MenuItem Header="_Save"/>
+                    <MenuItem x:Name="MenuSave" Header="_Save" Click="MenuSave_Click"/>
                 </MenuItem>
             </Menu>
             <ToolBarTray DockPanel.Dock="Top">
                 <ToolBar>
                     <Button Command="New" Content="New" Height="32" Width="48" Margin="0,0,20,0" />
-                    <Button Command="Save" Content="Open" Height="32" Width="48" Margin="0,0,20,0" />
-                    <Button Command="Export" Content="Export" Height="32" Width="48" Margin="0,0,20,0"></Button>
+                    <Button x:Name="BtnSave" Command="Save" Content="Open" Height="32" Width="48" Margin="0,0,20,0" Click="BtnSave_Click" />s
                 </ToolBar>
             </ToolBarTray>
             <TextBox AcceptsReturn="True" />
