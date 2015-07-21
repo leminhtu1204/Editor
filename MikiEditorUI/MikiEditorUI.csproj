@@ -36,7 +36,7 @@
   <ItemGroup>
     <Reference Include="Caliburn.Micro, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\VS\project\CaliburnMicroApplication1\CaliburnMicroApplication1\Lib\Caliburn.Micro.dll</HintPath>
+      <HintPath>lib\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -103,6 +103,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Image\blankimage.jpeg" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>
