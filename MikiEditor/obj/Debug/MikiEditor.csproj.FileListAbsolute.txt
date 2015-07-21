@@ -24,3 +24,17 @@ C:\LeMinhtu\MikiEditor\Editor\MikiEditor\obj\Debug\MikiEditor.Properties.Resourc
 C:\LeMinhtu\MikiEditor\Editor\MikiEditor\obj\Debug\MikiEditor.csproj.GenerateResource.Cache
 C:\LeMinhtu\MikiEditor\Editor\MikiEditor\bin\Debug\Newtonsoft.Json.dll
 C:\LeMinhtu\MikiEditor\Editor\MikiEditor\bin\Debug\Newtonsoft.Json.xml
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor.exe
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor.pdb
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor.csprojResolveAssemblyReference.cache
+G:\Editor\Editor\MikiEditor\obj\Debug\MainWindow.baml
+G:\Editor\Editor\MikiEditor\obj\Debug\MainWindow.g.cs
+G:\Editor\Editor\MikiEditor\obj\Debug\App.g.cs
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor_MarkupCompile.cache
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor.g.resources
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor.Properties.Resources.resources
+G:\Editor\Editor\MikiEditor\obj\Debug\MikiEditor.csproj.GenerateResource.Cache
+G:\Editor\Editor\MikiEditor\bin\Debug\MikiEditor.exe
+G:\Editor\Editor\MikiEditor\bin\Debug\MikiEditor.pdb
+G:\Editor\Editor\MikiEditor\bin\Debug\Newtonsoft.Json.dll
+G:\Editor\Editor\MikiEditor\bin\Debug\Newtonsoft.Json.xml
