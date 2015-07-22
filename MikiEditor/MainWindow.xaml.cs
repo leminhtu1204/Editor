@@ -106,6 +106,11 @@ namespace MikiEditor
 
             string[] files = Directory.GetFiles(path);
 
+            if (files.Length == 0)
+            {
+                return;
+            }
+
             foreach (string filename in files)
             {
 
