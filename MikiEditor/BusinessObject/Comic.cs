@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MikiEditor.BusinessObject
 {
-    class Comic
+    public class Comic
     {
         public int Id { get; set; }
         public string Title { get; set; }
