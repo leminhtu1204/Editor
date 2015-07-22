@@ -61,6 +61,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BusinessObject\Chapter.cs" />
+    <Compile Include="BusinessObject\Comic.cs" />
+    <Compile Include="BusinessObject\Page.cs" />
+    <Compile Include="Converter\VisibilityConverter.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -112,6 +116,9 @@
       <Project>{b1fdfd45-a1f9-4922-b14a-6f66e7194a22}</Project>
       <Name>MikiEditor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

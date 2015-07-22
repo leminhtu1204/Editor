@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MikiEditor.BusinessObject
 {
-    public class Chapter
+    public class Chapter 
     {
         public int Index { get; set; }
         public string Title { get; set; }
