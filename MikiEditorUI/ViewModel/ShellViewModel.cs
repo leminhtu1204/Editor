@@ -1,7 +1,12 @@
-﻿namespace MikiEditorUI.ViewModel
+﻿using Microsoft.Win32;
+
+namespace MikiEditorUI.ViewModel
 {
+    using System.Collections.Generic;
+
     using Caliburn.Micro;
-    using MikiEditor.BusinessObject;
+
+    using MikiEditorUI.BusinessObject;
 
     public class ShellViewModel : PropertyChangedBase
     {
@@ -26,6 +31,22 @@
             }
         }
 
+        private Page currentPage;
+
+        public Page CurrentPage
+        {
+            get
+            {
+                return currentPage;
+            }
+
+            set
+            {
+                currentPage = value;
+                this.NotifyOfPropertyChange(() => this.CurrentPage);
+            }
+        }
+
         private BindableCollection<Chapter> chapters;
 
         public BindableCollection<Chapter> Chapters
@@ -41,22 +62,6 @@
                 this.NotifyOfPropertyChange(() => this.Chapters);
             }
         }
-
-        //private BindableCollection<Page> pages;
-
-        //public BindableCollection<Page> Pages
-        //{
-        //    get
-        //    {
-        //        return pages;
-        //    }
-
-        //    set
-        //    {
-        //        pages = value;
-        //        this.NotifyOfPropertyChange(() => this.Pages);
-        //    }
-        //}
 
         private void OnActive()
         {
@@ -96,9 +101,23 @@
             CurrentChapter.Pages.Add(new Page() { ImgPath = "Image/blankimage.jpeg" });
         }
 
-        public void ChapterChange()
+        public void AddNewChapter()
         {
-           
+            var title = chapters.Count + 1;
+            Chapters.Add(new Chapter() { Title = "Chapter " + title, Pages = new BindableCollection<Page>() });
+        }
+
+        public void LoadImage()
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "Portable Network Graphic (*.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
+                CurrentPage.ImgPath = op.FileName;
+            }
         }
     }
 }
