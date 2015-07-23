@@ -51,6 +51,7 @@
                                         VerticalAlignment="Top">
                                     <Image Source="{Binding ImgPath}" Width="80" Height="120"/>
                                 </Border>
+                                <Label Content="{Binding PageIndex}"/>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -97,11 +98,12 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" HorizontalAlignment="Center" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top" Width="200">
+                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Comic.Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top" Width="200">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
                                 <Label Content="{Binding Title}"></Label>
+                                <Label Content="{Binding ChapterIndex}"/>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

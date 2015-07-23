@@ -9,7 +9,6 @@ namespace MikiEditorUI.BusinessObject
 {
     public class Page : PropertyChangedBase
     {
-        public int PageIndex { get; set; }
         public string Caption { get; set; }
 
         private string imgPath;
@@ -24,6 +23,21 @@ namespace MikiEditorUI.BusinessObject
             {
                 imgPath = value;
                 this.NotifyOfPropertyChange(() => this.ImgPath);
+            }
+        }
+
+        public Chapter Chapter { get; set; }
+
+        public int PageIndex
+        {
+            get
+            {
+                if (Chapter.Pages == null || Chapter.Pages.Count == 0)
+                {
+                    return 1;
+                }
+
+                return Chapter.Pages.IndexOf(this) + 1;
             }
         }
     }
