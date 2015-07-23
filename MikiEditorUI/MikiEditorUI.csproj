@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>D:\VS\project\CaliburnMicroApplication1\CaliburnMicroApplication1\Lib\System.Windows.Interactivity.dll</HintPath>
@@ -65,7 +66,11 @@
     <Compile Include="BusinessObject\Comic.cs" />
     <Compile Include="BusinessObject\Page.cs" />
     <Compile Include="Converter\VisibilityConverter.cs" />
+    <Compile Include="ViewModel\NewComicModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="View\NewComic.xaml.cs">
+      <DependentUpon>NewComic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -76,6 +81,10 @@
     <Page Include="Resource\MikiStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NewComic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ShellView.xaml">
       <SubType>Designer</SubType>

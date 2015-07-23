@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:converter="clr-namespace:MikiEditorUI.Converter"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="ShellView" Height="768" Width="1024">
     <Window.Resources>
         <converter:VisibilityConverter x:Key="visibilityConverter" />
@@ -11,14 +10,14 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open"/>
+                <MenuItem cal:Message.Attach="NewWorkSpace" Header="_New"/>
                 <MenuItem Header="_Close"/>
-                <MenuItem x:Name="MenuSave" Header="_Save"/>
+                <MenuItem Header="_Save"/>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button Command="New" Content="New" Height="32" Width="48" Margin="0,0,20,0" />
+                <Button Command="New" Content="New" Height="32" Width="48" Margin="0,0,20,0" VerticalAlignment="Top" />
                 <Separator></Separator>
                 <Button x:Name="BtnSave" Command="Save" Content="Open" Height="32" Width="48" Margin="0,0,20,0"/>
             </ToolBar>
@@ -97,7 +96,7 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" HorizontalAlignment="Center" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top" Width="200">
+                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Chapters}" SelectedItem="{Binding CurrentChapter}" >
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -108,7 +107,6 @@
                 </ListView>
                 <Button cal:Message.Attach="AddNewChapter" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/blankimage.jpeg" Width="30" Height="30"></Image>
                         <Label Content="Add New Chapter"></Label>
                     </StackPanel>
                 </Button>

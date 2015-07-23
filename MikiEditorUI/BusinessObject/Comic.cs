@@ -5,12 +5,69 @@ using System.Text;
 
 namespace MikiEditorUI.BusinessObject
 {
-    public class Comic
+    using Caliburn.Micro;
+
+    public class Comic : PropertyChangedBase
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Author { get; set; }
-        public string Description { get; set; }
-        public IList<Chapter> Chapters { get; set; } 
+        private string title;
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                title = value;
+                this.NotifyOfPropertyChange(() => this.Title);
+            }
+        }
+
+        private string author;
+        public string Author
+        {
+            get
+            {
+                return author;
+            }
+            set
+            {
+                author = value;
+                this.NotifyOfPropertyChange(() => this.Author);
+            }
+        }
+
+        private string description;
+
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
+            set
+            {
+                description = value;
+                this.NotifyOfPropertyChange(() => this.Description);
+            }
+        }
+
+        public IList<Chapter> Chapters { get; set; }
+
+        private string workSpace;
+
+        public string WorkSpace
+        {
+            get
+            {
+                return workSpace;
+            }
+            set
+            {
+                workSpace = value;
+                this.NotifyOfPropertyChange(() => this.WorkSpace);
+            }
+        }
     }
 }

@@ -1,18 +1,34 @@
-﻿using Microsoft.Win32;
-
-namespace MikiEditorUI.ViewModel
+﻿namespace MikiEditorUI.ViewModel
 {
-    using System.Collections.Generic;
-
+    using System;
     using Caliburn.Micro;
 
     using MikiEditorUI.BusinessObject;
+
+    using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
     public class ShellViewModel : PropertyChangedBase
     {
         public ShellViewModel()
         {
             OnActive();
+        }
+
+        private WindowManager windowManager;
+
+        private Comic currentComic;
+
+        public Comic CurrentComic
+        {
+            get
+            {
+                return currentComic;
+            }
+            set
+            {
+                currentComic = value;
+                this.NotifyOfPropertyChange(()=> this.CurrentComic);
+            }
         }
 
         private Chapter currentChapter;
@@ -65,6 +81,8 @@ namespace MikiEditorUI.ViewModel
 
         private void OnActive()
         {
+            this.windowManager = new WindowManager();
+
             if (Chapters == null)
             {
                 Chapters = new BindableCollection<Chapter>();
@@ -105,6 +123,18 @@ namespace MikiEditorUI.ViewModel
         {
             var title = chapters.Count + 1;
             Chapters.Add(new Chapter() { Title = "Chapter " + title, Pages = new BindableCollection<Page>() });
+        }
+
+        public void NewWorkSpace()
+        {
+            this.currentComic = new Comic();
+
+            currentComic.Chapters = this.chapters;
+
+            var newComicModel = new NewComicModel(this.CurrentComic);
+
+            windowManager.ShowDialog(newComicModel);
+
         }
 
         public void LoadImage()
