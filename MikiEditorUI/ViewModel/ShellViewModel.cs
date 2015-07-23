@@ -1,4 +1,8 @@
-﻿namespace MikiEditorUI.ViewModel
+﻿using System.Linq;
+
+using Microsoft.Win32;
+
+namespace MikiEditorUI.ViewModel
 {
     using System;
     using Caliburn.Micro;
@@ -63,6 +67,22 @@
             }
         }
 
+        private Comic comic;
+
+        public Comic Comic
+        {
+            get
+            {
+                return comic;
+            }
+
+            set
+            {
+                comic = value;
+                NotifyOfPropertyChange(() => Comic);
+            }
+        }
+
         private BindableCollection<Chapter> chapters;
 
         public BindableCollection<Chapter> Chapters
@@ -83,46 +103,54 @@
         {
             this.windowManager = new WindowManager();
 
-            if (Chapters == null)
-            {
-                Chapters = new BindableCollection<Chapter>();
-                var chapter1 = new Chapter
-                {
-                    Title = "Chapter1",
-                    Pages =
-                        new BindableCollection<Page>
-                        {
-                            new Page() {ImgPath = "Image/blankimage.jpeg"},
-                            new Page() {ImgPath = "Image/blankimage.jpeg"},
-                            new Page() {ImgPath = "Image/blankimage.jpeg"}
-                        }
-                };
+            comic = new Comic();
 
-                var chapter2 = new Chapter
-                {
-                    Title = "Chapter2",
-                    Pages =
-                        new BindableCollection<Page>
-                        {
-                            new Page() {ImgPath = "Image/blankimage.jpeg"},
-                            new Page() {ImgPath = "Image/blankimage.jpeg"}
-                        }
-                };
+            comic.Chapters = new BindableCollection<Chapter>();
+            var chapter1 = new Chapter { Title = "Chapter", Comic = comic };
+            chapter1.Pages = new BindableCollection<Page>
+                                     {
+                                         new Page
+                                             {
+                                                 ImgPath = "Image/blankimage.jpeg",
+                                                 Chapter = chapter1
+                                             },
+                                              new Page
+                                             {
+                                                 ImgPath = "Image/blankimage.jpeg",
+                                                 Chapter = chapter1
+                                             }
+                                     };
 
-                Chapters.Add(chapter1);
-                Chapters.Add(chapter2);
-            }
+            var chapter2 = new Chapter { Title = "Chapter", Comic = comic };
+            chapter2.Pages = new BindableCollection<Page>
+                                     {
+                                         new Page
+                                             {
+                                                 ImgPath = "Image/blankimage.jpeg",
+                                                 Chapter = chapter2
+                                             }
+                                     };
+
+            comic.Chapters.Add(chapter1);
+            comic.Chapters.Add(chapter2);
+
         }
 
         public void AddNewPage()
         {
-            CurrentChapter.Pages.Add(new Page() { ImgPath = "Image/blankimage.jpeg" });
+            if (!hasCurrentChapter())
+            {
+                return;
+            }
+
+            var currentPageIndex = this.getNewPageIndex();
+            var Page = new Page() { ImgPath = "Image/blankimage.jpeg", Chapter = currentChapter };
+            CurrentChapter.Pages.Insert(currentPageIndex-1, Page);
         }
 
         public void AddNewChapter()
         {
-            var title = chapters.Count + 1;
-            Chapters.Add(new Chapter() { Title = "Chapter " + title, Pages = new BindableCollection<Page>() });
+            comic.Chapters.Add(new Chapter() { Title = "Chapter ", Comic = comic, Pages = new BindableCollection<Page>() });
         }
 
         public void NewWorkSpace()
@@ -148,6 +176,21 @@
             {
                 CurrentPage.ImgPath = op.FileName;
             }
+        }
+
+        private bool hasCurrentChapter()
+        {
+            return currentChapter != null;
+        }
+
+        private int getNewPageIndex()
+        {
+            if (currentPage == null)
+            {
+                return 1;
+            }
+
+            return this.currentPage.PageIndex + 1;
         }
     }
 }
