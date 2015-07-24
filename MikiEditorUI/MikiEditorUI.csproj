@@ -127,6 +127,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\blankimage.jpeg" />
+    <Resource Include="Image\Icon_6-128.png" />
+    <Resource Include="Image\export-icon.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>

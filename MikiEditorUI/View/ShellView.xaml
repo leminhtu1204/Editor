@@ -17,28 +17,31 @@
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Content="Export" Height="32" Width="48" Margin="0,0,20,0" VerticalAlignment="Top" />
-                <Separator></Separator>
-                <Button x:Name="BtnSave" Command="Save" Content="Open" Height="32" Width="48" Margin="0,0,20,0"/>
+                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
+                        <Label Content="Export"></Label>
+                    </StackPanel>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="200"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition MinWidth="600"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition MinWidth="500"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition MinWidth="300"></ColumnDefinition>
+                <ColumnDefinition MaxWidth="300"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-
             <Grid Name="LeftGrid" Grid.Column="0" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" HorizontalAlignment="Center" DockPanel.Dock="Top" MinHeight="24">Page Navigator</Label>
-                <ListView Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}">
+                <Label BorderBrush="Gray" BorderThickness="1" Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">
+                    Page Navigator
+                </Label>
+                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="650" DockPanel.Dock="Top" SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -47,19 +50,21 @@
                                         VerticalAlignment="Top">
                                     <Image Source="{Binding ImgPath}" Width="80" Height="120"/>
                                 </Border>
+                                <Label Content="{Binding Index}"></Label>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                
                 <Button cal:Message.Attach="AddNewPage" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/blankimage.jpeg" Width="30" Height="30"></Image>
-                        <Label Content="Add New Page"></Label>
+                        <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"></Image>
+                        <Label Content="New Page"></Label>
                     </StackPanel>
                 </Button>
             </Grid>
 
-            <DockPanel Name="MiddleGrid" Grid.Column="2" Margin="3">
+            <DockPanel Name="MiddleGrid" Grid.Column="1" Margin="3">
                 <Button cal:Message.Attach="LoadImage" Background="White">
                     <Button.Style>
                         <Style TargetType="Button">
@@ -86,17 +91,19 @@
                 </Button>
             </DockPanel>
 
-            <Grid Name="RightGrid"  Grid.Column="4" Margin="3">
+            <Grid Name="RightGrid"  Grid.Column="3" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" HorizontalAlignment="Center" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Comic.Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top">                    <ListView.ItemTemplate>
+                <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
+                <ListView BorderBrush="DarkGray" Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Comic.Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top">                    
+                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
                                 <Label Content="{Binding Title}"></Label>
+                                <Label Content="{Binding Index}"></Label>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -107,10 +114,7 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
-        Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"
-        ShowsPreview="True"></GridSplitter>
-            <GridSplitter Grid.Row="0" Grid.Column="3" Grid.RowSpan="2"
+            <GridSplitter Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
         Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"
         ShowsPreview="True"></GridSplitter>
         </Grid>

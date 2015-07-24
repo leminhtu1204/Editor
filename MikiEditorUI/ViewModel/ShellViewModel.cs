@@ -13,6 +13,9 @@
             OnActive();
         }
 
+        private int currentpageindex ;
+        private int currentchapterindex;
+
         private WindowManager windowManager;
 
         private Chapter currentChapter;
@@ -84,7 +87,7 @@
             this.windowManager = new WindowManager();
             comic = new Comic();
             comic.Chapters = new BindableCollection<Chapter>();
-            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>()};
+            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = ++currentchapterindex};
             comic.Chapters.Add(chapter1);
         }
 
@@ -95,13 +98,13 @@
                 return;
             }
 
-            var Page = new Page() { ImgPath = "Image/blankimage.jpeg"};
+            var Page = new Page() { ImgPath = "Image/blankimage.jpeg", Index = ++currentpageindex};
             CurrentChapter.Pages.Add(Page);
         }
 
         public void AddNewChapter()
         {
-            var chapter = new Chapter() { Title = "Chapter", Pages = new BindableCollection<Page>() };
+            var chapter = new Chapter() { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = ++currentchapterindex};
             comic.Chapters.Add(chapter);
         }
 
@@ -122,7 +125,10 @@
               "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
             {
-                CurrentPage.ImgPath = op.FileName;
+                if (hasCurrentChapter())
+                {
+                    CurrentPage.ImgPath = op.FileName;    
+                }
             }
         }
 

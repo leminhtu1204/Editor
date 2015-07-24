@@ -25,5 +25,20 @@ namespace MikiEditorUI.BusinessObject
                 this.NotifyOfPropertyChange(() => this.ImgPath);
             }
         }
+
+        private int index;
+        public int Index
+        {
+            get
+            {
+                return index;
+            }
+
+            set
+            {
+                index = value;
+                this.NotifyOfPropertyChange(() => this.Index);
+            }
+        }
     }
 }

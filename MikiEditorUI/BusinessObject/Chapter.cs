@@ -9,8 +9,6 @@ namespace MikiEditorUI.BusinessObject
 {
     public class Chapter : PropertyChangedBase
     {
-        public int Index { get; set; }
-
         private string title;
         public string Title
         {
@@ -38,6 +36,21 @@ namespace MikiEditorUI.BusinessObject
             {
                 pages = value;
                 this.NotifyOfPropertyChange(() => this.Pages);
+            }
+        }
+
+        private int index;
+        public int Index
+        {
+            get
+            {
+                return index;
+            }
+
+            set
+            {
+                index = value;
+                this.NotifyOfPropertyChange(() => this.Index);
             }
         }
     }
