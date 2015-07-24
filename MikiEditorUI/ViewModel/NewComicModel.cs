@@ -8,7 +8,14 @@
 
     public class NewComicModel : PropertyChangedBase
     {
-        private Comic comic;
+        private WindowManager windowManager;
+
+        private Comic comic = new Comic();
+
+        public NewComicModel()
+        {
+            
+        }
 
         public NewComicModel(Comic _comic)
         {
@@ -29,7 +36,7 @@
 
         public void SaveComic()
         {
-            var result = comic;
+            LoadMainForm();
         }
 
         public void OpenSaveWorkSpace()
@@ -41,6 +48,14 @@
 
         }
 
+        public void LoadMainForm()
+        {
+            windowManager = new WindowManager();
 
+            var shellViewModel = new ShellViewModel(this.Comic);
+
+            windowManager.ShowDialog(shellViewModel);
+
+        }
     }
 }

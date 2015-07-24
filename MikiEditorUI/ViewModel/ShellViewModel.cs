@@ -1,10 +1,5 @@
-﻿using System.Linq;
-
-using Microsoft.Win32;
-
-namespace MikiEditorUI.ViewModel
+﻿namespace MikiEditorUI.ViewModel
 {
-    using System;
     using Caliburn.Micro;
 
     using MikiEditorUI.BusinessObject;
@@ -17,8 +12,12 @@ namespace MikiEditorUI.ViewModel
         {
             OnActive();
         }
-
-        private WindowManager windowManager;
+        public ShellViewModel(Comic comic)
+        {
+            this.currentComic = comic;
+            this.currentComic.Chapters = chapters;
+            OnActive();
+        }
 
         private Comic currentComic;
 
@@ -101,12 +100,9 @@ namespace MikiEditorUI.ViewModel
 
         private void OnActive()
         {
-            this.windowManager = new WindowManager();
 
-            comic = new Comic();
-
-            comic.Chapters = new BindableCollection<Chapter>();
-            var chapter1 = new Chapter { Title = "Chapter", Comic = comic };
+            currentComic.Chapters = new BindableCollection<Chapter>();
+            var chapter1 = new Chapter { Title = "Chapter", Comic = currentComic };
             chapter1.Pages = new BindableCollection<Page>
                                      {
                                          new Page
@@ -121,7 +117,7 @@ namespace MikiEditorUI.ViewModel
                                              }
                                      };
 
-            var chapter2 = new Chapter { Title = "Chapter", Comic = comic };
+            var chapter2 = new Chapter { Title = "Chapter", Comic = currentComic };
             chapter2.Pages = new BindableCollection<Page>
                                      {
                                          new Page
@@ -131,8 +127,8 @@ namespace MikiEditorUI.ViewModel
                                              }
                                      };
 
-            comic.Chapters.Add(chapter1);
-            comic.Chapters.Add(chapter2);
+            currentComic.Chapters.Add(chapter1);
+            currentComic.Chapters.Add(chapter2);
 
         }
 
@@ -150,20 +146,10 @@ namespace MikiEditorUI.ViewModel
 
         public void AddNewChapter()
         {
-            comic.Chapters.Add(new Chapter() { Title = "Chapter ", Comic = comic, Pages = new BindableCollection<Page>() });
+            currentComic.Chapters.Add(new Chapter() { Title = "Chapter ", Comic = comic, Pages = new BindableCollection<Page>() });
         }
 
-        public void NewWorkSpace()
-        {
-            this.currentComic = new Comic();
-
-            currentComic.Chapters = this.chapters;
-
-            var newComicModel = new NewComicModel(this.CurrentComic);
-
-            windowManager.ShowDialog(newComicModel);
-
-        }
+        
 
         public void LoadImage()
         {
@@ -191,6 +177,13 @@ namespace MikiEditorUI.ViewModel
             }
 
             return this.currentPage.PageIndex + 1;
+        }
+
+        public void ExportComic()
+        {
+            var help = new Helper();
+
+            help.ExportCompressFile(currentComic, currentComic.WorkSpace);
         }
     }
 }

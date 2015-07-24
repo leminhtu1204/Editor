@@ -4,5 +4,5 @@ using MikiEditorUI.ViewModel;
 
 namespace MikiEditorUI
 {
-    public class MikiEditorBoostraper : Bootstrapper<ShellViewModel> { }
+    public class MikiEditorBoostraper : Bootstrapper<NewComicModel> { }
 }
