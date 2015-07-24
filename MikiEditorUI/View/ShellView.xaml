@@ -17,7 +17,7 @@
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button Command="New" Content="New" Height="32" Width="48" Margin="0,0,20,0" VerticalAlignment="Top" />
+                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Content="Export" Height="32" Width="48" Margin="0,0,20,0" VerticalAlignment="Top" />
                 <Separator></Separator>
                 <Button x:Name="BtnSave" Command="Save" Content="Open" Height="32" Width="48" Margin="0,0,20,0"/>
             </ToolBar>
@@ -97,7 +97,7 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" HorizontalAlignment="Center" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Comic.Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top" Width="200">                    <ListView.ItemTemplate>
+                <ListView  Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Comic.Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top">                    <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
                                 <Label Content="{Binding Title}"></Label>

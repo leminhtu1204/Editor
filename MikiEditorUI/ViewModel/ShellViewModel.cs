@@ -20,21 +20,6 @@ namespace MikiEditorUI.ViewModel
 
         private WindowManager windowManager;
 
-        private Comic currentComic;
-
-        public Comic CurrentComic
-        {
-            get
-            {
-                return currentComic;
-            }
-            set
-            {
-                currentComic = value;
-                this.NotifyOfPropertyChange(()=> this.CurrentComic);
-            }
-        }
-
         private Chapter currentChapter;
 
         public Chapter CurrentChapter
@@ -155,11 +140,7 @@ namespace MikiEditorUI.ViewModel
 
         public void NewWorkSpace()
         {
-            this.currentComic = new Comic();
-
-            currentComic.Chapters = this.chapters;
-
-            var newComicModel = new NewComicModel(this.CurrentComic);
+            var newComicModel = new NewComicModel(this.Comic);
 
             windowManager.ShowDialog(newComicModel);
 

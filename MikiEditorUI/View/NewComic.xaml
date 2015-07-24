@@ -8,7 +8,7 @@
         <Label Content="Author" HorizontalAlignment="Left" Margin="33,72,0,0" VerticalAlignment="Top"/>
         <Label Content="Description" HorizontalAlignment="Left" Margin="32,103,0,0" VerticalAlignment="Top"/>
         <Label Content="Work Space" HorizontalAlignment="Left" Margin="33,134,0,0" VerticalAlignment="Top"/>
-        <Button cal:Message.Attach="SaveComic" Content="Save" HorizontalAlignment="Left" Margin="121,199,0,0" VerticalAlignment="Center" Width="75"/>
+        <Button cal:Message.Attach="ExportComic" Content="Save" HorizontalAlignment="Left" Margin="121,199,0,0" VerticalAlignment="Center" Width="75"/>
         <Button cal:Message.Attach="SaveComic" Content="Cancel" HorizontalAlignment="Left" Margin="214,199,0,0" VerticalAlignment="Center" Width="75"/>
         <TextBox 
             HorizontalAlignment="Left" 

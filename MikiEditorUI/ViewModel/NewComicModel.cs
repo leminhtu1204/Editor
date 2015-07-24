@@ -41,6 +41,11 @@
 
         }
 
+        public void ExportComic()
+        {
+            Helper helper = new Helper();
+            helper.ExportCompressFile(comic, comic.WorkSpace);
+        }
 
     }
 }
