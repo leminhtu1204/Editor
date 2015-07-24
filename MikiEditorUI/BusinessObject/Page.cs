@@ -25,20 +25,5 @@ namespace MikiEditorUI.BusinessObject
                 this.NotifyOfPropertyChange(() => this.ImgPath);
             }
         }
-
-        public Chapter Chapter { get; set; }
-
-        public int PageIndex
-        {
-            get
-            {
-                if (Chapter.Pages == null || Chapter.Pages.Count == 0)
-                {
-                    return 1;
-                }
-
-                return Chapter.Pages.IndexOf(this) + 1;
-            }
-        }
     }
 }

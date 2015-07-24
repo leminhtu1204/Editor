@@ -23,9 +23,6 @@
             </ToolBar>
         </ToolBarTray>
         <Grid DockPanel.Dock="Bottom">
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="200"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -50,7 +47,6 @@
                                         VerticalAlignment="Top">
                                     <Image Source="{Binding ImgPath}" Width="80" Height="120"/>
                                 </Border>
-                                <Label Content="{Binding PageIndex}"/>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -101,7 +97,6 @@
                         <DataTemplate>
                             <WrapPanel>
                                 <Label Content="{Binding Title}"></Label>
-                                <Label Content="{Binding ChapterIndex}"/>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
