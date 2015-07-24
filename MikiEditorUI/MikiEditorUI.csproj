@@ -132,12 +132,6 @@
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MikiEditor\MikiEditor.csproj">
-      <Project>{b1fdfd45-a1f9-4922-b14a-6f66e7194a22}</Project>
-      <Name>MikiEditor</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

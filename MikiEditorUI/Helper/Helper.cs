@@ -23,12 +23,12 @@
                 
                 foreach (var chapter in comic.Chapters)
                 {
-                    subPath = path + @"\data" + @"\" + chapter.Title + comic.Chapters.IndexOf(chapter);
+                    subPath = path + @"\data" + @"\" + chapter.Title + chapter.Index;
                     this.CreateFolder(subPath); // create chapter folder
 
                     foreach (var page in chapter.Pages)
                     {
-                        CopyFiles(page.ImgPath, subPath + @"\" + chapter.Pages.IndexOf(page) + ".jpg");
+                        CopyFiles(page.ImgPath, subPath + @"\" + page.Index + ".jpg");
                     }
                 }
 

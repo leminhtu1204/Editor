@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:converter="clr-namespace:MikiEditorUI.Converter"
-        Title="ShellView" Height="730" Width="1000" Topmost="True" Left="200" Top="0">
+        Title="ShellView" Height="730" Width="1000" Left="200" Top="0">
     <Window.Resources>
         <converter:VisibilityConverter x:Key="visibilityConverter" />
     </Window.Resources>
@@ -98,7 +98,7 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView BorderBrush="DarkGray" Grid.Row="1" MinHeight="650" DockPanel.Dock="Top" ItemsSource="{Binding Comic.Chapters}" SelectedItem="{Binding CurrentChapter}" VerticalAlignment="Top">                    
+                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="650" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" ItemsSource="{Binding Comic.Chapters}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -110,7 +110,8 @@
                 </ListView>
                 <Button cal:Message.Attach="AddNewChapter" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Add New Chapter"></Label>
+                        <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"></Image>
+                        <Label Content="New Chapter"></Label>
                     </StackPanel>
                 </Button>
             </Grid>
