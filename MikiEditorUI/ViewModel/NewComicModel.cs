@@ -27,11 +27,6 @@
             }
         }
 
-        public void SaveComic()
-        {
-            var result = comic;
-        }
-
         public void OpenSaveWorkSpace()
         {
             var folderDialog = new FolderBrowserDialog { SelectedPath = "C:\\" };

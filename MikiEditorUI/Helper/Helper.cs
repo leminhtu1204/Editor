@@ -12,17 +12,20 @@
         {
             try
             {
-                string path = originalPath + comic.Title;
+                string subPath = string.Empty;
+
+                string path = originalPath + @"\" + comic.Title;
 
                 this.CreateFolder(path); // create comic folder
                 
                 foreach (var chapter in comic.Chapters)
                 {
-                    this.CreateFolder(path + @"\" + chapter.Title + chapter.ChapterIndex); // create chapter folder
+                    subPath = path + @"\" + chapter.Title + chapter.ChapterIndex;
+                    this.CreateFolder(subPath); // create chapter folder
 
                     foreach (var page in chapter.Pages)
                     {
-                        CopyFiles(page.ImgPath, path + @"\" + chapter.Title + @"\" + page.PageIndex + ".jpg");
+                        CopyFiles(page.ImgPath, subPath + @"\" + page.PageIndex + ".jpg");
                     }
                 }
 

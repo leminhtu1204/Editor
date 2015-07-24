@@ -106,18 +106,7 @@ namespace MikiEditorUI.ViewModel
                                              }
                                      };
 
-            var chapter2 = new Chapter { Title = "Chapter", Comic = comic };
-            chapter2.Pages = new BindableCollection<Page>
-                                     {
-                                         new Page
-                                             {
-                                                 ImgPath = "Image/blankimage.jpeg",
-                                                 Chapter = chapter2
-                                             }
-                                     };
-
             comic.Chapters.Add(chapter1);
-            comic.Chapters.Add(chapter2);
 
         }
 
