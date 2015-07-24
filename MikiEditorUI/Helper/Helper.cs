@@ -2,8 +2,11 @@
 {
     using System;
     using System.IO;
+    using System.IO.Compression;
+
     using ICSharpCode.SharpZipLib.Core;
     using ICSharpCode.SharpZipLib.Zip;
+
     using MikiEditorUI.BusinessObject;
 
     class Helper
@@ -20,7 +23,7 @@
                 
                 foreach (var chapter in comic.Chapters)
                 {
-                    subPath = path + @"\" + chapter.Title + comic.Chapters.IndexOf(chapter);
+                    subPath = path + @"\data" + @"\" + chapter.Title + comic.Chapters.IndexOf(chapter);
                     this.CreateFolder(subPath); // create chapter folder
 
                     foreach (var page in chapter.Pages)
@@ -36,11 +39,14 @@
                     Directory.CreateDirectory(originalPath);
                 }
 
-                FileStream fsOut = File.Create(originalPath + @"\" + comic.Title + ".magatana");
+
+                FileStream fsOut = File.Create(path + ".magatana");
 
                 ZipOutputStream zipStream = new ZipOutputStream(fsOut);
 
-                CompressFolder(path, zipStream, 1);
+                int folderOffset = originalPath.Length; //+ (path.EndsWith("\\") ? 0 : 1);
+
+                CompressFolder(path, zipStream, folderOffset);
 
                 zipStream.IsStreamOwner = true;
 
@@ -79,7 +85,7 @@
 
             string[] files = Directory.GetFiles(path);
 
-            if (files.Length == 0)
+            if (files.Length == 0 && Directory.GetDirectories(path).Length == 0)
             {
                 return;
             }
