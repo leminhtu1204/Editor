@@ -13,7 +13,7 @@
             OnActive();
         }
 
-        private int currentpageindex ;
+        private int currentpageindex;
         private int currentchapterindex;
 
         private WindowManager windowManager;
@@ -87,7 +87,7 @@
             this.windowManager = new WindowManager();
             comic = new Comic();
             comic.Chapters = new BindableCollection<Chapter>();
-            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = ++currentchapterindex};
+            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = ++currentchapterindex };
             comic.Chapters.Add(chapter1);
         }
 
@@ -98,13 +98,13 @@
                 return;
             }
 
-            var Page = new Page() { ImgPath = "Image/blankimage.jpeg", Index = ++currentpageindex};
+            var Page = new Page() { ImgPath = "Image/blankimage.jpeg", Index = ++currentpageindex };
             CurrentChapter.Pages.Add(Page);
         }
 
         public void AddNewChapter()
         {
-            var chapter = new Chapter() { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = ++currentchapterindex};
+            var chapter = new Chapter() { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = ++currentchapterindex };
             comic.Chapters.Add(chapter);
         }
 
@@ -118,6 +118,11 @@
 
         public void LoadImage()
         {
+            if (!this.hasCurrentPage())
+            {
+                return;
+            }
+
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Select a picture";
             op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
@@ -125,11 +130,13 @@
               "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
             {
-                if (hasCurrentChapter())
-                {
-                    CurrentPage.ImgPath = op.FileName;    
-                }
+                CurrentPage.ImgPath = op.FileName;
             }
+        }
+
+        private bool hasCurrentPage()
+        {
+            return currentPage != null;
         }
 
         private bool hasCurrentChapter()
