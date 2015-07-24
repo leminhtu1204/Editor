@@ -40,15 +40,5 @@ namespace MikiEditorUI.BusinessObject
                 this.NotifyOfPropertyChange(() => this.Pages);
             }
         }
-
-        public Comic Comic { get; set; }
-
-        public int ChapterIndex
-        {
-            get
-            {
-                return Comic.Chapters.IndexOf(this);
-            }
-        }
     }
 }

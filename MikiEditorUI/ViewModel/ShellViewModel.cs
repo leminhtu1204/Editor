@@ -1,15 +1,10 @@
-﻿using System.Linq;
-
-using Microsoft.Win32;
-
-namespace MikiEditorUI.ViewModel
+﻿namespace MikiEditorUI.ViewModel
 {
-    using System;
     using Caliburn.Micro;
 
     using MikiEditorUI.BusinessObject;
 
-    using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+    using Microsoft.Win32;
 
     public class ShellViewModel : PropertyChangedBase
     {
@@ -87,38 +82,10 @@ namespace MikiEditorUI.ViewModel
         private void OnActive()
         {
             this.windowManager = new WindowManager();
-
             comic = new Comic();
-
             comic.Chapters = new BindableCollection<Chapter>();
-            var chapter1 = new Chapter { Title = "Chapter", Comic = comic };
-            chapter1.Pages = new BindableCollection<Page>
-                                     {
-                                         new Page
-                                             {
-                                                 ImgPath = "Image/blankimage.jpeg",
-                                                 Chapter = chapter1
-                                             },
-                                              new Page
-                                             {
-                                                 ImgPath = "Image/blankimage.jpeg",
-                                                 Chapter = chapter1
-                                             }
-                                     };
-
-            var chapter2 = new Chapter { Title = "Chapter", Comic = comic };
-            chapter2.Pages = new BindableCollection<Page>
-                                     {
-                                         new Page
-                                             {
-                                                 ImgPath = "Image/blankimage.jpeg",
-                                                 Chapter = chapter2
-                                             }
-                                     };
-
+            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>()};
             comic.Chapters.Add(chapter1);
-            comic.Chapters.Add(chapter2);
-
         }
 
         public void AddNewPage()
@@ -128,14 +95,14 @@ namespace MikiEditorUI.ViewModel
                 return;
             }
 
-            var currentPageIndex = this.getNewPageIndex();
-            var Page = new Page() { ImgPath = "Image/blankimage.jpeg", Chapter = currentChapter };
-            CurrentChapter.Pages.Insert(currentPageIndex-1, Page);
+            var Page = new Page() { ImgPath = "Image/blankimage.jpeg"};
+            CurrentChapter.Pages.Add(Page);
         }
 
         public void AddNewChapter()
         {
-            comic.Chapters.Add(new Chapter() { Title = "Chapter ", Comic = comic, Pages = new BindableCollection<Page>() });
+            var chapter = new Chapter() { Title = "Chapter", Pages = new BindableCollection<Page>() };
+            comic.Chapters.Add(chapter);
         }
 
         public void NewWorkSpace()
@@ -162,16 +129,6 @@ namespace MikiEditorUI.ViewModel
         private bool hasCurrentChapter()
         {
             return currentChapter != null;
-        }
-
-        private int getNewPageIndex()
-        {
-            if (currentPage == null)
-            {
-                return 1;
-            }
-
-            return this.currentPage.PageIndex + 1;
         }
     }
 }
