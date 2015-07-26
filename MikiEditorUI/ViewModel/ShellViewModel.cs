@@ -156,11 +156,16 @@ namespace MikiEditorUI.ViewModel
 
         public void NewWorkSpace()
         {
-            comic = new Comic {Chapters = Chapters};
+            comic = new Comic { Chapters = Chapters };
 
             var newComicModel = new NewComicModel(this.Comic);
 
             windowManager.ShowDialog(newComicModel);
+
+        }
+
+        public void SaveWorkSpace()
+        {
 
         }
 
@@ -194,8 +199,12 @@ namespace MikiEditorUI.ViewModel
 
         public void RemoveChapter()
         {
-            int i;
+            if (!HasCurrentChapter())
+            {
+                return;
+            }
 
+            int i;
             var currentIndex = currentChapter.Index;
 
             Chapters.Remove(currentChapter);
@@ -204,18 +213,15 @@ namespace MikiEditorUI.ViewModel
             {
                 Chapters[i].Index -= 1;
             }
-
-            var sortList = Chapters.OrderBy(c => c.Index).ToList();
-
-            Chapters = null;
-
-            Chapters = new BindableCollection<Chapter>();
-
-            Chapters.AddRange(sortList);
         }
 
         public void RemovePage()
         {
+            if (!HasCurrentPage())
+            {
+                return;
+            }
+
             int i;
 
             var currentIndex = currentPage.Index;
@@ -227,18 +233,12 @@ namespace MikiEditorUI.ViewModel
                 currentChapter.Pages[i].Index -= 1;
             }
 
-            var sortList = currentChapter.Pages.OrderBy(c => c.Index).ToList();
-
-            currentChapter.Pages = null;
-
-            currentChapter.Pages = new BindableCollection<Page>();
-
-            currentChapter.Pages.AddRange(sortList);
+            TotalPage = "Total " + currentChapter.Pages.Count;
         }
 
         public void InsertChapter()
         {
-            if (currentChapter == null)
+            if (!HasCurrentChapter())
             {
                 return;
             }
@@ -257,23 +257,15 @@ namespace MikiEditorUI.ViewModel
             {
                 Title = "Chapter",
                 Pages = new BindableCollection<Page>(),
-                Index = currentIndex
+                Index = currentIndex + 1
             };
 
-            Chapters.Add(chapter);
+            Chapters.Insert(chapter.Index - 1, chapter);
 
             for (i = currentIndex; i < Chapters.Count; i++)
             {
-                Chapters[i].Index += 1;
+                Chapters[i].Index = i + 1;
             }
-
-            var sortList = Chapters.OrderBy(c => c.Index).ToList();
-
-            Chapters = null;
-
-            Chapters = new BindableCollection<Chapter>();
-
-            Chapters.AddRange(sortList);
         }
 
         public void InsertPage()
@@ -293,22 +285,16 @@ namespace MikiEditorUI.ViewModel
                 return;
             }
 
-            page = new Page { ImgPath = string.Empty, Index = currentIndex };
+            page = new Page { ImgPath = string.Empty, Index = currentIndex + 1 };
 
-            currentChapter.Pages.Add(page);
+            currentChapter.Pages.Insert(page.Index - 1, page);
 
             for (i = currentIndex; i < currentChapter.Pages.Count; i++)
             {
-                currentChapter.Pages[i].Index += 1;
+                currentChapter.Pages[i].Index = i + 1;
             }
 
-            var sortList = currentChapter.Pages.OrderBy(c => c.Index).ToList();
-
-            currentChapter.Pages = null;
-
-            currentChapter.Pages = new BindableCollection<Page>();
-
-            currentChapter.Pages.AddRange(sortList);
+            TotalPage = "Total " + currentChapter.Pages.Count;
         }
     }
 }

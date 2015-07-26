@@ -17,10 +17,28 @@
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" >
+                <Button Height="32" VerticalAlignment="Top" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="24" Height="24"></Image>
+                        <Label Content="New"></Label>
+                    </StackPanel>
+                </Button>
+                <Button cal:Message.Attach="[Event Click] = [Action SaveWorkSpace()]" Height="32" VerticalAlignment="Top" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="10,0,0,0"  Source="../Image/floppy_disk-512.png" Width="24" Height="24"></Image>
+                        <Label Content="Save"></Label>
+                    </StackPanel>
+                </Button>
+                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
                         <Label Content="Export"></Label>
+                    </StackPanel>
+                </Button>
+                <Button Height="32" VerticalAlignment="Top" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="10,0,0,0"  Source="../Image/info-2-xxl.png" Width="24" Height="24"></Image>
+                        <Label Content="Metadata Info"></Label>
                     </StackPanel>
                 </Button>
             </ToolBar>

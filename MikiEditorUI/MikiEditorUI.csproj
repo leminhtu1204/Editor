@@ -129,6 +129,9 @@
     <Resource Include="Image\blankimage.jpeg" />
     <Resource Include="Image\Icon_6-128.png" />
     <Resource Include="Image\export-icon.png" />
+    <Resource Include="Image\floppy_disk-512.png" />
+    <Resource Include="Image\add_folder.png" />
+    <Resource Include="Image\info-2-xxl.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>
