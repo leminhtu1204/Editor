@@ -2,12 +2,9 @@
 {
     using System;
     using System.IO;
-    using System.IO.Compression;
-
     using ICSharpCode.SharpZipLib.Core;
     using ICSharpCode.SharpZipLib.Zip;
-
-    using MikiEditorUI.BusinessObject;
+    using BusinessObject;
 
     class Helper
     {
@@ -32,13 +29,12 @@
                     }
                 }
 
-                ConvertJson(comic, path); // convert meta data file and save to comic folder
+                ConvertJson(ResetImagePath(comic), path); // convert meta data file and save to comic folder
 
                 if (!Directory.Exists(originalPath))
                 {
                     Directory.CreateDirectory(originalPath);
                 }
-
 
                 FileStream fsOut = File.Create(path + ".magatana");
 
@@ -127,6 +123,21 @@
             {
                 CompressFolder(folder, zipStream, folderOffset);
             }
+        }
+
+        private Comic ResetImagePath(Comic comic)
+        {
+            foreach (var chapter in comic.Chapters)
+            {
+                foreach (var page in chapter.Pages)
+                {
+                    string extension = Path.GetExtension(page.ImgPath);
+
+                    page.ImgPath = @"data/" + chapter.Title + chapter.Index + @"/" + page.Index + extension;
+                }
+            }
+
+            return comic;
         }
 
     }

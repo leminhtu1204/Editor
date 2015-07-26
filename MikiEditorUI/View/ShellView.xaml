@@ -38,24 +38,41 @@
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label BorderBrush="Gray" BorderThickness="1" Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">
-                    Page Navigator
+                <Label BorderThickness="1" BorderBrush="Gray"  Grid.Row="0" DockPanel.Dock="Top" MinHeight="24">
+                    <WrapPanel>
+                        <Label  MinHeight="24">
+                            Page Navigator
+                        </Label>
+                        <Label Content="{Binding TotalPage}" MinHeight="24">
+                        </Label>
+                    </WrapPanel>
                 </Label>
-                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="650" DockPanel.Dock="Top" SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}">
+                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
                                 <Border BorderThickness="1" Margin="5"
                                         BorderBrush="#FF000000"
                                         VerticalAlignment="Top">
-                                    <Image Source="{Binding ImgPath}" Width="80" Height="120"/>
+                                    <Image RenderOptions.ClearTypeHint="Enabled"
+                                           RenderOptions.BitmapScalingMode="NearestNeighbor" 
+                                           Source="{Binding ImgPath}" Width="80" Height="120"/>
                                 </Border>
                                 <Label Content="{Binding Index}"></Label>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.ContextMenu>
+                        <ContextMenu StaysOpen="true" Background="WhiteSmoke">
+                            <ContextMenu.BitmapEffect>
+                                <BitmapEffectGroup/>
+                            </ContextMenu.BitmapEffect>
+                            <MenuItem cal:Message.Attach="InsertPage" Header="Insert Above"/>
+                            <MenuItem cal:Message.Attach="RemovePage" Header="Remove"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
-                
+
                 <Button cal:Message.Attach="AddNewPage" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"></Image>
@@ -85,7 +102,7 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                    <Image Source="{Binding CurrentPage.ImgPath}" HorizontalAlignment="Left" 
+                    <Image ToolTip="{Binding CurrentPage.ImgPath}" RenderOptions.ClearTypeHint="Enabled" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding CurrentPage.ImgPath}" HorizontalAlignment="Left" 
                         Margin="0,0,0,0" Stretch="Fill" VerticalAlignment="Bottom" >
                     </Image>
                 </Button>
@@ -98,7 +115,7 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="650" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" ItemsSource="{Binding Comic.Chapters}">
+                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" ItemsSource="{Binding Chapters}" ScrollViewer.CanContentScroll="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -107,6 +124,15 @@
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.ContextMenu>
+                        <ContextMenu StaysOpen="true" Background="WhiteSmoke">
+                            <ContextMenu.BitmapEffect>
+                                <BitmapEffectGroup/>
+                            </ContextMenu.BitmapEffect>
+                            <MenuItem cal:Message.Attach="InsertChapter" Header="Insert Above"/>
+                            <MenuItem cal:Message.Attach="RemoveChapter" Header="Remove"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
                 <Button cal:Message.Attach="AddNewChapter" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">

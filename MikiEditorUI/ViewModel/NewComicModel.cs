@@ -4,7 +4,7 @@
 
     using Caliburn.Micro;
 
-    using MikiEditorUI.BusinessObject;
+    using BusinessObject;
 
     public class NewComicModel : PropertyChangedBase
     {
@@ -38,7 +38,19 @@
 
         public void ExportComic()
         {
-            Helper helper = new Helper();
+            var helper = new Helper();
+            if (comic.Title == null)
+            {
+                MessageBox.Show("Please input the author information");
+                return;
+            }
+
+            if (comic.WorkSpace == null)
+            {
+                MessageBox.Show("Please input the work space information");
+                return;
+            }
+
             helper.ExportCompressFile(comic, comic.WorkSpace);
         }
 
