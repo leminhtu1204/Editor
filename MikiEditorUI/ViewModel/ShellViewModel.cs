@@ -145,6 +145,8 @@ namespace MikiEditorUI.ViewModel
 
         public void NewWorkSpace()
         {
+            this.comic.Chapters = Chapters;
+
             this.windowManager = new WindowManager();
 
             var newComicModel = new NewComicModel(this.Comic);
@@ -193,14 +195,6 @@ namespace MikiEditorUI.ViewModel
             {
                 Chapters[i].Index -= 1;
             }
-
-            var sortList = Chapters.OrderBy(c => c.Index).ToList();
-
-            Chapters = null;
-
-            Chapters = new BindableCollection<Chapter>();
-
-            Chapters.AddRange(sortList);
         }
 
         public void RemovePage()
@@ -215,14 +209,6 @@ namespace MikiEditorUI.ViewModel
             {
                 currentChapter.Pages[i].Index -= 1;
             }
-
-            var sortList = currentChapter.Pages.OrderBy(c => c.Index).ToList();
-
-            currentChapter.Pages = null;
-
-            currentChapter.Pages = new BindableCollection<Page>();
-
-            currentChapter.Pages.AddRange(sortList);
         }
 
         public void InsertChapter()

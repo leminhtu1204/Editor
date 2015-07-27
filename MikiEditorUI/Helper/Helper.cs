@@ -40,7 +40,7 @@ namespace MikiEditorUI
                     Directory.CreateDirectory(originalPath);
                 }
 
-                FileStream fsOut = File.Create(path + ".magatana");
+                FileStream fsOut = File.Create(path + ".zip");
 
                 var zipStream = new ZipOutputStream(fsOut);
 
