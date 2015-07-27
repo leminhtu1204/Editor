@@ -122,7 +122,7 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
-                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" ItemsSource="{Binding Chapters}" ScrollViewer.CanContentScroll="True">
+                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" ItemsSource="{Binding Comic.Chapters}" ScrollViewer.CanContentScroll="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>

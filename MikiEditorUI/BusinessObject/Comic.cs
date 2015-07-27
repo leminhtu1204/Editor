@@ -53,7 +53,20 @@ namespace MikiEditorUI.BusinessObject
             }
         }
 
-        public IList<Chapter> Chapters { get; set; }
+        private BindableCollection<Chapter> chapters;
+
+        public BindableCollection<Chapter> Chapters
+        {
+            get
+            {
+                return chapters;
+            }
+            set
+            {
+                chapters = value;
+                this.NotifyOfPropertyChange(() => this.Chapters);
+            }
+        }
 
         private string workSpace;
 
