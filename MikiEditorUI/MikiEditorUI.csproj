@@ -67,6 +67,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.13\lib\net\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -136,7 +139,7 @@
     <Resource Include="Image\add_folder.png" />
     <Resource Include="Image\info-2-xxl.png" />
     <Resource Include="Image\logo-ldpage.ico" />
-    <Content Include="Image\logo-ldpage.png" />
+    <Resource Include="Image\loading.gif" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>

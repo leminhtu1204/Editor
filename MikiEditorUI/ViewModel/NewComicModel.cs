@@ -17,11 +17,45 @@
 
         private Thread thread;
 
-        public NewComicModel(Comic _comic, Thread thread)
+        private bool isLoading;
+
+        public bool IsLoading
+        {
+            get
+            {
+                return isLoading;
+            }
+
+            set
+            {
+                isLoading = value;
+                this.NotifyOfPropertyChange(() => OpacityBackgroundLoading);
+                this.NotifyOfPropertyChange(() => Visibility);
+            }
+        }
+
+        public float OpacityBackgroundLoading
+        {
+            get
+            {
+                return IsLoading ? (float)0.5 : 1;
+            }
+        }
+
+        public string Visibility
+        {
+            get
+            {
+                return IsLoading ? "Visible" : "Hidden";
+            }
+        }
+
+        public NewComicModel(Comic _comic)
         {
             this.comic = _comic;
             this.thread = thread;
         }
+
         public Comic Comic
         {
             get
@@ -60,6 +94,7 @@
 
         public void ExportComic()
         {
+            this.IsLoading = true;
             var helper = new Helper();
             if (comic.Title == null)
             {
@@ -75,7 +110,7 @@
 
             helper.ExportCompressFile(comic, comic.WorkSpace);
 
-            thread.Abort();
+            this.IsLoading = false;
 
             this.TryClose();
         }

@@ -126,10 +126,9 @@ namespace MikiEditorUI.ViewModel
         {
             this.windowManager = new WindowManager();
 
-            var newComicModel = new NewComicModel(this.Comic, thread);
+            var newComicModel = new NewComicModel(this.Comic);
 
             windowManager.ShowDialog(newComicModel);
-
         }
 
         public void LoadImage()
