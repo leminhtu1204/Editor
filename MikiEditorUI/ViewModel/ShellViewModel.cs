@@ -72,22 +72,6 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
-        private BindableCollection<Chapter> chapters;
-
-        public BindableCollection<Chapter> Chapters
-        {
-            get
-            {
-                return chapters;
-            }
-
-            set
-            {
-                chapters = value;
-                this.NotifyOfPropertyChange(() => this.Chapters);
-            }
-        }
-
         private string totalPage;
 
         public string TotalPage
@@ -106,11 +90,9 @@ namespace MikiEditorUI.ViewModel
 
         private void OnActive()
         {
-            Chapters = new BindableCollection<Chapter>();
-            comic = new Comic { Chapters = Chapters };
+            comic = new Comic { Chapters = new BindableCollection<Chapter>() };
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
-            Chapters.Add(chapter1);
-            this.comic.Chapters = Chapters;
+            this.comic.Chapters.Add(chapter1);
             AutoSave();
         }
 
@@ -132,7 +114,7 @@ namespace MikiEditorUI.ViewModel
 
         public void AddNewChapter()
         {
-            var lastIndex = Chapters.Count;
+            var lastIndex = this.comic.Chapters.Count;
 
             var chapter = new Chapter
             {
@@ -141,7 +123,7 @@ namespace MikiEditorUI.ViewModel
                 Index = ++lastIndex
             };
 
-            Chapters.Add(chapter);
+            this.comic.Chapters.Add(chapter);
         }
 
         public void NewWorkSpace()
@@ -188,11 +170,11 @@ namespace MikiEditorUI.ViewModel
 
             var currentIndex = currentChapter.Index;
 
-            Chapters.Remove(currentChapter);
+            this.comic.Chapters.Remove(currentChapter);
 
-            for (i = currentIndex - 1; i < Chapters.Count; i++)
+            for (i = currentIndex - 1; i < this.comic.Chapters.Count; i++)
             {
-                Chapters[i].Index -= 1;
+                this.comic.Chapters[i].Index -= 1;
             }
         }
 
@@ -221,7 +203,7 @@ namespace MikiEditorUI.ViewModel
 
             var currentIndex = currentChapter.Index;
 
-            if (currentIndex == Chapters.Count)
+            if (currentIndex == this.comic.Chapters.Count)
             {
                 AddNewChapter();
                 return;
@@ -234,11 +216,11 @@ namespace MikiEditorUI.ViewModel
                 Index = currentIndex + 1
             };
 
-            Chapters.Insert(currentIndex, chapter);
+            this.comic.Chapters.Insert(currentIndex, chapter);
 
-            for (i = currentIndex + 1; i < Chapters.Count; i++)
+            for (i = currentIndex + 1; i < this.comic.Chapters.Count; i++)
             {
-                Chapters[i].Index = i + 1;
+                this.comic.Chapters[i].Index = i + 1;
             }
         }
 
@@ -315,17 +297,16 @@ namespace MikiEditorUI.ViewModel
             op.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (op.ShowDialog() == true)
             {
-                Comic = helper.ConvertToObjectFromJson(op.FileName);
+                var comicConvert = helper.ConvertToObjectFromJson(op.FileName);
+                this.Comic = comicConvert;
             }
         }
 
         public void NewComic()
         {
-            comic = null;
-            comic = new Comic { Chapters = Chapters };
-            Chapters = new BindableCollection<Chapter>();
+            comic = new Comic { Chapters = new BindableCollection<Chapter>() };
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
-            Chapters.Add(chapter1);
+            this.comic.Chapters.Add(chapter1);
         }
     }
 }
