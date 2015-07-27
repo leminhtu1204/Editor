@@ -132,6 +132,7 @@
     <Resource Include="Image\floppy_disk-512.png" />
     <Resource Include="Image\add_folder.png" />
     <Resource Include="Image\info-2-xxl.png" />
+    <Resource Include="Image\logo-ldpage.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>

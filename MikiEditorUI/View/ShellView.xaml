@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:converter="clr-namespace:MikiEditorUI.Converter"
-        Title="ShellView" Height="730" Width="1000" Left="200" Top="0">
+        Icon="../Image/logo-ldpage.png"
+        Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0">
     <Window.Resources>
         <converter:VisibilityConverter x:Key="visibilityConverter" />
     </Window.Resources>
