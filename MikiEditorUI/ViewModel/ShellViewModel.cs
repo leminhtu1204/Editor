@@ -311,5 +311,23 @@ namespace MikiEditorUI.ViewModel
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
             this.comic.Chapters.Add(chapter1);
         }
+
+        public void ChangePageImage()
+        {
+            if (!this.HasCurrentPage())
+            {
+                return;
+            }
+
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "Portable Network Graphic (*.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
+                CurrentPage.ImgPath = op.FileName;
+            }
+        }
     }
 }

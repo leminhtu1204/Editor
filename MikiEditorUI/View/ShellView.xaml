@@ -54,7 +54,9 @@
                         </Label>
                     </WrapPanel>
                 </Label>
-                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}">
+                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
+                          SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"
+                          cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -87,7 +89,6 @@
                     </StackPanel>
                 </Button>
             </Grid>
-
             <DockPanel Name="MiddleGrid" Grid.Column="1" Background="Gainsboro">
                 <Button cal:Message.Attach="LoadImage" Background="White" Margin="40, 30, 40, 30">
                     <Button.Style>
@@ -114,7 +115,6 @@
                     </Image>
                 </Button>
             </DockPanel>
-
             <Grid Name="RightGrid"  Grid.Column="3" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"></RowDefinition>
