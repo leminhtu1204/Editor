@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:converter="clr-namespace:MikiEditorUI.Converter"
-        Icon="../Image/logo-ldpage.png"
-        Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0">
+        Icon="../Image/logo-ldpage.ico"
+        Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
         <converter:VisibilityConverter x:Key="visibilityConverter" />
     </Window.Resources>

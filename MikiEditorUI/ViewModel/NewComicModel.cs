@@ -1,18 +1,26 @@
 ﻿namespace MikiEditorUI.ViewModel
 {
+    using System;
+    using System.Threading;
     using System.Windows.Forms;
 
     using Caliburn.Micro;
 
     using BusinessObject;
 
-    public class NewComicModel : PropertyChangedBase
+    using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+    using Screen = Caliburn.Micro.Screen;
+
+    public class NewComicModel : Screen
     {
         private Comic comic;
 
-        public NewComicModel(Comic _comic)
+        private Thread thread;
+
+        public NewComicModel(Comic _comic, Thread thread)
         {
             this.comic = _comic;
+            this.thread = thread;
         }
         public Comic Comic
         {
@@ -36,6 +44,20 @@
 
         }
 
+        public void LoadCoverPath()
+        {
+            var op = new OpenFileDialog();
+            op.Title = "Select a comic cover";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "Portable Network Graphic (*.png)|*.png";
+            op.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (op.ShowDialog() == true)
+            {
+                this.Comic.CoverPath = op.FileName;
+            }
+        }
+
         public void ExportComic()
         {
             var helper = new Helper();
@@ -52,7 +74,10 @@
             }
 
             helper.ExportCompressFile(comic, comic.WorkSpace);
-        }
 
+            thread.Abort();
+
+            this.TryClose();
+        }
     }
 }

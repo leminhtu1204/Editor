@@ -18,6 +18,8 @@ namespace MikiEditorUI.ViewModel
             OnActive();
         }
 
+        private Thread thread;
+
         private Helper helper = new Helper();
 
         Page page = new Page();
@@ -124,7 +126,7 @@ namespace MikiEditorUI.ViewModel
         {
             this.windowManager = new WindowManager();
 
-            var newComicModel = new NewComicModel(this.Comic);
+            var newComicModel = new NewComicModel(this.Comic, thread);
 
             windowManager.ShowDialog(newComicModel);
 
@@ -247,6 +249,11 @@ namespace MikiEditorUI.ViewModel
         {
             while (true)
             {
+                if (comic == null)
+                {
+                    thread.Abort();
+                    break;
+                }
                 Thread.Sleep(10000);
                 helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
             }
@@ -254,7 +261,7 @@ namespace MikiEditorUI.ViewModel
 
         private void AutoSave()
         {
-            var thread = new Thread(WriteTempFile);
+            thread = new Thread(WriteTempFile);
 
             thread.Start();
         }

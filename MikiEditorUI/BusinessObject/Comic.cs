@@ -82,5 +82,20 @@ namespace MikiEditorUI.BusinessObject
                 this.NotifyOfPropertyChange(() => this.WorkSpace);
             }
         }
+
+        private string coverPath;
+
+        public string CoverPath
+        {
+            get
+            {
+                return coverPath;
+            }
+            set
+            {
+                coverPath = value;
+                this.NotifyOfPropertyChange(() => this.CoverPath);
+            }
+        }
     }
 }
