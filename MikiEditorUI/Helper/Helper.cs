@@ -8,6 +8,8 @@ namespace MikiEditorUI
     using ICSharpCode.SharpZipLib.Zip;
     using BusinessObject;
 
+    using Newtonsoft.Json;
+
     class Helper
     {
         public bool ExportCompressFile(Comic comic, string originalPath)
@@ -61,15 +63,21 @@ namespace MikiEditorUI
            
         }
 
-        public void ConvertJson(Comic comic, string path,string fileName, string extension)
+        public void ConvertJson(Comic comic, string path,string fileName = null, string extension = null)
         {
-            if (path.EndsWith(@"\"))
-            {
-                path = path.Substring(0, path.Length - 1);
-            }
+            path = (path.EndsWith(@"\")) ? path.Substring(0, path.Length - 1) : path;
 
-            var serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(comic);
-            File.WriteAllText(path + @"\" + fileName + "." + extension, serializeObject);
+            string fullPath = (fileName != null && extension != null) ? path + @"\" + fileName + "." + extension : path;
+
+            var serializeObject = JsonConvert.SerializeObject(comic);
+
+            File.WriteAllText(fullPath, serializeObject);
+        }
+
+        public Comic ConvertToObjectFromJson(string path)
+        {
+            var comic = JsonConvert.DeserializeObject<Comic>(File.ReadAllText(path));
+            return comic;
         }
 
         private void CreateFolder(string path)

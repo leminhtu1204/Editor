@@ -106,10 +106,11 @@ namespace MikiEditorUI.ViewModel
 
         private void OnActive()
         {
-            comic = new Comic { Chapters = Chapters };
             Chapters = new BindableCollection<Chapter>();
+            comic = new Comic { Chapters = Chapters };
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
             Chapters.Add(chapter1);
+            this.comic.Chapters = Chapters;
             AutoSave();
         }
 
@@ -145,8 +146,6 @@ namespace MikiEditorUI.ViewModel
 
         public void NewWorkSpace()
         {
-            this.comic.Chapters = Chapters;
-
             this.windowManager = new WindowManager();
 
             var newComicModel = new NewComicModel(this.Comic);
@@ -288,18 +287,35 @@ namespace MikiEditorUI.ViewModel
 
         public void SaveComic()
         {
-            helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
+            var dlg = new SaveFileDialog
+                          {
+                              FileName = "Comic",
+                              DefaultExt = ".manga",
+                              Filter = "Manga save file (.manga)|*.manga"
+                          };
+
+            // Show save file dialog box
+            bool? result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                string filePath = dlg.FileName;
+
+                helper.ConvertJson(comic, filePath);
+            }
         }
 
         public void OpenComic()
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Select a comic template";
-            op.Filter = "All templte comic |*.tmp";
+            op.Filter = "All templte comic (.manga) |*.manga";
             op.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (op.ShowDialog() == true)
             {
-
+                Comic = helper.ConvertToObjectFromJson(op.FileName);
             }
         }
 
@@ -310,7 +326,6 @@ namespace MikiEditorUI.ViewModel
             Chapters = new BindableCollection<Chapter>();
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
             Chapters.Add(chapter1);
-            AutoSave();
         }
     }
 }
