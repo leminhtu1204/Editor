@@ -9,6 +9,7 @@ namespace MikiEditorUI
     using BusinessObject;
 
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
 
     class Helper
     {
@@ -46,7 +47,7 @@ namespace MikiEditorUI
 
                 var zipStream = new ZipOutputStream(fsOut);
 
-                int folderOffset = originalPath.Length;
+                int folderOffset = path.Length  + (originalPath.EndsWith("\\") ? 0 : 1);
 
                 CompressFolder(path, zipStream, folderOffset);
 
@@ -69,7 +70,17 @@ namespace MikiEditorUI
 
             string fullPath = (fileName != null && extension != null) ? path + @"\" + fileName + "." + extension : path;
 
-            var serializeObject = JsonConvert.SerializeObject(comic);
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+
+            var serializeObject = JsonConvert.SerializeObject(comic, Formatting.Indented, new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
 
             File.WriteAllText(fullPath, serializeObject);
         }
