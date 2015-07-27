@@ -17,7 +17,7 @@
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button Height="32" VerticalAlignment="Top" >
+                <Button cal:Message.Attach="NewComic" Height="32" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="24" Height="24"></Image>
                         <Label Content="New"></Label>
@@ -28,7 +28,7 @@
                         <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
                         <Label Content="Export"></Label>
                     </StackPanel>
-                </Button>-->
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid DockPanel.Dock="Bottom">

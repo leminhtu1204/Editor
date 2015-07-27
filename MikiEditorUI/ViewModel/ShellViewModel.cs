@@ -332,5 +332,15 @@ namespace MikiEditorUI.ViewModel
 
             }
         }
+
+        public void NewComic()
+        {
+            comic = null;
+            comic = new Comic { Chapters = Chapters };
+            Chapters = new BindableCollection<Chapter>();
+            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
+            Chapters.Add(chapter1);
+            AutoSave();
+        }
     }
 }
