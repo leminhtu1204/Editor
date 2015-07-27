@@ -213,7 +213,7 @@ namespace MikiEditorUI.ViewModel
 
         public void InsertChapter()
         {
-            if (currentChapter == null)
+            if (!HasCurrentChapter())
             {
                 return;
             }
@@ -232,28 +232,20 @@ namespace MikiEditorUI.ViewModel
             {
                 Title = "Chapter",
                 Pages = new BindableCollection<Page>(),
-                Index = currentIndex
+                Index = currentIndex + 1
             };
 
-            Chapters.Add(chapter);
+            Chapters.Insert(currentIndex, chapter);
 
-            for (i = currentIndex; i < Chapters.Count; i++)
+            for (i = currentIndex + 1; i < Chapters.Count; i++)
             {
-                Chapters[i].Index += 1;
+                Chapters[i].Index = i + 1;
             }
-
-            var sortList = Chapters.OrderBy(c => c.Index).ToList();
-
-            Chapters = null;
-
-            Chapters = new BindableCollection<Chapter>();
-
-            Chapters.AddRange(sortList);
         }
 
         public void InsertPage()
         {
-            if (currentPage == null)
+            if (!this.HasCurrentPage())
             {
                 return;
             }
@@ -268,27 +260,19 @@ namespace MikiEditorUI.ViewModel
                 return;
             }
 
-            page = new Page { ImgPath = string.Empty, Index = currentIndex };
+            page = new Page { ImgPath = string.Empty, Index = currentIndex + 1 };
 
-            currentChapter.Pages.Add(page);
+            currentChapter.Pages.Insert(currentIndex, page);
 
-            for (i = currentIndex; i < currentChapter.Pages.Count; i++)
+            for (i = currentIndex + 1; i < currentChapter.Pages.Count; i++)
             {
-                currentChapter.Pages[i].Index += 1;
+                currentChapter.Pages[i].Index = i + 1;
             }
-
-            var sortList = currentChapter.Pages.OrderBy(c => c.Index).ToList();
-
-            currentChapter.Pages = null;
-
-            currentChapter.Pages = new BindableCollection<Page>();
-
-            currentChapter.Pages.AddRange(sortList);
         }
 
         private void WriteTempFile()
         {
-            while(true)
+            while (true)
             {
                 Thread.Sleep(10000);
                 helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
