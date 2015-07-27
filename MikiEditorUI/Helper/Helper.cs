@@ -1,4 +1,6 @@
-﻿namespace MikiEditorUI
+﻿using System.Threading;
+
+namespace MikiEditorUI
 {
     using System;
     using System.IO;
@@ -29,7 +31,9 @@
                     }
                 }
 
-                ConvertJson(ResetImagePath(comic), path); // convert meta data file and save to comic folder
+                ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
+
+                ConvertJson(ResetImagePath(comic), path, "meta","manga"); // convert meta data file and save to comic folder
 
                 if (!Directory.Exists(originalPath))
                 {
@@ -38,9 +42,9 @@
 
                 FileStream fsOut = File.Create(path + ".magatana");
 
-                ZipOutputStream zipStream = new ZipOutputStream(fsOut);
+                var zipStream = new ZipOutputStream(fsOut);
 
-                int folderOffset = originalPath.Length; //+ (path.EndsWith("\\") ? 0 : 1);
+                int folderOffset = originalPath.Length;
 
                 CompressFolder(path, zipStream, folderOffset);
 
@@ -57,10 +61,15 @@
            
         }
 
-        private void ConvertJson(Comic comic, string path)
+        public void ConvertJson(Comic comic, string path,string fileName, string extension)
         {
+            if (path.EndsWith(@"\"))
+            {
+                path = path.Substring(0, path.Length - 1);
+            }
+
             var serializeObject = Newtonsoft.Json.JsonConvert.SerializeObject(comic);
-            File.WriteAllText(path + @"\meta.manga", serializeObject);
+            File.WriteAllText(path + @"\" + fileName + "." + extension, serializeObject);
         }
 
         private void CreateFolder(string path)
@@ -96,26 +105,17 @@
                 ZipEntry newEntry = new ZipEntry(entryName);
                 newEntry.DateTime = fi.LastWriteTime; // Note the zip format stores 2 second granularity
 
-                // Specifying the AESKeySize triggers AES encryption. Allowable values are 0 (off), 128 or 256.
-                // A password on the ZipOutputStream is required if using AES.
-                //   newEntry.AESKeySize = 256;
-
-                // To permit the zip to be unpacked by built-in extractor in WinXP and Server2003, WinZip 8, Java, and other older code,
-                // you need to do one of the following: Specify UseZip64.Off, or set the Size.
-                // If the file may be bigger than 4GB, or you do not need WinXP built-in compatibility, you do not need either,
-                // but the zip will be in Zip64 format which not all utilities can understand.
-                //   zipStream.UseZip64 = UseZip64.Off;
                 newEntry.Size = fi.Length;
 
                 zipStream.PutNextEntry(newEntry);
 
-                // Zip the file in buffered chunks
-                // the "using" will close the stream even if an exception occurs
-                byte[] buffer = new byte[4096];
+                var buffer = new byte[4096];
+
                 using (FileStream streamReader = File.OpenRead(filename))
                 {
                     StreamUtils.Copy(streamReader, zipStream, buffer);
                 }
+
                 zipStream.CloseEntry();
             }
             string[] folders = Directory.GetDirectories(path);
@@ -139,6 +139,5 @@
 
             return comic;
         }
-
     }
 }

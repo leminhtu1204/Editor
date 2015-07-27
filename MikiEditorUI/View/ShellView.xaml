@@ -17,7 +17,13 @@
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" >
+                <Button cal:Message.Attach="[Event Click] = [Action OpenComic()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" ToolTip="Open" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
+                        <Label Content="Open"></Label>
+                    </StackPanel>
+                </Button>
+                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" ToolTip="Export" >
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
                         <Label Content="Export"></Label>

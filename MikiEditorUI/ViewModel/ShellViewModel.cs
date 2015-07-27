@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Windows.Input;
 
 namespace MikiEditorUI.ViewModel
@@ -15,6 +17,8 @@ namespace MikiEditorUI.ViewModel
         {
             OnActive();
         }
+
+        private Helper helper = new Helper();
 
         Page page = new Page();
 
@@ -118,10 +122,11 @@ namespace MikiEditorUI.ViewModel
 
         private void OnActive()
         {
-            this.windowManager = new WindowManager();
+            comic = new Comic { Chapters = Chapters };
             Chapters = new BindableCollection<Chapter>();
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
             Chapters.Add(chapter1);
+            AutoSave();
         }
 
         public void AddNewPage()
@@ -156,7 +161,7 @@ namespace MikiEditorUI.ViewModel
 
         public void NewWorkSpace()
         {
-            comic = new Comic {Chapters = Chapters};
+            this.windowManager = new WindowManager();
 
             var newComicModel = new NewComicModel(this.Comic);
 
@@ -309,6 +314,34 @@ namespace MikiEditorUI.ViewModel
             currentChapter.Pages = new BindableCollection<Page>();
 
             currentChapter.Pages.AddRange(sortList);
+        }
+
+        private void WriteTempFile()
+        {
+            while(true)
+            {
+                Thread.Sleep(10000);
+                helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
+            }
+        }
+
+        private void AutoSave()
+        {
+            var thread = new Thread(WriteTempFile);
+
+            thread.Start();
+        }
+
+        public void OpenComic()
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a comic template";
+            op.Filter = "All templte comic |*.tmp";
+            op.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (op.ShowDialog() == true)
+            {
+
+            }
         }
     }
 }
