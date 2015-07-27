@@ -72,19 +72,16 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
-        private string totalPage;
-
         public string TotalPage
         {
             get
             {
-                return totalPage;
-            }
+                if (this.HasCurrentChapter())
+                {
+                    return "Total " + currentChapter.Pages.Count;
+                }
 
-            set
-            {
-                totalPage = value;
-                this.NotifyOfPropertyChange(() => this.TotalPage);
+                return "Total 0";
             }
         }
 
@@ -104,12 +101,9 @@ namespace MikiEditorUI.ViewModel
             }
 
             var lastIndex = currentChapter.Pages.Count;
-
             page = new Page() { ImgPath = string.Empty, Index = ++lastIndex };
-
             CurrentChapter.Pages.Add(page);
-
-            TotalPage = "Total " + lastIndex;
+            NotifyOfPropertyChange(() => TotalPage);
         }
 
         public void AddNewChapter()
@@ -190,6 +184,7 @@ namespace MikiEditorUI.ViewModel
             {
                 currentChapter.Pages[i].Index -= 1;
             }
+            NotifyOfPropertyChange(() => TotalPage);
         }
 
         public void InsertChapter()
@@ -202,26 +197,23 @@ namespace MikiEditorUI.ViewModel
             int i;
 
             var currentIndex = currentChapter.Index;
-
             if (currentIndex == this.comic.Chapters.Count)
             {
                 AddNewChapter();
                 return;
             }
-
             var chapter = new Chapter
             {
                 Title = "Chapter",
                 Pages = new BindableCollection<Page>(),
                 Index = currentIndex + 1
             };
-
             this.comic.Chapters.Insert(currentIndex, chapter);
-
             for (i = currentIndex + 1; i < this.comic.Chapters.Count; i++)
             {
                 this.comic.Chapters[i].Index = i + 1;
             }
+            NotifyOfPropertyChange(() => TotalPage);
         }
 
         public void InsertPage()
@@ -300,6 +292,11 @@ namespace MikiEditorUI.ViewModel
                 var comicConvert = helper.ConvertToObjectFromJson(op.FileName);
                 this.Comic = comicConvert;
             }
+        }
+
+        public void SelectedChapterChanged()
+        {
+            this.NotifyOfPropertyChange(() => TotalPage);
         }
 
         public void NewComic()
