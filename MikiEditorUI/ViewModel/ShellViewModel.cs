@@ -88,22 +88,6 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
-        private BindableCollection<Chapter> pages;
-
-        public BindableCollection<Chapter> Pages
-        {
-            get
-            {
-                return pages;
-            }
-
-            set
-            {
-                chapters = value;
-                this.NotifyOfPropertyChange(() => this.Pages);
-            }
-        }
-
         private string totalPage;
 
         public string TotalPage
@@ -330,6 +314,11 @@ namespace MikiEditorUI.ViewModel
             var thread = new Thread(WriteTempFile);
 
             thread.Start();
+        }
+
+        public void SaveComic()
+        {
+            helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
         }
 
         public void OpenComic()

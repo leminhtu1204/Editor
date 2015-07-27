@@ -23,5 +23,10 @@ namespace MikiEditorUI.View
         {
             InitializeComponent();
         }
+
+        private void menuExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

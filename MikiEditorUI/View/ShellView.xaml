@@ -10,44 +10,25 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem cal:Message.Attach="NewWorkSpace" Header="_New"/>
-                <MenuItem Header="_Close"/>
-                <MenuItem Header="_Save"/>
+                <MenuItem cal:Message.Attach="OpenComic" Header="_Open"/>
+                <MenuItem  cal:Message.Attach="Action SaveComic" Header="_Save"/>
+                <MenuItem Name="menuExit" Header="_Exit" Click="menuExit_Click"/>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button cal:Message.Attach="[Event Click] = [Action OpenComic()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" ToolTip="Open" >
                 <Button Height="32" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="24" Height="24"></Image>
                         <Label Content="New"></Label>
                     </StackPanel>
                 </Button>
-                <Button cal:Message.Attach="[Event Click] = [Action SaveWorkSpace()]" Height="32" VerticalAlignment="Top" >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/floppy_disk-512.png" Width="24" Height="24"></Image>
-                        <Label Content="Save"></Label>
-                    </StackPanel>
-                </Button>
                 <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" VerticalAlignment="Top" >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
-                        <Label Content="Open"></Label>
-                    </StackPanel>
-                </Button>
-                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" Width="108" Margin="0,0,20,0" VerticalAlignment="Top" ToolTip="Export" >
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
                         <Label Content="Export"></Label>
                     </StackPanel>
-                </Button>
-                <Button Height="32" VerticalAlignment="Top" >
-                    <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/info-2-xxl.png" Width="24" Height="24"></Image>
-                        <Label Content="Metadata Info"></Label>
-                    </StackPanel>
-                </Button>
+                </Button>-->
             </ToolBar>
         </ToolBarTray>
         <Grid DockPanel.Dock="Bottom">
@@ -64,11 +45,11 @@
                     <RowDefinition Height="32"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label BorderThickness="1" BorderBrush="Gray"  Grid.Row="0" DockPanel.Dock="Top" MinHeight="24">
-                    <WrapPanel>
-                        <Label  MinHeight="24">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Label  MinHeight="32" VerticalAlignment="Center" HorizontalAlignment="Left">
                             Page Navigator
                         </Label>
-                        <Label Content="{Binding TotalPage}" MinHeight="24">
+                        <Label Content="{Binding TotalPage}" MinHeight="32"  VerticalAlignment="Center" HorizontalAlignment="Left">
                         </Label>
                     </WrapPanel>
                 </Label>
