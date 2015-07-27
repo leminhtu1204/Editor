@@ -11,8 +11,8 @@
             <Label Content="Author" HorizontalAlignment="Left" Margin="33,39,0,0" VerticalAlignment="Top"/>
             <Label Content="Description" HorizontalAlignment="Left" Margin="32,70,0,0" VerticalAlignment="Top"/>
             <Label Content="Work Space" HorizontalAlignment="Left" Margin="33,101,0,0" VerticalAlignment="Top"/>
-            <Button cal:Message.Attach="ExportComic" Content="Save" HorizontalAlignment="Left" Margin="147,180,0,6" VerticalAlignment="Center" Height="24" Width="75" Click="Button_Click_1"/>
-            <Button Content="Cancel" HorizontalAlignment="Left" Margin="240,180,0,6" VerticalAlignment="Center" Width="75" Click="Button_Click" Height="24"/>
+            <Button cal:Message.Attach="ExportComic" Content="Save" HorizontalAlignment="Left" Margin="147,180,0,6" VerticalAlignment="Center" Height="24" Width="75"/>
+            <Button cal:Message.Attach="CancelComic" Content="Cancel" HorizontalAlignment="Left" Margin="240,180,0,6" VerticalAlignment="Center" Width="75" Height="24"/>
             <TextBox 
             HorizontalAlignment="Left" 
             Height="23" 

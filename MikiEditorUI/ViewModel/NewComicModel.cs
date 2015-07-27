@@ -1,6 +1,7 @@
 ﻿namespace MikiEditorUI.ViewModel
 {
     using System;
+    using System.IO;
     using System.Threading;
     using System.Windows.Forms;
 
@@ -53,7 +54,6 @@
         public NewComicModel(Comic _comic)
         {
             this.comic = _comic;
-            this.thread = thread;
         }
 
         public Comic Comic
@@ -94,7 +94,6 @@
 
         public void ExportComic()
         {
-            this.IsLoading = true;
             var helper = new Helper();
             if (comic.Title == null)
             {
@@ -108,10 +107,25 @@
                 return;
             }
 
+            if (comic.CoverPath == null || !File.Exists(comic.CoverPath))
+            {
+                MessageBox.Show("Please choose a cover file");
+                return;
+            }
+
+            this.IsLoading = true;
+
             helper.ExportCompressFile(comic, comic.WorkSpace);
 
             this.IsLoading = false;
 
+            MessageBox.Show("Exported successfully", "Exported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            this.TryClose();
+        }
+
+        public void CancelComic()
+        {
             this.TryClose();
         }
     }
