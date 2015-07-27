@@ -34,6 +34,8 @@ namespace MikiEditorUI
                     }
                 }
 
+                this.CopyFiles(comic.CoverPath, path + @"\" + "cover.jpg"); // create cover
+
                 ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
 
                 ConvertJson(ResetImagePath(comic), path, "meta","manga"); // convert meta data file and save to comic folder
