@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
-using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace MikiEditorUI.ViewModel
 {
@@ -254,13 +253,13 @@ namespace MikiEditorUI.ViewModel
                     break;
                 }
                 Thread.Sleep(10000);
-                helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
+                helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "manga");
             }
         }
 
         private void AutoSave()
         {
-            thread = new Thread(WriteTempFile);
+            thread = new Thread(WriteTempFile) { IsBackground = true, Priority = ThreadPriority.Lowest};
 
             thread.Start();
         }
@@ -307,9 +306,12 @@ namespace MikiEditorUI.ViewModel
 
         public void NewComic()
         {
-            comic = new Comic { Chapters = new BindableCollection<Chapter>() };
-            var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
-            this.comic.Chapters.Add(chapter1);
+            if (MessageBox.Show("Do you want to add new Comic ?", string.Empty, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Comic = new Comic { Chapters = new BindableCollection<Chapter>() };
+                var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
+                this.comic.Chapters.Add(chapter1);
+            }
         }
 
         public void ChangePageImage()
