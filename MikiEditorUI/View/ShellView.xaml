@@ -1,8 +1,9 @@
-﻿<Window x:Class="MikiEditorUI.View.ShellView"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:converter="clr-namespace:MikiEditorUI.Converter"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="MikiEditorUI.View.ShellView"
         Icon="../Image/logo-ldpage.ico"
         Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
@@ -13,62 +14,59 @@
             <MenuItem Header="_File">
                 <MenuItem cal:Message.Attach="OpenComic" Header="_Open"/>
                 <MenuItem  cal:Message.Attach="Action SaveComic" Header="_Save"/>
-                <MenuItem Name="menuExit" Header="_Exit" Click="menuExit_Click"/>
+                <MenuItem x:Name="menuExit" Header="_Exit" Click="menuExit_Click"/>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
                 <Button cal:Message.Attach="NewComic" Height="32" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="24" Height="24"></Image>
-                        <Label Content="New"></Label>
+                        <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="24" Height="24"/>
+                        <Label Content="New"/>
                     </StackPanel>
                 </Button>
                 <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"></Image>
-                        <Label Content="Export"></Label>
+                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"/>
+                        <Label Content="Export"/>
                     </StackPanel>
                 </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid DockPanel.Dock="Bottom">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"></ColumnDefinition>
-                <ColumnDefinition MinWidth="600"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition MaxWidth="300"></ColumnDefinition>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition MinWidth="600"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition MaxWidth="300"/>
             </Grid.ColumnDefinitions>
-            <Grid Name="RightGrid" Grid.Column="3" Margin="3">
+            <Grid x:Name="RightGrid" Grid.Column="3" Margin="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="32"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="32"></RowDefinition>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
                 <Label BorderThickness="1" BorderBrush="Gray"  Grid.Row="0" DockPanel.Dock="Top" MinHeight="24">
                     <WrapPanel VerticalAlignment="Center">
-                        <Label  MinHeight="32" VerticalAlignment="Center" HorizontalAlignment="Left">
-                            Page Navigator
-                        </Label>
-                        <Label MinHeight ="32" VerticalAlignment="Center"> | </Label>
-                        <Label Content="{Binding TotalPage}" MinHeight="32"  VerticalAlignment="Center" HorizontalAlignment="Right">
-                        </Label>
+                        <Label  MinHeight="32" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Page Navigator"/>
+                        <Label MinHeight ="32" VerticalAlignment="Center" Content="|"/>
+                        <Label Content="{Binding TotalPage}" MinHeight="32"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
                     </WrapPanel>
                 </Label>
                 <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
-                          SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"
-                          cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]">
+					SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"
+					cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
                                 <Border BorderThickness="1" Margin="5"
-                                        BorderBrush="#FF000000"
-                                        VerticalAlignment="Top">
+									BorderBrush="#FF000000"
+									VerticalAlignment="Top">
                                     <Image RenderOptions.ClearTypeHint="Enabled"
-                                           RenderOptions.BitmapScalingMode="NearestNeighbor" 
-                                           Source="{Binding ImgPath}" Width="80" Height="120"/>
+										RenderOptions.BitmapScalingMode="NearestNeighbor" 
+										Source="{Binding ImgPath}" Width="80" Height="120"/>
                                 </Border>
-                                <Label Content="{Binding Index}"></Label>
+                                <Label Content="{Binding Index}"/>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -85,15 +83,15 @@
 
                 <Button cal:Message.Attach="AddNewPage" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"></Image>
-                        <Label Content="New Page"></Label>
+                        <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"/>
+                        <Label Content="New Page"/>
                     </StackPanel>
                 </Button>
             </Grid>
-            <DockPanel Name="MiddleGrid" Grid.Column="1" Background="Gainsboro">
+            <DockPanel x:Name="MiddleGrid" Grid.Column="1" Background="Gainsboro">
                 <Button cal:Message.Attach="LoadImage" Background="White" Margin="40, 30, 40, 30">
                     <Button.Style>
-                        <Style TargetType="Button">
+                        <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="White"/>
                             <Setter Property="Template">
                                 <Setter.Value>
@@ -112,26 +110,25 @@
                         </Style>
                     </Button.Style>
                     <Image ToolTip="{Binding CurrentPage.ImgPath}" RenderOptions.ClearTypeHint="Enabled" RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding CurrentPage.ImgPath}" HorizontalAlignment="Left" 
-                        Margin="0,0,0,0" Stretch="Fill" VerticalAlignment="Bottom" >
-                    </Image>
+						Margin="0,0,0,0" Stretch="Fill" VerticalAlignment="Bottom" />
                 </Button>
             </DockPanel>
-            <Grid Name="LeftGrid"  Grid.Column="0" Margin="3">
+            <Grid x:Name="LeftGrid"  Grid.Column="0" Margin="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="32"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="32"></RowDefinition>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
-                <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24">Chapter</Label>
+                <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" Content="Chapter"/>
                 <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" 
-                          ItemsSource="{Binding Comic.Chapters}" 
-                          ScrollViewer.CanContentScroll="True"
-                          cal:Message.Attach="[Event SelectionChanged] = [Action SelectedChapterChanged()]">
+					ItemsSource="{Binding Comic.Chapters}" 
+					ScrollViewer.CanContentScroll="True"
+					cal:Message.Attach="[Event SelectionChanged] = [Action SelectedChapterChanged()]">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <Label Content="{Binding Title}"></Label>
-                                <Label Content="{Binding Index}"></Label>
+                                <Label Content="{Binding Title}"/>
+                                <Label Content="{Binding Index}"/>
                             </WrapPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -147,14 +144,14 @@
                 </ListView>
                 <Button cal:Message.Attach="AddNewChapter" Grid.Row="2" DockPanel.Dock="Top" MinHeight="24">
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"></Image>
-                        <Label Content="New Chapter"></Label>
+                        <Image Margin="10,0,0,0"  Source="../Image/Icon_6-128.png" Width="24" Height="24"/>
+                        <Label Content="New Chapter"/>
                     </StackPanel>
                 </Button>
             </Grid>
             <GridSplitter Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
-        Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"
-        ShowsPreview="True"></GridSplitter>
+				Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center"
+				ShowsPreview="True"/>
         </Grid>
     </DockPanel>
 </Window>
