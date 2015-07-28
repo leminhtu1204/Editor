@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:converter="clr-namespace:MikiEditorUI.Converter"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Icon="../Image/logo-ldpage.ico"
         Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
@@ -55,11 +56,17 @@
                     </WrapPanel>
                 </Label>
                 <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
-                          SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"
-                          cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]">
+                          SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseDoubleClick">
+                                        <cal:ActionMessage MethodName="ChangePageImage">
+                                        </cal:ActionMessage>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                
                                 <Border BorderThickness="1" Margin="5"
                                         BorderBrush="#FF000000"
                                         VerticalAlignment="Top">

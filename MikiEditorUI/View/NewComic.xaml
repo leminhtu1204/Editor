@@ -55,6 +55,6 @@
             <Button cal:Message.Attach="ExportComic" Content="Save" HorizontalAlignment="Left" Margin="147,170,0,0" VerticalAlignment="Center" Height="24" Width="75" Click="Button_Click_1"/>
             <Button Content="Cancel" HorizontalAlignment="Left" Margin="240,170,0,0" VerticalAlignment="Center" Width="75" Click="Button_Click" Height="24"/>
         </Grid>
-        <!--<Image Visibility="{Binding Visibility}" Width="120" Height="120" ToolTip="Exporting..." gif:ImageBehavior.AnimatedSource="../Image/loading.gif" />-->
+        <Image Visibility="{Binding Visibility}" Width="120" Height="120" ToolTip="Exporting..." gif:ImageBehavior.AnimatedSource="../Image/loading.gif" />
     </Grid>
 </Window>
