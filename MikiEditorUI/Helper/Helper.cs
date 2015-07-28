@@ -148,6 +148,8 @@ namespace MikiEditorUI
 
         private Comic ResetImagePath(Comic comic)
         {
+            comic.CoverPath = @"cover.jpg";
+
             foreach (var chapter in comic.Chapters)
             {
                 foreach (var page in chapter.Pages)

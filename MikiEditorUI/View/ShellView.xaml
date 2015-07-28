@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition MaxWidth="300"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid Name="LeftGrid" Grid.Column="0" Margin="3">
+            <Grid Name="RightGrid" Grid.Column="3" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
@@ -51,7 +51,8 @@
                         <Label  MinHeight="32" VerticalAlignment="Center" HorizontalAlignment="Left">
                             Page Navigator
                         </Label>
-                        <Label Content="{Binding TotalPage}" MinHeight="32"  VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Label MinHeight ="32" VerticalAlignment="Center"> | </Label>
+                        <Label Content="{Binding TotalPage}" MinHeight="32"  VerticalAlignment="Center" HorizontalAlignment="Right">
                         </Label>
                     </WrapPanel>
                 </Label>
@@ -122,7 +123,7 @@
                     </Image>
                 </Button>
             </DockPanel>
-            <Grid Name="RightGrid"  Grid.Column="3" Margin="3">
+            <Grid Name="LeftGrid"  Grid.Column="0" Margin="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
