@@ -125,7 +125,7 @@ namespace MikiEditorUI.ViewModel
         {
             this.windowManager = new WindowManager();
 
-            var newComicModel = new NewComicModel(this.Comic);
+            var newComicModel = new SetPathComicModel(this.Comic);
 
             windowManager.ShowDialog(newComicModel);
         }
@@ -330,6 +330,15 @@ namespace MikiEditorUI.ViewModel
             {
                 CurrentPage.ImgPath = op.FileName;
             }
+        }
+
+        public void EditComic()
+        {
+            this.windowManager = new WindowManager();
+
+            var newComicModel = new NewComicModel(this.Comic, false);
+
+            windowManager.ShowDialog(newComicModel);
         }
     }
 }

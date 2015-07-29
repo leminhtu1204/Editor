@@ -81,8 +81,12 @@
     <Compile Include="BusinessObject\Page.cs" />
     <Compile Include="Converter\VisibilityConverter.cs" />
     <Compile Include="Helper\Helper.cs" />
+    <Compile Include="ViewModel\SetPathComicModel.cs" />
     <Compile Include="ViewModel\NewComicModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
+    <Compile Include="View\SetPathComic.xaml.cs">
+      <DependentUpon>SetPathComic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NewComic.xaml.cs">
       <DependentUpon>NewComic.xaml</DependentUpon>
     </Compile>
@@ -93,6 +97,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\SetPathComic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\NewComic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -140,6 +148,7 @@
     <Resource Include="Image\info-2-xxl.png" />
     <Resource Include="Image\logo-ldpage.ico" />
     <Resource Include="Image\loading.gif" />
+    <Resource Include="Image\IButton.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>

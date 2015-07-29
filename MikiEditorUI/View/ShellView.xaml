@@ -19,16 +19,21 @@
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar HorizontalAlignment="Right" BorderThickness="0">
-                <Button cal:Message.Attach="NewComic" Height="32" VerticalAlignment="Top" >
+                <Button cal:Message.Attach="NewComic" Height="48" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="24" Height="24"/>
+                        <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="32" Height="34"/>
                         <Label Content="New"/>
                     </StackPanel>
                 </Button>
-                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="32" VerticalAlignment="Top" >
+                <Button cal:Message.Attach="[Event Click] = [Action NewWorkSpace()]" Height="48" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
-                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="24" Height="24"/>
+                        <Image Margin="10,0,0,0"  Source="../Image/export-icon.png" Width="32" Height="32"/>
                         <Label Content="Export"/>
+                    </StackPanel>
+                </Button>
+                <Button ToolTip="Edit Comic" cal:Message.Attach="[Event Click] = [Action EditComic()]" Height="48" VerticalAlignment="Top" >
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="0,0,0,0"  Source="../Image/info-2-xxl.png" Width="48" Height="32"/>
                     </StackPanel>
                 </Button>
             </ToolBar>

@@ -11,7 +11,6 @@
             <Label Content="Author" HorizontalAlignment="Left" Margin="33,48,0,0" VerticalAlignment="Top"/>
             <Label Content="Description" HorizontalAlignment="Left" Margin="33,78,0,0" VerticalAlignment="Top"/>
             <Label Content="Cover" HorizontalAlignment="Left" Margin="33,108,0,0" VerticalAlignment="Top"/>
-            <Label Content="Work Space" HorizontalAlignment="Left" Margin="33,138,0,0" VerticalAlignment="Top"/>
             <TextBox 
                 HorizontalAlignment="Left" 
                 Height="23" 
@@ -44,16 +43,8 @@
                 Text="{Binding Comic.CoverPath}" 
                 VerticalAlignment="Top" 
                 Width="281"/>
-             <TextBox cal:Message.Attach="[Event PreviewMouseDown] = [Action OpenSaveWorkSpace()]"
-                 HorizontalAlignment="Left" 
-                 Height="23" 
-                 Margin="121,138,0,0" 
-                 TextWrapping="Wrap" 
-                 Text="{Binding Comic.WorkSpace}" 
-                 VerticalAlignment="Top" 
-                 Width="281"/>
-            <Button cal:Message.Attach="ExportComic" Content="Save" HorizontalAlignment="Left" Margin="147,170,0,0" VerticalAlignment="Center" Height="24" Width="75"/>
-            <Button cal:Message.Attach="CancelComic" Content="Cancel" HorizontalAlignment="Left" Margin="240,170,0,0" VerticalAlignment="Center" Width="75" Height="24"/>
+            <Button cal:Message.Attach="ExportComic" Content="Save" HorizontalAlignment="Left" Margin="147,115,0,0" VerticalAlignment="Center" Height="24" Width="75"/>
+            <Button cal:Message.Attach="CancelComic" Content="Cancel" HorizontalAlignment="Left" Margin="240,115,0,0" VerticalAlignment="Center" Width="75" Height="24"/>
         </Grid>
         <Image Visibility="{Binding Visibility}" Width="120" Height="120" ToolTip="Exporting..." gif:ImageBehavior.AnimatedSource="../Image/loading.gif" />
     </Grid>

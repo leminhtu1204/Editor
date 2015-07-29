@@ -2,11 +2,7 @@
 {
     using System;
     using System.IO;
-    using System.Threading;
     using System.Windows.Forms;
-
-    using Caliburn.Micro;
-
     using BusinessObject;
 
     using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -16,7 +12,7 @@
     {
         private Comic comic;
 
-        private Thread thread;
+        private bool isExport;
 
         private bool isLoading;
 
@@ -51,9 +47,10 @@
             }
         }
 
-        public NewComicModel(Comic _comic)
+        public NewComicModel(Comic _comic, bool isExport)
         {
             this.comic = _comic;
+            this.isExport = isExport;
         }
 
         public Comic Comic
@@ -95,15 +92,10 @@
         public void ExportComic()
         {
             var helper = new Helper();
+
             if (comic.Title == null)
             {
                 MessageBox.Show("Please input the author information");
-                return;
-            }
-
-            if (comic.WorkSpace == null)
-            {
-                MessageBox.Show("Please input the work space information");
                 return;
             }
 
@@ -114,6 +106,15 @@
             }
 
             this.IsLoading = true;
+
+            if (!isExport)
+            {
+                MessageBox.Show("Save successfully", "Save Comic Informaiton", MessageBoxButtons.OK);
+
+                this.TryClose();
+
+                return;
+            }
 
             helper.ExportCompressFile(comic, comic.WorkSpace);
 
