@@ -1,4 +1,6 @@
-﻿namespace MikiEditorUI.ViewModel
+﻿using Caliburn.Micro;
+
+namespace MikiEditorUI.ViewModel
 {
     using System;
     using System.IO;

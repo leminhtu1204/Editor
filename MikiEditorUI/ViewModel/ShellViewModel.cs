@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -86,11 +87,16 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
-        private void OnActive()
+        private void InitComic()
         {
             comic = new Comic { Chapters = new BindableCollection<Chapter>() };
             var chapter1 = new Chapter { Title = "Chapter", Pages = new BindableCollection<Page>(), Index = 1 };
             this.comic.Chapters.Add(chapter1);
+        }
+
+        private void OnActive()
+        {
+            InitComic();
             AutoSave();
         }
 
@@ -123,11 +129,18 @@ namespace MikiEditorUI.ViewModel
 
         public void NewWorkSpace()
         {
-            this.windowManager = new WindowManager();
+            var folderDialog = new FolderBrowserDialog { SelectedPath = "C:\\" };
+            DialogResult result = folderDialog.ShowDialog();
+            if (result.ToString() == "OK")
+            {
+                comic.WorkSpace = folderDialog.SelectedPath;
 
-            var newComicModel = new SetPathComicModel(this.Comic);
+                this.windowManager = new WindowManager();
 
-            windowManager.ShowDialog(newComicModel);
+                var newComicModel = new NewComicModel(this.Comic, true);
+
+                windowManager.ShowDialog(newComicModel);
+            }
         }
 
         public void LoadImage()
@@ -259,6 +272,14 @@ namespace MikiEditorUI.ViewModel
 
         private void AutoSave()
         {
+            foreach (string sFile in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.manga"))
+            {
+                if (Path.GetFileName(sFile) != DateTime.Now.ToString("dMMyyyy") + ".manga")
+                {
+                    System.IO.File.Delete(sFile);
+                }
+            }
+
             thread = new Thread(WriteTempFile) { IsBackground = true, Priority = ThreadPriority.Lowest};
 
             thread.Start();
