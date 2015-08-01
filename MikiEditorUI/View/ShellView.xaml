@@ -96,6 +96,11 @@
                                     <Image Source="../Image/database-insert-icon.png" Height="16"/>
                                 </MenuItem.Icon>
                             </MenuItem>
+                            <MenuItem Header="Insert Above" cal:Message.Attach="InsertAbovePage">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/database-insert-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                             <MenuItem Header="Remove" cal:Message.Attach="RemovePage">
                                 <MenuItem.Icon>
                                     <Image Source="../Image/editing-delete-icon.png" Height="16"/>

@@ -266,6 +266,27 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
+        public void InsertAbovePage()
+        {
+            if (!this.HasCurrentPage())
+            {
+                return;
+            }
+
+            int i;
+
+            var currentIndex = currentPage.Index;
+
+            page = new Page { ImgPath = string.Empty, Index = currentIndex};
+
+            currentChapter.Pages.Insert(currentIndex -1 , page);
+
+            for (i = currentIndex; i < currentChapter.Pages.Count; i++)
+            {
+                currentChapter.Pages[i].Index = i + 1;
+            }
+        }
+
         private void WriteTempFile()
         {
             while (true)
