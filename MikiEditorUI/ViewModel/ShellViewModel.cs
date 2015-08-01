@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -173,6 +174,10 @@ namespace MikiEditorUI.ViewModel
 
         public void RemoveChapter()
         {
+            if (!HasCurrentChapter())
+            {
+                return;
+            }
             int i;
 
             var currentIndex = currentChapter.Index;
@@ -187,6 +192,11 @@ namespace MikiEditorUI.ViewModel
 
         public void RemovePage()
         {
+            if (!HasCurrentPage())
+            {
+                return;
+            }
+
             int i;
 
             var currentIndex = currentPage.Index;
@@ -280,7 +290,7 @@ namespace MikiEditorUI.ViewModel
                 }
             }
 
-            thread = new Thread(WriteTempFile) { IsBackground = true, Priority = ThreadPriority.Lowest};
+            thread = new Thread(WriteTempFile) { IsBackground = true, Priority = ThreadPriority.Lowest };
 
             thread.Start();
         }
@@ -360,6 +370,106 @@ namespace MikiEditorUI.ViewModel
             var newComicModel = new NewComicModel(this.Comic, false);
 
             windowManager.ShowDialog(newComicModel);
+        }
+
+        public void MovePageUp()
+        {
+            if (!this.HasCurrentPage())
+            {
+                return;
+            }
+
+            if (currentPage.Index == 1)
+            {
+                return;
+            }
+
+            MovePage(true);
+        }
+
+        public void MovePageDown()
+        {
+            if (!this.HasCurrentPage())
+            {
+                return;
+            }
+
+            if (currentPage.Index == currentChapter.Pages.Count)
+            {
+                return;
+            }
+
+            MovePage(false);
+        }
+
+        public void MoveChapterUp()
+        {
+            if (!this.HasCurrentChapter())
+            {
+                return;
+            }
+
+            if (currentChapter.Index == 1)
+            {
+                return;
+            }
+
+            MoveChapter(true);
+        }
+
+        public void MoveChapterDown()
+        {
+            if (!this.HasCurrentChapter())
+            {
+                return;
+            }
+
+            if (currentChapter.Index == comic.Chapters.Count)
+            {
+                return;
+            }
+
+            MoveChapter(false);
+        }
+
+        private void MovePage(bool isUp)
+        {
+            var currentListIndex = currentPage.Index - 1;
+
+            var nextIndex = isUp ? currentListIndex - 1 : currentListIndex + 1;
+
+            Move(currentChapter.Pages, currentListIndex, nextIndex);
+        }
+
+        private void MoveChapter(bool isUp)
+        {
+            var currentListIndex = currentChapter.Index - 1;
+
+            var nexIndex = isUp ? currentListIndex - 1 : currentListIndex + 1;
+
+            Move(comic.Chapters, currentListIndex, nexIndex);
+        }
+
+        public static void Move(BindableCollection<Page> list, int oldIndex, int newIndex)
+        {
+            var nIndex = list[newIndex];
+            var upperIndex = list[newIndex].Index;
+            var lowerIndex = list[oldIndex].Index;
+            list[newIndex] = list[oldIndex];
+            list[oldIndex] = nIndex;
+            list[newIndex].Index = upperIndex;
+            list[oldIndex].Index = lowerIndex;
+        }
+
+        public static void Move(BindableCollection<Chapter> list, int oldIndex, int newIndex)
+        {
+            var nIndex = list[newIndex];
+            var upperIndex = list[newIndex].Index;
+            var lowerIndex = list[oldIndex].Index;
+            list[newIndex] = list[oldIndex];
+            list[oldIndex] = nIndex;
+            list[newIndex].Index = upperIndex;
+            list[oldIndex].Index = lowerIndex;
         }
     }
 }

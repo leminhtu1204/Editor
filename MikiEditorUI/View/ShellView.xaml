@@ -14,7 +14,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem cal:Message.Attach="OpenComic" Header="_Open"/>
-                <MenuItem  cal:Message.Attach="Action SaveComic" Header="_Save"/>
+                <MenuItem  cal:Message.Attach="SaveComic" Header="_Save"/>
                 <MenuItem x:Name="menuExit" Header="_Exit" Click="menuExit_Click"/>
             </MenuItem>
         </Menu>
@@ -52,15 +52,15 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
-                <Label BorderThickness="1" BorderBrush="Gray"  Grid.Row="0" DockPanel.Dock="Top" MinHeight="24">
-                    <WrapPanel VerticalAlignment="Center">
-                        <Label  MinHeight="32" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Page Navigator"/>
-                        <Label MinHeight ="32" VerticalAlignment="Center" Content="|"/>
-                        <Label Content="{Binding TotalPage}" MinHeight="32"  VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <Label BorderThickness="1" BorderBrush="Gray"  Grid.Row="0" DockPanel.Dock="Top" MinHeight="24" HorizontalContentAlignment="Center">
+                    <WrapPanel VerticalAlignment="Center" MinHeight="32">
+                        <Label MinHeight="32" VerticalAlignment="Center" HorizontalAlignment="Left" Content="Page Navigator" Padding="0" VerticalContentAlignment="Center"/>
+                        <Label MinHeight ="32" VerticalAlignment="Center" Content="|" Padding="5,0" VerticalContentAlignment="Center"/>
+                        <Label Content="{Binding TotalPage}" MinHeight="32" Padding="0" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                 </Label>
                 <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
-					SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"
+					SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"    
 					cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -81,8 +81,26 @@
                             <ContextMenu.BitmapEffect>
                                 <BitmapEffectGroup/>
                             </ContextMenu.BitmapEffect>
-                            <MenuItem cal:Message.Attach="InsertPage" Header="Insert Above"/>
-                            <MenuItem cal:Message.Attach="RemovePage" Header="Remove"/>
+                            <MenuItem Header="Move Up" cal:Message.Attach="MovePageUp">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/up-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Move Down" cal:Message.Attach="MovePageDown">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/down-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Insert Below" cal:Message.Attach="InsertPage">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/database-insert-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Remove" cal:Message.Attach="RemovePage">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/editing-delete-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>
@@ -125,7 +143,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
-                <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" Content="Chapter"/>
+                <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" Content="Chapter" VerticalAlignment="Center"/>
                 <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" 
 					ItemsSource="{Binding Comic.Chapters}" 
 					ScrollViewer.CanContentScroll="True"
@@ -143,8 +161,26 @@
                             <ContextMenu.BitmapEffect>
                                 <BitmapEffectGroup/>
                             </ContextMenu.BitmapEffect>
-                            <MenuItem cal:Message.Attach="InsertChapter" Header="Insert Above"/>
-                            <MenuItem cal:Message.Attach="RemoveChapter" Header="Remove"/>
+                            <MenuItem Header="Move Up" cal:Message.Attach="MoveChapterUp">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/up-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Move Down" cal:Message.Attach="MoveChapterDown">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/down-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Insert Below" cal:Message.Attach="InsertChapter">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/database-insert-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Remove" cal:Message.Attach="RemoveChapter">
+                                <MenuItem.Icon>
+                                    <Image Source="../Image/editing-delete-icon.png" Height="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>

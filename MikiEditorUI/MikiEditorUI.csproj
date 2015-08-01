@@ -141,6 +141,10 @@
     <Resource Include="Image\logo-ldpage.ico" />
     <Resource Include="Image\loading.gif" />
     <Resource Include="Image\IButton.png" />
+    <Resource Include="Image\down-icon.png" />
+    <Resource Include="Image\up-icon.png" />
+    <Resource Include="Image\database-insert-icon.png" />
+    <Resource Include="Image\editing-delete-icon.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>
