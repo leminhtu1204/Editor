@@ -145,6 +145,10 @@
     <Resource Include="Image\up-icon.png" />
     <Resource Include="Image\database-insert-icon.png" />
     <Resource Include="Image\editing-delete-icon.png" />
+    <Resource Include="Image\document_open.png" />
+    <Resource Include="Image\Save-icon.png" />
+    <Resource Include="Image\exit-icon.png" />
+    <Resource Include="Image\note-icon.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>

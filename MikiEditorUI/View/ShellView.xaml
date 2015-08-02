@@ -13,13 +13,25 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem cal:Message.Attach="OpenComic" Header="_Open"/>
-                <MenuItem  cal:Message.Attach="SaveComic" Header="_Save"/>
-                <MenuItem x:Name="menuExit" Header="_Exit" Click="menuExit_Click"/>
+                <MenuItem Header="_Open" cal:Message.Attach="OpenComic">
+                    <MenuItem.Icon>
+                        <Image Source="../Image/document_open.png" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" cal:Message.Attach="SaveComic">
+                    <MenuItem.Icon>
+                        <Image Source="../Image/Save-icon.png" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="menuExit" Header="_Exit" Click="menuExit_Click">
+                    <MenuItem.Icon>
+                        <Image Source="../Image/exit-icon.png" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar HorizontalAlignment="Right" BorderThickness="0">
+            <ToolBar BorderThickness="0">
                 <Button cal:Message.Attach="NewComic" Height="48" VerticalAlignment="Top" >
                     <StackPanel Orientation="Horizontal">
                         <Image Margin="10,0,0,0"  Source="../Image/add_folder.png" Width="32" Height="34"/>
@@ -148,7 +160,12 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
-                <Label BorderBrush="Gray" BorderThickness="1"  Grid.Row="0" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" Content="Chapter" VerticalAlignment="Center"/>
+                <Label BorderBrush="Gray" BorderThickness="1"  HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" VerticalAlignment="Center" Padding="0">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="../Image/note-icon.png" Height="16"/>
+                        <Label Content="Chapter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </WrapPanel>
+                </Label>
                 <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" 
 					ItemsSource="{Binding Comic.Chapters}" 
 					ScrollViewer.CanContentScroll="True"
