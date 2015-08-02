@@ -160,7 +160,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="32"/>
                 </Grid.RowDefinitions>
-                <Label BorderBrush="Gray" BorderThickness="1"  HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" VerticalAlignment="Center" Padding="0">
+                <Label BorderBrush="Gray" BorderThickness="1"  HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" DockPanel.Dock="Top" MinHeight="24" Padding="0">
                     <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Image Source="../Image/note-icon.png" Height="16"/>
                         <Label Content="Chapter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
