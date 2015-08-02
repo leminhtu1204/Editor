@@ -287,6 +287,32 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
+        public void InsertAboveChapter()
+        {
+            if (!this.HasCurrentChapter())
+            {
+                return;
+            }
+
+            int i;
+
+            var currentIndex = currentChapter.Index;
+
+            var chapter = new Chapter
+            {
+                Title = "Chapter",
+                Pages = new BindableCollection<Page>(),
+                Index = currentIndex
+            };
+
+            comic.Chapters.Insert(currentIndex - 1, chapter);
+
+            for (i = currentIndex; i < comic.Chapters.Count; i++)
+            {
+                comic.Chapters[i].Index = i + 1;
+            }
+        }
+
         private void WriteTempFile()
         {
             while (true)
