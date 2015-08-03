@@ -110,6 +110,17 @@ namespace MikiEditorUI.ViewModel
 
             var lastIndex = currentChapter.Pages.Count;
             page = new Page() { ImgPath = string.Empty, Index = ++lastIndex };
+
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "Portable Network Graphic (*.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
+                page.ImgPath = op.FileName;
+            }
+
             CurrentChapter.Pages.Add(page);
             NotifyOfPropertyChange(() => TotalPage);
         }
