@@ -119,10 +119,9 @@ namespace MikiEditorUI.ViewModel
             if (op.ShowDialog() == true)
             {
                 page.ImgPath = op.FileName;
+                CurrentChapter.Pages.Add(page);
+                NotifyOfPropertyChange(() => TotalPage);
             }
-
-            CurrentChapter.Pages.Add(page);
-            NotifyOfPropertyChange(() => TotalPage);
         }
 
         public void AddNewChapter()

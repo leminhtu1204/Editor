@@ -38,12 +38,16 @@ namespace MikiEditorUI
 
                 ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "manga");
 
-                ConvertJson(ResetImagePath(comic), path, "meta","manga"); // convert meta data file and save to comic folder
+                var temp = comic.Chapters;
 
+                ConvertJson(ResetImagePath(comic), path, "meta","manga"); // convert meta data file and save to comic folder
+                
                 if (!Directory.Exists(originalPath))
                 {
                     Directory.CreateDirectory(originalPath);
                 }
+
+                comic.Chapters = temp;
 
                 FileStream fsOut = File.Create(path + ".zip");
 
