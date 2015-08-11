@@ -120,6 +120,10 @@ namespace MikiEditorUI.ViewModel
             {
                 page.ImgPath = op.FileName;
             }
+            else
+            {
+                return;
+            }
 
             CurrentChapter.Pages.Add(page);
             NotifyOfPropertyChange(() => TotalPage);
