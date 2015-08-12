@@ -333,15 +333,15 @@ namespace MikiEditorUI.ViewModel
                     break;
                 }
                 Thread.Sleep(10000);
-                helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "manga");
+                helper.ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
             }
         }
 
         private void AutoSave()
         {
-            foreach (string sFile in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.manga"))
+            foreach (string sFile in System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.tmp"))
             {
-                if (Path.GetFileName(sFile) != DateTime.Now.ToString("dMMyyyy") + ".manga")
+                if (Path.GetFileName(sFile) != DateTime.Now.ToString("dMMyyyy") + ".tmp")
                 {
                     System.IO.File.Delete(sFile);
                 }
@@ -357,8 +357,8 @@ namespace MikiEditorUI.ViewModel
             var dlg = new SaveFileDialog
                           {
                               FileName = "Comic",
-                              DefaultExt = ".manga",
-                              Filter = "Manga save file (.manga)|*.manga"
+                              DefaultExt = ".tmp",
+                              Filter = "Manga save file (.tmp)|*.tmp"
                           };
 
             // Show save file dialog box
@@ -378,12 +378,36 @@ namespace MikiEditorUI.ViewModel
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Select a comic template";
-            op.Filter = "All templte comic (.manga) |*.manga";
+            op.Filter = "All templte comic (.tmp) |*.tmp";
             op.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (op.ShowDialog() == true)
             {
                 var comicConvert = helper.ConvertToObjectFromJson(op.FileName);
                 this.Comic = comicConvert;
+            }
+        }
+
+        public void OpenProject()
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a comic template";
+            op.Filter = "All templte comic (.manga) |*.manga";
+            op.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (op.ShowDialog() == true)
+            {
+                var comicConvert = helper.ConvertToObjectFromJson(op.FileName);
+
+                var path = Directory.GetParent(op.FileName);
+
+                this.Comic = comicConvert;
+
+                foreach (var c in this.Comic.Chapters)
+                {
+                    foreach (var p in c.Pages)
+                    {
+                        p.ImgPath = path + @"\" + p.ImgPath.Replace(@"/", @"\");
+                    }
+                }
             }
         }
 
