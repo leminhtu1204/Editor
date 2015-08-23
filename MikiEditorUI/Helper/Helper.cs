@@ -3,7 +3,11 @@
 namespace MikiEditorUI
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
+
+    using Caliburn.Micro;
+
     using ICSharpCode.SharpZipLib.Core;
     using ICSharpCode.SharpZipLib.Zip;
     using BusinessObject;
@@ -36,10 +40,10 @@ namespace MikiEditorUI
 
                 this.CopyFiles(comic.CoverPath, path + @"\" + "cover.jpg"); // create cover
 
-                ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "manga");
+                ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
 
                 ConvertJson(ResetImagePath(comic), path, "meta","manga"); // convert meta data file and save to comic folder
-
+                
                 if (!Directory.Exists(originalPath))
                 {
                     Directory.CreateDirectory(originalPath);

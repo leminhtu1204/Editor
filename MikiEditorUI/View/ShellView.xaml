@@ -13,6 +13,11 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
+                <MenuItem Header="_Open Project" cal:Message.Attach="OpenProject">
+                    <MenuItem.Icon>
+                        <Image Source="../Image/document_open.png" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="_Open" cal:Message.Attach="OpenComic">
                     <MenuItem.Icon>
                         <Image Source="../Image/document_open.png" Height="16"/>
@@ -56,7 +61,7 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition MinWidth="600"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition MaxWidth="300"/>
+                <ColumnDefinition MaxWidth="200"/>
             </Grid.ColumnDefinitions>
             <Grid x:Name="RightGrid" Grid.Column="3" Margin="3">
                 <Grid.RowDefinitions>
@@ -71,9 +76,9 @@
                         <Label Content="{Binding TotalPage}" MinHeight="32" Padding="0" VerticalContentAlignment="Center"/>
                     </WrapPanel>
                 </Label>
-                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
+                <ListView SelectionMode="Single" Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
 					SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"    
-					cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]">
+					cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]" AllowDrop="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -166,7 +171,7 @@
                         <Label Content="Chapter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </WrapPanel>
                 </Label>
-                <ListView Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" 
+                <ListView SelectionMode="Single" Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" SelectedItem="{Binding CurrentChapter}" 
 					ItemsSource="{Binding Comic.Chapters}" 
 					ScrollViewer.CanContentScroll="True"
 					cal:Message.Attach="[Event SelectionChanged] = [Action SelectedChapterChanged()]">

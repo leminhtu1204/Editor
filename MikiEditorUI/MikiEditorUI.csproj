@@ -149,6 +149,7 @@
     <Resource Include="Image\Save-icon.png" />
     <Resource Include="Image\exit-icon.png" />
     <Resource Include="Image\note-icon.png" />
+    <Resource Include="Image\add-icon.png" />
     <Content Include="lib\Caliburn.Micro.dll" />
     <Content Include="lib\System.Windows.Interactivity.dll" />
   </ItemGroup>
