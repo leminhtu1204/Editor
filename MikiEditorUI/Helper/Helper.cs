@@ -1,13 +1,7 @@
-﻿using System.Threading;
-
-namespace MikiEditorUI
+﻿namespace MikiEditorUI
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
-
-    using Caliburn.Micro;
-
     using ICSharpCode.SharpZipLib.Core;
     using ICSharpCode.SharpZipLib.Zip;
     using BusinessObject;
@@ -23,6 +17,8 @@ namespace MikiEditorUI
             {
                 string subPath = string.Empty;
 
+                var imageExtension = string.Empty;
+
                 string path = originalPath + @"\" + comic.Title;
 
                 this.CreateFolder(path); // create comic folder
@@ -34,16 +30,17 @@ namespace MikiEditorUI
 
                     foreach (var page in chapter.Pages)
                     {
-                        CopyFiles(page.ImgPath, subPath + @"\" + page.Index + ".jpg");
+                        imageExtension = Path.GetExtension(page.ImgPath);
+                        CopyFiles(page.ImgPath, subPath + @"\" + page.Index + imageExtension);
                     }
                 }
 
-                this.CopyFiles(comic.CoverPath, path + @"\" + "cover.jpg"); // create cover
+                this.CopyFiles(comic.CoverPath, path + @"\" + "cover" + Path.GetExtension(comic.CoverPath)); // create cover
 
                 ConvertJson(comic, AppDomain.CurrentDomain.BaseDirectory, DateTime.Now.ToString("dMMyyyy"), "tmp");
 
-                ConvertJson(ResetImagePath(comic), path, "meta","manga"); // convert meta data file and save to comic folder
-                
+                ConvertJson(ResetImagePath(CloneComic(comic)), path, "meta", "manga"); // convert meta data file and save to comic folder
+
                 if (!Directory.Exists(originalPath))
                 {
                     Directory.CreateDirectory(originalPath);
@@ -122,9 +119,7 @@ namespace MikiEditorUI
 
             foreach (string filename in files)
             {
-
                 FileInfo fi = new FileInfo(filename);
-
                 string entryName = filename.Substring(folderOffset); // Makes the name in zip based on the folder
                 entryName = ZipEntry.CleanName(entryName); // Removes drive from name and fixes slash direction
                 ZipEntry newEntry = new ZipEntry(entryName);
@@ -143,7 +138,9 @@ namespace MikiEditorUI
 
                 zipStream.CloseEntry();
             }
+
             string[] folders = Directory.GetDirectories(path);
+
             foreach (string folder in folders)
             {
                 CompressFolder(folder, zipStream, folderOffset);
@@ -152,7 +149,8 @@ namespace MikiEditorUI
 
         private Comic ResetImagePath(Comic comic)
         {
-            comic.CoverPath = @"cover.jpg";
+            var coverExtension = Path.GetExtension(comic.CoverPath);
+            comic.CoverPath = @"cover" + coverExtension;
 
             foreach (var chapter in comic.Chapters)
             {
@@ -165,6 +163,17 @@ namespace MikiEditorUI
             }
 
             return comic;
+        }
+
+        private Comic CloneComic(Comic comic)
+        {
+            var serializeObject = JsonConvert.SerializeObject(comic, Formatting.Indented, new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+
+            return JsonConvert.DeserializeObject<Comic>(serializeObject);
         }
     }
 }

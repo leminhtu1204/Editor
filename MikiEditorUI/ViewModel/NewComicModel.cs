@@ -124,8 +124,6 @@ namespace MikiEditorUI.ViewModel
 
             MessageBox.Show("Exported successfully", "Exported", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-            comic.Chapters.Clear();
-
             NotifyOfPropertyChange(() => Comic);
 
             this.TryClose();
