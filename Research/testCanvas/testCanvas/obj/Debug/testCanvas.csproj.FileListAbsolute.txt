@@ -1,0 +1,13 @@
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\bin\Debug\testCanvas.exe.config
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\bin\Debug\testCanvas.exe
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\bin\Debug\testCanvas.pdb
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.csprojResolveAssemblyReference.cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\MainWindow.baml
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\MainWindow.g.cs
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\App.g.cs
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas_MarkupCompile.cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.g.resources
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.Properties.Resources.resources
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.csproj.GenerateResource.Cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.exe
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.pdb

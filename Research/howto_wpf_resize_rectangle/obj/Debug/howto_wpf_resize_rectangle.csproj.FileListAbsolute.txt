@@ -1,0 +1,12 @@
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\bin\Debug\howto_wpf_resize_rectangle.exe
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\bin\Debug\howto_wpf_resize_rectangle.pdb
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle.csprojResolveAssemblyReference.cache
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\Window1.baml
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\Window1.g.cs
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\App.g.cs
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle_MarkupCompile.cache
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle.g.resources
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle.Properties.Resources.resources
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle.csproj.GenerateResource.Cache
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle.exe
+C:\Users\leminhtu88\Downloads\howto_wpf_resize_rectangle\howto_wpf_resize_rectangle\obj\Debug\howto_wpf_resize_rectangle.pdb
