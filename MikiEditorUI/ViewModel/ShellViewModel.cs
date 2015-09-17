@@ -6,11 +6,16 @@ using System.Windows.Forms;
 
 namespace MikiEditorUI.ViewModel
 {
+    using System.Windows.Input;
+    using System.Windows.Shapes;
+
     using Caliburn.Micro;
 
     using BusinessObject;
 
     using Microsoft.Win32;
+
+    using Path = System.IO.Path;
 
     public class ShellViewModel : PropertyChangedBase
     {
