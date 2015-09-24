@@ -1,0 +1,13 @@
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\bin\Debug\testDrawRect.exe.config
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\bin\Debug\testDrawRect.exe
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\bin\Debug\testDrawRect.pdb
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect.csprojResolveAssemblyReference.cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\MainWindow.baml
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\MainWindow.g.cs
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\App.g.cs
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect_MarkupCompile.cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect.g.resources
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect.Properties.Resources.resources
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect.csproj.GenerateResource.Cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect.exe
+c:\users\leminhtu88\documents\visual studio 2012\Projects\testDrawRect\testDrawRect\obj\Debug\testDrawRect.pdb

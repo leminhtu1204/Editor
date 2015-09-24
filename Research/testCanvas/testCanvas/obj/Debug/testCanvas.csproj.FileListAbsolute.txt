@@ -11,3 +11,16 @@ c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\
 c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.csproj.GenerateResource.Cache
 c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.exe
 c:\users\leminhtu88\documents\visual studio 2012\Projects\testCanvas\testCanvas\obj\Debug\testCanvas.pdb
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\bin\Debug\testCanvas.exe.config
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas.exe
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas.pdb
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\bin\Debug\testCanvas.exe
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\bin\Debug\testCanvas.pdb
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas.csprojResolveAssemblyReference.cache
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\MainWindow.baml
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\MainWindow.g.cs
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\App.g.cs
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas_MarkupCompile.cache
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas.g.resources
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas.Properties.Resources.resources
+C:\LeMinhtu\MikiEditor\Editor\Research\testCanvas\testCanvas\obj\Debug\testCanvas.csproj.GenerateResource.Cache
