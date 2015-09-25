@@ -71,16 +71,21 @@ namespace testDrawRect
         // Return a HitType value to indicate what is at the point.
         private HitType SetHitType(Rectangle rect, Point point)
         {
+            if (rect == null)
+            {
+                return HitType.Body;
+            }
             double left = Canvas.GetLeft(rect);
             double top = Canvas.GetTop(rect);
             double right = left + rect.Width;
             double bottom = top + rect.Height;
+          
             if (point.X < left) return HitType.None;
             if (point.X > right) return HitType.None;
             if (point.Y < top) return HitType.None;
             if (point.Y > bottom) return HitType.None;
 
-            const double GAP = 10;
+            const double GAP = 5;
             if (point.X - left < GAP)
             {
                 // Left edge.
@@ -118,7 +123,7 @@ namespace testDrawRect
             rect = new Rectangle
             {
                 Stroke = Brushes.LightBlue,
-                StrokeThickness = 2
+                StrokeThickness = 2,
             };
             Canvas.SetLeft(rect, startPoint.X);
             Canvas.SetTop(rect, startPoint.X);
@@ -128,6 +133,7 @@ namespace testDrawRect
         //draw rectangle
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
+            // buong chuot
             if (e.LeftButton == MouseButtonState.Released || rect == null)
             {
                 Point hitTest = e.GetPosition(canvas);
@@ -137,10 +143,13 @@ namespace testDrawRect
                     var rectangle = result.VisualHit as Rectangle;
 
                     RectOnMouseMove(rectangle);
+                    return;
                 }
+                this.RectOnMouseMove(null);
                 return;
             }
 
+            //nhan chuot
             var pos = e.GetPosition(canvas);
 
             var x = Math.Min(pos.X, startPoint.X);
@@ -158,7 +167,7 @@ namespace testDrawRect
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            rect = null;
+            //rect = null;
             DragInProgress = false;
         }
 
