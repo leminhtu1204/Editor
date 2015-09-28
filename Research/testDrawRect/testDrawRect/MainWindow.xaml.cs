@@ -73,7 +73,7 @@ namespace testDrawRect
         {
             if (rect == null)
             {
-                return HitType.Body;
+                return HitType.None;
             }
             double left = Canvas.GetLeft(rect);
             double top = Canvas.GetTop(rect);
@@ -85,7 +85,7 @@ namespace testDrawRect
             if (point.Y < top) return HitType.None;
             if (point.Y > bottom) return HitType.None;
 
-            const double GAP = 5;
+            const double GAP = 10;
             if (point.X - left < GAP)
             {
                 // Left edge.
@@ -124,6 +124,7 @@ namespace testDrawRect
             {
                 Stroke = Brushes.LightBlue,
                 StrokeThickness = 2,
+                Fill = Brushes.Transparent
             };
             Canvas.SetLeft(rect, startPoint.X);
             Canvas.SetTop(rect, startPoint.X);
@@ -133,41 +134,48 @@ namespace testDrawRect
         //draw rectangle
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
+            Point hitTest = e.GetPosition(canvas);
+            HitTestResult result = VisualTreeHelper.HitTest(canvas, hitTest);
             // buong chuot
             if (e.LeftButton == MouseButtonState.Released || rect == null)
             {
-                Point hitTest = e.GetPosition(canvas);
-                HitTestResult result = VisualTreeHelper.HitTest(canvas, hitTest);
                 if (result.VisualHit is Rectangle)
                 {
                     var rectangle = result.VisualHit as Rectangle;
-
                     RectOnMouseMove(rectangle);
                     return;
                 }
-                this.RectOnMouseMove(null);
+                MouseHitType = HitType.None;
+                SetMouseCursor();
                 return;
             }
 
-            //nhan chuot
-            var pos = e.GetPosition(canvas);
+            if (e.LeftButton == MouseButtonState.Pressed && result.VisualHit is Rectangle)
+            {
+                var rectangle = result.VisualHit as Rectangle;
+                RectOnMouseMove(rectangle);
+            }
+            else
+            {
+                //nhan chuot
+                var pos = e.GetPosition(canvas);
 
-            var x = Math.Min(pos.X, startPoint.X);
-            var y = Math.Min(pos.Y, startPoint.Y);
+                var x = Math.Min(pos.X, startPoint.X);
+                var y = Math.Min(pos.Y, startPoint.Y);
 
-            var w = Math.Max(pos.X, startPoint.X) - x;
-            var h = Math.Max(pos.Y, startPoint.Y) - y;
+                var w = Math.Max(pos.X, startPoint.X) - x;
+                var h = Math.Max(pos.Y, startPoint.Y) - y;
 
-            rect.Width = w;
-            rect.Height = h;
+                rect.Width = w;
+                rect.Height = h;
 
-            Canvas.SetLeft(rect, x);
-            Canvas.SetTop(rect, y);
+                Canvas.SetLeft(rect, x);
+                Canvas.SetTop(rect, y);
+            }
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            //rect = null;
             DragInProgress = false;
         }
 
@@ -253,7 +261,7 @@ namespace testDrawRect
         {
             MouseHitType = SetHitType(rectangle, Mouse.GetPosition(canvas));
             SetMouseCursor();
-
+            if (MouseHitType == HitType.None) return;
             LastPoint = Mouse.GetPosition(canvas);
             DragInProgress = true;
         }

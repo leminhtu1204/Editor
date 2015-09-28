@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using newAdorner;
 
 namespace MikiEditorUI.View
 {
@@ -12,245 +14,193 @@ namespace MikiEditorUI.View
     /// </summary>
     public partial class ShellView : Window
     {
+        private AdornerLayer aLayer;
+
+        private bool _isDrawing = true;
+        private bool _isDown;
+        private bool _isDragging;
+        private bool selected = false;
+        private UIElement selectedElement = null;
+
+        private Point _startPoint;
+        private double _originalLeft;
+        private double _originalTop;
+        private Point startPoint;
+        private Rectangle rect;
+
         public ShellView()
         {
             InitializeComponent();
         }
 
-        private Point startPoint;
-
-        private Rectangle rect;
-
-        // The part of the rectangle the mouse is over.
-        private enum HitType
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            None,
-
-            Body,
-
-            UL,
-
-            UR,
-
-            LR,
-
-            LL,
-
-            L,
-
-            R,
-
-            T,
-
-            B
-        };
-
-        // True if a drag is in progress.
-        private bool DragInProgress = false;
-
-        // The drag's last point.
-        private Point LastPoint;
-
-        // The part of the rectangle under the mouse.
-        private HitType MouseHitType = HitType.None;
-
-        // Return a HitType value to indicate what is at the point.
-        private HitType SetHitType(Rectangle rect, Point point)
-        {
-            double left = Canvas.GetLeft(rect);
-            double top = Canvas.GetTop(rect);
-            double right = left + rect.Width;
-            double bottom = top + rect.Height;
-            if (point.X < left) return HitType.None;
-            if (point.X > right) return HitType.None;
-            if (point.Y < top) return HitType.None;
-            if (point.Y > bottom) return HitType.None;
-
-            const double GAP = 10;
-            if (point.X - left < GAP)
+            if (_isDrawing)
             {
-                // Left edge.
-                if (point.Y - top < GAP) return HitType.UL;
-                if (bottom - point.Y < GAP) return HitType.LL;
-                return HitType.L;
-            }
-            if (right - point.X < GAP)
-            {
-                // Right edge.
-                if (point.Y - top < GAP) return HitType.UR;
-                if (bottom - point.Y < GAP) return HitType.LR;
-                return HitType.R;
-            }
-            if (point.Y - top < GAP) return HitType.T;
-            if (bottom - point.Y < GAP) return HitType.B;
-            return HitType.Body;
-        }
+                startPoint = e.GetPosition(canvas);
 
-        // Set a mouse cursor appropriate for the current hit type.
-        private void SetMouseCursor()
-        {
-            // See what cursor we should display.
-            Cursor desired_cursor = Cursors.Arrow;
-            switch (MouseHitType)
-            {
-                case HitType.None:
-                    desired_cursor = Cursors.Arrow;
-                    break;
-                case HitType.Body:
-                    desired_cursor = Cursors.ScrollAll;
-                    break;
-                case HitType.UL:
-                case HitType.LR:
-                    desired_cursor = Cursors.SizeNWSE;
-                    break;
-                case HitType.LL:
-                case HitType.UR:
-                    desired_cursor = Cursors.SizeNESW;
-                    break;
-                case HitType.T:
-                case HitType.B:
-                    desired_cursor = Cursors.SizeNS;
-                    break;
-                case HitType.L:
-                case HitType.R:
-                    desired_cursor = Cursors.SizeWE;
-                    break;
-            }
-
-            // Display the desired cursor.
-            if (Cursor != desired_cursor) Cursor = desired_cursor;
-        }
-
-        private void rect_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            DragInProgress = false;
-        }
-
-        private void rect_MouseMove(object sender, MouseEventArgs e)
-        {
-            var rectangle1 = (Rectangle)sender;
-            if (!DragInProgress)
-            {
-                MouseHitType = SetHitType(rectangle1, Mouse.GetPosition(canvas));
-                SetMouseCursor();
-            }
-            else
-            {
-                // See how much the mouse has moved.
-                Point point = Mouse.GetPosition(canvas);
-                double offset_x = point.X - LastPoint.X;
-                double offset_y = point.Y - LastPoint.Y;
-
-                // Get the rectangle's current position.
-                double new_x = Canvas.GetLeft(rectangle1);
-                double new_y = Canvas.GetTop(rectangle1);
-                double new_width = rectangle1.Width;
-                double new_height = rectangle1.Height;
-
-                // Update the rectangle.
-                switch (MouseHitType)
+                rect = new Rectangle
                 {
-                    case HitType.Body:
-                        new_x += offset_x;
-                        new_y += offset_y;
-                        break;
-                    case HitType.UL:
-                        new_x += offset_x;
-                        new_y += offset_y;
-                        new_width -= offset_x;
-                        new_height -= offset_y;
-                        break;
-                    case HitType.UR:
-                        new_y += offset_y;
-                        new_width += offset_x;
-                        new_height -= offset_y;
-                        break;
-                    case HitType.LR:
-                        new_width += offset_x;
-                        new_height += offset_y;
-                        break;
-                    case HitType.LL:
-                        new_x += offset_x;
-                        new_width -= offset_x;
-                        new_height += offset_y;
-                        break;
-                    case HitType.L:
-                        new_x += offset_x;
-                        new_width -= offset_x;
-                        break;
-                    case HitType.R:
-                        new_width += offset_x;
-                        break;
-                    case HitType.B:
-                        new_height += offset_y;
-                        break;
-                    case HitType.T:
-                        new_y += offset_y;
-                        new_height -= offset_y;
-                        break;
-                }
-
-                // Don't use negative width or height.
-                if ((new_width > 0) && (new_height > 0))
-                {
-                    // Update the rectangle.
-                    Canvas.SetLeft(rectangle1, new_x);
-                    Canvas.SetTop(rectangle1, new_y);
-                    rectangle1.Width = new_width;
-                    rectangle1.Height = new_height;
-
-                    // Save the mouse's new location.
-                    LastPoint = point;
-                }
+                    Stroke = Brushes.LightBlue,
+                    StrokeThickness = 2,
+                    Fill = Brushes.Transparent
+                };
+                Canvas.SetLeft(rect, startPoint.X);
+                Canvas.SetTop(rect, startPoint.X);
+                canvas.Children.Add(rect);
             }
-        }
-
-        private void rect_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MouseHitType = SetHitType((Rectangle)sender, Mouse.GetPosition(canvas));
-            SetMouseCursor();
-            if (MouseHitType == HitType.None) return;
-
-            LastPoint = Mouse.GetPosition(canvas);
-            DragInProgress = true;
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Released || rect == null) return;
+            if (_isDrawing)
+            {
+                if (e.LeftButton == MouseButtonState.Released || rect == null)
+                    return;
 
-            var pos = e.GetPosition(canvas);
+                var pos = e.GetPosition(canvas);
 
-            var x = Math.Min(pos.X, startPoint.X);
-            var y = Math.Min(pos.Y, startPoint.Y);
+                var x = Math.Min(pos.X, startPoint.X);
+                var y = Math.Min(pos.Y, startPoint.Y);
 
-            var w = Math.Max(pos.X, startPoint.X) - x;
-            var h = Math.Max(pos.Y, startPoint.Y) - y;
+                var w = Math.Max(pos.X, startPoint.X) - x;
+                var h = Math.Max(pos.Y, startPoint.Y) - y;
 
-            rect.Width = w;
-            rect.Height = h;
+                rect.Width = w;
+                rect.Height = h;
 
-            Canvas.SetLeft(rect, x);
-            Canvas.SetTop(rect, y);
+                Canvas.SetLeft(rect, x);
+                Canvas.SetTop(rect, y);
+            }
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            rect = null;
+            if (_isDrawing)
+            {
+                rect = null;
+            }
         }
 
-        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
-            startPoint = e.GetPosition(canvas);
+            this.MouseLeftButtonDown += Window1_MouseLeftButtonDown;
+            this.MouseLeftButtonUp += DragFinishedMouseHandler;
+            this.MouseMove += Window1_MouseMove;
+            this.MouseLeave += Window1_MouseLeave;
 
-            rect = new Rectangle { Stroke = Brushes.Black, StrokeThickness = 2 };
+            canvas.PreviewMouseLeftButtonDown += myCanvas_PreviewMouseLeftButtonDown;
+            canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
+        }
 
-            Canvas.SetLeft(rect, startPoint.X);
-            Canvas.SetTop(rect, startPoint.X);
-            canvas.Children.Add(rect);
-            rect.MouseDown += rect_MouseDown;
-            rect.MouseMove += rect_MouseMove;
-            rect.MouseUp += rect_MouseUp;
+        // Handler for drag stopping on leaving the window
+        private void Window1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            StopDragging();
+            e.Handled = true;
+        }
+
+        // Handler for drag stopping on user choise
+        private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
+        {
+            StopDragging();
+            e.Handled = true;
+        }
+
+        // Method for stopping dragging
+        private void StopDragging()
+        {
+            if (_isDown)
+            {
+                _isDown = false;
+                _isDragging = false;
+                _isDrawing = false;
+            }
+        }
+
+        // Hanler for providing drag operation with selected element
+        private void Window1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isDown)
+            {
+                if ((_isDragging == false) &&
+                    ((Math.Abs(e.GetPosition(canvas).X - _startPoint.X) >
+                      SystemParameters.MinimumHorizontalDragDistance) ||
+                     (Math.Abs(e.GetPosition(canvas).Y - _startPoint.Y) > SystemParameters.MinimumVerticalDragDistance)))
+                    _isDragging = true;
+
+                if (_isDragging)
+                {
+                    Point position = Mouse.GetPosition(canvas);
+                    Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
+                    Canvas.SetLeft(selectedElement, position.X - (_startPoint.X - _originalLeft));
+                }
+            }
+        }
+
+        // Handler for clearing element selection, adorner removal
+        private void Window1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (selected)
+            {
+                selected = false;
+                if (selectedElement != null)
+                {
+                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
+                    selectedElement = null;
+                }
+            }
+        }
+
+        // Handler for element selection on the canvas providing resizing adorner
+        private void myCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Remove selection on clicking anywhere the window
+            if (selected)
+            {
+                selected = false;
+                _isDrawing = true;
+                if (selectedElement != null)
+                {
+                    // Remove the adorner from the selected element
+                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
+                    selectedElement = null;
+                }
+            }
+
+            // If any element except canvas is clicked, 
+            // assign the selected element and add the adorner
+            if (e.Source != canvas)
+            {
+                _isDown = true;
+                _isDrawing = false;
+                _startPoint = e.GetPosition(canvas);
+
+                selectedElement = e.Source as UIElement;
+
+                rect = e.Source as Rectangle;
+
+                _originalLeft = Canvas.GetLeft(selectedElement);
+                _originalTop = Canvas.GetTop(selectedElement);
+
+                aLayer = AdornerLayer.GetAdornerLayer(selectedElement);
+                aLayer.Add(new HelperAdorner(selectedElement));
+                selected = true;
+                e.Handled = true;
+            }
+        }
+
+        private void Window_PreviewKeyDown_1(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                if (selectedElement != null)
+                {
+                    canvas.Children.Remove(rect);
+                    rect = null;
+                    selectedElement = null;
+                }
+            }
         }
 
         private void menuExit_Click(object sender, RoutedEventArgs e)

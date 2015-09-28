@@ -6,7 +6,7 @@
     xmlns:converter="clr-namespace:MikiEditorUI.Converter"
     mc:Ignorable="d" x:Class="MikiEditorUI.View.ShellView"
         Icon="../Image/logo-ldpage.ico"
-        Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded_1" PreviewKeyDown="Window_PreviewKeyDown_1" >
     <Window.Resources>
         <converter:VisibilityConverter x:Key="visibilityConverter" />
     </Window.Resources>
@@ -135,7 +135,7 @@
                 </Button>
             </Grid>
             <DockPanel x:Name="MiddleGrid" Grid.Column="1" Background="Gainsboro" Margin="0,3,0,0">
-                <Canvas Name="canvas" MouseLeftButtonDown="Canvas_MouseLeftButtonDown" MouseUp="Canvas_MouseUp" MouseMove="Canvas_MouseMove">
+                <Canvas Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
                     <Canvas.Background>
                         <ImageBrush Stretch="Uniform"  ImageSource="{Binding CurrentPage.ImgPath}"/>
                     </Canvas.Background>

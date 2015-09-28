@@ -81,6 +81,7 @@
     <Compile Include="BusinessObject\Page.cs" />
     <Compile Include="Converter\VisibilityConverter.cs" />
     <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Helper\HelperAdorner.cs" />
     <Compile Include="ViewModel\NewComicModel.cs" />
     <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="View\NewComic.xaml.cs">
