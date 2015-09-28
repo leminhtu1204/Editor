@@ -1,0 +1,13 @@
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\bin\Debug\newAdorner.exe.config
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\bin\Debug\newAdorner.exe
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\bin\Debug\newAdorner.pdb
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.csprojResolveAssemblyReference.cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\MainWindow.baml
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\MainWindow.g.cs
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\App.g.cs
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner_MarkupCompile.cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.g.resources
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.Properties.Resources.resources
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.csproj.GenerateResource.Cache
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.exe
+c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.pdb
