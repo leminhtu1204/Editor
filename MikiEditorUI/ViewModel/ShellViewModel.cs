@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
+
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MikiEditorUI.ViewModel
 {
@@ -299,9 +303,9 @@ namespace MikiEditorUI.ViewModel
 
             var currentIndex = currentPage.Index;
 
-            page = new Page { ImgPath = string.Empty, Index = currentIndex};
+            page = new Page { ImgPath = string.Empty, Index = currentIndex };
 
-            currentChapter.Pages.Insert(currentIndex -1 , page);
+            currentChapter.Pages.Insert(currentIndex - 1, page);
 
             for (i = currentIndex; i < currentChapter.Pages.Count; i++)
             {
@@ -563,6 +567,36 @@ namespace MikiEditorUI.ViewModel
             list[oldIndex] = nIndex;
             list[newIndex].Index = upperIndex;
             list[oldIndex].Index = lowerIndex;
+        }
+
+        public void AddOrUpdateFrame(string id, Point topLeft, Point topRight, Point bottomLeft, Point bottomRight)
+        {
+            var frame = this.currentPage.Frames.FirstOrDefault(x => x.Id.ToString() == id);
+            if (frame == null)
+            {
+                frame = new Frame
+                            {
+                                Id = id,
+                                Index = this.currentPage.Frames.Count + 1,
+                                Coordinates =
+                                    new Coordinate
+                                        {
+                                            TopLeft = topLeft,
+                                            TopRight = topRight,
+                                            BottomLeft = bottomLeft,
+                                            BottomRight = bottomRight
+                                        }
+                            };
+
+                this.currentPage.Frames.Add(frame);
+            }
+            else
+            {
+                frame.Coordinates.TopLeft = topLeft;
+                frame.Coordinates.TopRight = topRight;
+                frame.Coordinates.BottomLeft = bottomLeft;
+                frame.Coordinates.BottomRight = bottomRight;
+            }
         }
     }
 }
