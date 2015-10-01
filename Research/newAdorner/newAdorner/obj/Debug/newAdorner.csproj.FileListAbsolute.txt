@@ -11,3 +11,16 @@ c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\
 c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.csproj.GenerateResource.Cache
 c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.exe
 c:\users\leminhtu88\documents\visual studio 2012\Projects\newAdorner\newAdorner\obj\Debug\newAdorner.pdb
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.exe.config
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.exe
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.pdb
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.exe
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.pdb
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csprojResolveAssemblyReference.cache
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\MainWindow.baml
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\MainWindow.g.cs
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\App.g.cs
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner_MarkupCompile.cache
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.g.resources
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.Properties.Resources.resources
+D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csproj.GenerateResource.Cache

@@ -8,6 +8,9 @@ using System.Windows.Shapes;
 
 namespace newAdorner
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -131,11 +134,57 @@ namespace newAdorner
 
                 if (_isDragging)
                 {
-                    Point position = Mouse.GetPosition(canvas);
-                    Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
-                    Canvas.SetLeft(selectedElement, position.X - (_startPoint.X - _originalLeft));
+                    
+                    if (CheckOverLap(selectedElement as Rectangle))
+                    {
+                    }
+                    else
+                    {
+                        Point position2 = Mouse.GetPosition(canvas);
+                        Canvas.SetTop(selectedElement, position2.Y - (_startPoint.Y - _originalTop));
+                        Canvas.SetLeft(selectedElement, position2.X - (_startPoint.X - _originalLeft));
+                    }
                 }
             }
+        }
+
+        private bool DoIntersectionTest(Rectangle m_redRect, Rectangle m_greenRect)
+        {
+            Rect rect1 = RectangleToRect(m_redRect);
+            Rect rect2 = RectangleToRect(m_greenRect);
+            return rect1.IntersectsWith(rect2);
+        }
+
+        private bool CheckOverLap(Rectangle rectangle)
+        {
+            if (canvas.Children.Count == 0)
+            {
+                return false;
+            }
+            var rectList = (from object r in this.canvas.Children select r as Rectangle).ToList();
+
+            rectList.Remove(rectangle);
+
+            foreach (var c in rectList)
+            {
+                if (DoIntersectionTest(rectangle, c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        private Rect RectangleToRect(Rectangle m_redRect)
+        {
+            Rect rect1 = new Rect();
+            rect1.X = Canvas.GetLeft(m_redRect);
+            rect1.Y = Canvas.GetTop(m_redRect);
+            rect1.Width = m_redRect.Width;
+            rect1.Height = m_redRect.Height;
+
+            return rect1;
         }
 
         // Handler for clearing element selection, adorner removal

@@ -134,10 +134,10 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <DockPanel x:Name="MiddleGrid" Grid.Column="1" Background="Gainsboro" Margin="0,3,0,0">
+            <DockPanel x:Name="MiddleGrid" Grid.Column="1" Background="Gainsboro" Margin="0,3,0,0" ClipToBounds="True">
                 <Canvas Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
                     <Canvas.Background>
-                        <ImageBrush Stretch="Uniform"  ImageSource="{Binding CurrentPage.ImgPath}"/>
+                        <ImageBrush Stretch="Uniform" ImageSource="{Binding CurrentPage.ImgPath}"/>
                     </Canvas.Background>
                 </Canvas>
             </DockPanel>

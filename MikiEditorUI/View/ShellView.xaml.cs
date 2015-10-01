@@ -115,6 +115,7 @@ namespace MikiEditorUI.View
                 _isDown = false;
                 _isDragging = false;
                 _isDrawing = false;
+                Cursor = Cursors.Arrow;
             }
         }
 
@@ -134,6 +135,7 @@ namespace MikiEditorUI.View
                     Point position = Mouse.GetPosition(canvas);
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
                     Canvas.SetLeft(selectedElement, position.X - (_startPoint.X - _originalLeft));
+                    Cursor = Cursors.Hand;
                 }
             }
         }
@@ -144,6 +146,7 @@ namespace MikiEditorUI.View
             if (selected)
             {
                 selected = false;
+                _isDrawing = true;
                 if (selectedElement != null)
                 {
                     aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
@@ -187,6 +190,7 @@ namespace MikiEditorUI.View
                 aLayer.Add(new HelperAdorner(selectedElement));
                 selected = true;
                 e.Handled = true;
+                Cursor = Cursors.Hand;
             }
         }
 
@@ -199,6 +203,7 @@ namespace MikiEditorUI.View
                     canvas.Children.Remove(rect);
                     rect = null;
                     selectedElement = null;
+                    _isDrawing = true;
                 }
             }
         }
