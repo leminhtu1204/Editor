@@ -9,6 +9,11 @@ namespace MikiEditorUI.BusinessObject
 {
     public class Page : PropertyChangedBase
     {
+        public Page()
+        {
+            frames = new BindableCollection<Frame>();
+        }
+
         public string Caption { get; set; }
 
         private string imgPath;
@@ -38,6 +43,21 @@ namespace MikiEditorUI.BusinessObject
             {
                 index = value;
                 this.NotifyOfPropertyChange(() => this.Index);
+            }
+        }
+
+        private BindableCollection<Frame> frames;
+        public BindableCollection<Frame> Frames
+        {
+            get
+            {
+                return frames;
+            }
+
+            set
+            {
+                frames = value;
+                this.NotifyOfPropertyChange(() => this.Frames);
             }
         }
     }

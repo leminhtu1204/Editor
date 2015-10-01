@@ -78,8 +78,11 @@
     </ApplicationDefinition>
     <Compile Include="BusinessObject\Chapter.cs" />
     <Compile Include="BusinessObject\Comic.cs" />
+    <Compile Include="BusinessObject\Coordinate.cs" />
+    <Compile Include="BusinessObject\Frame.cs" />
     <Compile Include="BusinessObject\Page.cs" />
     <Compile Include="Converter\VisibilityConverter.cs" />
+    <Compile Include="Helper\EventHelper.cs" />
     <Compile Include="Helper\Helper.cs" />
     <Compile Include="Helper\HelperAdorner.cs" />
     <Compile Include="ViewModel\NewComicModel.cs" />

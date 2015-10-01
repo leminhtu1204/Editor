@@ -78,6 +78,7 @@
                 </Label>
                 <ListView SelectionMode="Single" Grid.Row="1" BorderBrush="DarkGray" MinHeight="500" DockPanel.Dock="Top" 
 					SelectedItem="{Binding CurrentPage}" ItemsSource="{Binding CurrentChapter.Pages}"    
+                    SelectionChanged ="Page_SelectionChanged"
 					cal:Message.Attach="[Event MouseDoubleClick] = [Action ChangePageImage()]" AllowDrop="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>

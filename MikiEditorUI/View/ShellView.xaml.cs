@@ -1,10 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+
+using MikiEditorUI.ViewModel;
+
 using newAdorner;
 
 namespace MikiEditorUI.View
@@ -45,6 +52,7 @@ namespace MikiEditorUI.View
                     StrokeThickness = 2,
                     Fill = Brushes.Transparent
                 };
+
                 Canvas.SetLeft(rect, startPoint.X);
                 Canvas.SetTop(rect, startPoint.X);
                 canvas.Children.Add(rect);
@@ -68,6 +76,7 @@ namespace MikiEditorUI.View
 
                 rect.Width = w;
                 rect.Height = h;
+                rect.Name = "A" + new Random().Next(50000);
 
                 Canvas.SetLeft(rect, x);
                 Canvas.SetTop(rect, y);
@@ -95,13 +104,6 @@ namespace MikiEditorUI.View
 
         // Handler for drag stopping on leaving the window
         private void Window1_MouseLeave(object sender, MouseEventArgs e)
-        {
-            StopDragging();
-            e.Handled = true;
-        }
-
-        // Handler for drag stopping on user choise
-        private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
         {
             StopDragging();
             e.Handled = true;
@@ -188,6 +190,9 @@ namespace MikiEditorUI.View
 
                 aLayer = AdornerLayer.GetAdornerLayer(selectedElement);
                 aLayer.Add(new HelperAdorner(selectedElement));
+                EventHelper.RemoveAllEvents(aLayer);
+                aLayer.PreviewMouseLeftButtonUp += AdornerLayer_PreviewMouseLeftButtonUp;
+                EventHelper.delegates.Add(AdornerLayer_PreviewMouseLeftButtonUp);
                 selected = true;
                 e.Handled = true;
                 Cursor = Cursors.Hand;
@@ -211,6 +216,71 @@ namespace MikiEditorUI.View
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void AdornerLayer_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (rect != null)
+            {
+                AddOrUpdateFrame(rect);
+            }
+        }
+
+        // Handler for drag stopping on user choise
+        private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
+        {
+            rect = e.Source as Rectangle;
+
+            if (rect != null)
+            {
+                AddOrUpdateFrame(rect);
+            }
+
+            StopDragging();
+            e.Handled = true;
+        }
+
+        private void Page_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var model = this.DataContext as ShellViewModel;
+            canvas.Children.Clear();
+
+            if (model.CurrentPage != null)
+            {
+                foreach (var frame in model.CurrentPage.Frames)
+                {
+                    rect = new Rectangle
+                    {
+                        Stroke = Brushes.LightBlue,
+                        StrokeThickness = 2,
+                        Fill = Brushes.Transparent,
+                        Width = 100,
+                        Height = 100
+                    };
+
+                    Canvas.SetLeft(rect, 50);
+                    Canvas.SetTop(rect, 50);
+                    canvas.Children.Add(rect);
+                }
+            }
+        }
+
+        private void AddOrUpdateFrame(Rectangle rect)
+        {
+            var model = this.DataContext as ShellViewModel;
+
+            var x = Canvas.GetLeft(rect);
+            var y = Canvas.GetTop(rect);
+
+            var w = rect.Width;
+            var h = rect.Height;
+
+            var topLeft = new Point() { X = x, Y = y };
+            var topRight = new Point() { X = x, Y = y + w };
+            var bottomLeft = new Point() { X = x + h, Y = y };
+            var bottomRight = new Point() { X = x + h, Y = y + w };
+
+            model.AddOrUpdateFrame(rect.Name, topLeft, topRight, bottomLeft, bottomRight);
         }
     }
 }
