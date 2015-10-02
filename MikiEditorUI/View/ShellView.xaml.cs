@@ -251,7 +251,8 @@ namespace MikiEditorUI.View
                         StrokeThickness = 2,
                         Fill = Brushes.Transparent,
                         Width = Math.Abs(frame.Coordinates.TopLeft.X - frame.Coordinates.TopRight.X),
-                        Height = Math.Abs(frame.Coordinates.TopLeft.Y - frame.Coordinates.BottomLeft.Y)
+                        Height = Math.Abs(frame.Coordinates.TopLeft.Y - frame.Coordinates.BottomLeft.Y),
+                        Name = frame.Id
                     };
 
                     Canvas.SetLeft(rect, frame.Coordinates.TopLeft.X);
