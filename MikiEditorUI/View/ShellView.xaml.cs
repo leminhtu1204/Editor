@@ -55,6 +55,7 @@ namespace MikiEditorUI.View
 
                 Canvas.SetLeft(rect, startPoint.X);
                 Canvas.SetTop(rect, startPoint.X);
+                rect.Name = "A" + new Random().Next(50000);
                 canvas.Children.Add(rect);
             }
         }
@@ -76,8 +77,7 @@ namespace MikiEditorUI.View
 
                 rect.Width = w;
                 rect.Height = h;
-                rect.Name = "A" + new Random().Next(50000);
-
+                
                 Canvas.SetLeft(rect, x);
                 Canvas.SetTop(rect, y);
             }
@@ -148,7 +148,12 @@ namespace MikiEditorUI.View
                 selected = false;
                 if (selectedElement != null)
                 {
-                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
+                    var adorners = aLayer.GetAdorners(selectedElement);
+                    if (adorners != null && adorners.Any())
+                    {
+                        aLayer.Remove(aLayer.GetAdorners(selectedElement).First());
+                    }
+                    
                     selectedElement = null;
                 }
             }
@@ -249,12 +254,12 @@ namespace MikiEditorUI.View
                         Stroke = Brushes.LightBlue,
                         StrokeThickness = 2,
                         Fill = Brushes.Transparent,
-                        Width = 100,
-                        Height = 100
+                        Width = Math.Abs(frame.Coordinates.TopLeft.X - frame.Coordinates.TopRight.X),
+                        Height = Math.Abs(frame.Coordinates.TopLeft.Y - frame.Coordinates.BottomLeft.Y)
                     };
 
-                    Canvas.SetLeft(rect, 50);
-                    Canvas.SetTop(rect, 50);
+                    Canvas.SetLeft(rect, frame.Coordinates.TopLeft.X);
+                    Canvas.SetTop(rect, frame.Coordinates.TopLeft.Y);
                     canvas.Children.Add(rect);
                 }
             }
@@ -271,8 +276,8 @@ namespace MikiEditorUI.View
             var h = rect.Height;
 
             var topLeft = new Point() { X = x, Y = y };
-            var topRight = new Point() { X = x, Y = y + w };
-            var bottomLeft = new Point() { X = x + h, Y = y };
+            var topRight = new Point() { X = x + w, Y = y };
+            var bottomLeft = new Point() { X = x, Y = y + h };
             var bottomRight = new Point() { X = x + h, Y = y + w };
 
             model.AddOrUpdateFrame(rect.Name, topLeft, topRight, bottomLeft, bottomRight);
