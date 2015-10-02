@@ -136,11 +136,13 @@
                 </Button>
             </Grid>
             <DockPanel x:Name="MiddleGrid" Grid.Column="1" Background="Gainsboro" Margin="0,3,0,0" ClipToBounds="True">
-                <Canvas Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
-                    <Canvas.Background>
-                        <ImageBrush Stretch="Uniform" ImageSource="{Binding CurrentPage.ImgPath}"/>
-                    </Canvas.Background>
-                </Canvas>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <Canvas Width="{Binding CurrentPage.ImgWidth}" Height="{Binding CurrentPage.ImgHeight}" Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
+                        <Canvas.Background>
+                            <ImageBrush Stretch="Uniform" ImageSource="{Binding CurrentPage.ImgPath}"/>
+                        </Canvas.Background>
+                    </Canvas>
+                </ScrollViewer>
             </DockPanel>
             <Grid x:Name="LeftGrid"  Grid.Column="0" Margin="3">
                 <Grid.RowDefinitions>

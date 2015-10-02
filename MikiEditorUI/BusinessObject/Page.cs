@@ -7,6 +7,8 @@ using Caliburn.Micro;
 
 namespace MikiEditorUI.BusinessObject
 {
+    using System.Drawing;
+
     public class Page : PropertyChangedBase
     {
         public Page()
@@ -29,6 +31,44 @@ namespace MikiEditorUI.BusinessObject
                 imgPath = value;
                 this.NotifyOfPropertyChange(() => this.ImgPath);
             }
+        }
+
+        public int ImgWidth
+        {
+            get
+            {
+                return this.GetWidth(imgPath);
+            }
+        }
+
+        public int ImgHeight
+        {
+            get
+            {
+                return this.GetHeight(imgPath);
+            }
+        }
+
+        private int GetWidth(string imgPath)
+        {
+            if (imgPath != null)
+            {
+                Image temp = System.Drawing.Image.FromFile(imgPath);
+
+                return temp.Width;
+            }
+            return 0;
+        }
+
+        private int GetHeight(string imgPath)
+        {
+            if (imgPath != null)
+            {
+                Image temp = System.Drawing.Image.FromFile(imgPath);
+
+                return temp.Height;
+            }
+            return 0;
         }
 
         private int index;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -10,9 +9,6 @@ using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace MikiEditorUI.ViewModel
 {
-    using System.Windows.Input;
-    using System.Windows.Shapes;
-
     using Caliburn.Micro;
 
     using BusinessObject;
