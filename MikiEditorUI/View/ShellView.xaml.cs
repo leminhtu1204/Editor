@@ -93,36 +93,22 @@ namespace MikiEditorUI.View
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
-            this.MouseLeftButtonDown += Window1_MouseLeftButtonDown;
-            this.MouseLeftButtonUp += DragFinishedMouseHandler;
-            this.MouseMove += Window1_MouseMove;
-            this.MouseLeave += Window1_MouseLeave;
+            canvas.MouseLeftButtonDown += canvas_MouseLeftButtonDown;
+            canvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
+            canvas.MouseMove += canvas_MouseMove;
+            canvas.MouseLeave += canvas_MouseLeave;
 
             canvas.PreviewMouseLeftButtonDown += myCanvas_PreviewMouseLeftButtonDown;
             canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
         }
 
-        // Handler for drag stopping on leaving the window
-        private void Window1_MouseLeave(object sender, MouseEventArgs e)
+        void canvas_MouseLeave(object sender, MouseEventArgs e)
         {
             StopDragging();
             e.Handled = true;
         }
 
-        // Method for stopping dragging
-        private void StopDragging()
-        {
-            if (_isDown)
-            {
-                _isDown = false;
-                _isDragging = false;
-                _isDrawing = false;
-                Cursor = Cursors.Arrow;
-            }
-        }
-
-        // Hanler for providing drag operation with selected element
-        private void Window1_MouseMove(object sender, MouseEventArgs e)
+        void canvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (_isDown)
             {
@@ -142,8 +128,20 @@ namespace MikiEditorUI.View
             }
         }
 
-        // Handler for clearing element selection, adorner removal
-        private void Window1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            rect = e.Source as Rectangle;
+
+            if (rect != null)
+            {
+                AddOrUpdateFrame(rect);
+            }
+
+            StopDragging();
+            e.Handled = true;
+        }
+
+        void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (selected)
             {
@@ -156,9 +154,21 @@ namespace MikiEditorUI.View
                     {
                         aLayer.Remove(aLayer.GetAdorners(selectedElement).First());
                     }
-                    
+
                     selectedElement = null;
                 }
+            }
+        }
+
+        // Method for stopping dragging
+        private void StopDragging()
+        {
+            if (_isDown)
+            {
+                _isDown = false;
+                _isDragging = false;
+                _isDrawing = false;
+                Cursor = Cursors.Arrow;
             }
         }
 
