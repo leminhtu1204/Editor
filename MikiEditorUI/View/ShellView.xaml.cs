@@ -40,6 +40,25 @@ namespace MikiEditorUI.View
             InitializeComponent();
         }
 
+        private void removeAdorner()
+        {
+            if (selected)
+            {
+                selected = false;
+                _isDrawing = true;
+                if (selectedElement != null)
+                {
+                    var adorners = aLayer.GetAdorners(selectedElement);
+                    if (adorners != null && adorners.Any())
+                    {
+                        aLayer.Remove(aLayer.GetAdorners(selectedElement).First());
+                    }
+
+                    selectedElement = null;
+                }
+            }
+        }
+
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_isDrawing)
@@ -77,7 +96,7 @@ namespace MikiEditorUI.View
 
                 rect.Width = w;
                 rect.Height = h;
-                
+
                 Canvas.SetLeft(rect, x);
                 Canvas.SetTop(rect, y);
             }
@@ -85,21 +104,26 @@ namespace MikiEditorUI.View
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (_isDrawing)
+            if (rect == null || double.IsNaN(rect.Width) || rect.Width < 10 || double.IsNaN(rect.Height) || rect.Height < 10)
             {
-                rect = null;
+                removeAdorner();
+                return;
             }
+
+            AddOrUpdateFrame(rect);
+            StopDragging();
+            e.Handled = true;
+
+            rect = null;
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
-            canvas.MouseLeftButtonDown += canvas_MouseLeftButtonDown;
-            canvas.MouseLeftButtonUp += canvas_MouseLeftButtonUp;
             canvas.MouseMove += canvas_MouseMove;
             canvas.MouseLeave += canvas_MouseLeave;
 
             canvas.PreviewMouseLeftButtonDown += myCanvas_PreviewMouseLeftButtonDown;
-            canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
+            //canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
         }
 
         void canvas_MouseLeave(object sender, MouseEventArgs e)
@@ -110,7 +134,7 @@ namespace MikiEditorUI.View
 
         void canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isDown)
+            if ((e.LeftButton == MouseButtonState.Pressed || rect == null) && _isDown)
             {
                 if ((_isDragging == false) &&
                     ((Math.Abs(e.GetPosition(canvas).X - _startPoint.X) >
@@ -124,38 +148,6 @@ namespace MikiEditorUI.View
                     Canvas.SetTop(selectedElement, position.Y - (_startPoint.Y - _originalTop));
                     Canvas.SetLeft(selectedElement, position.X - (_startPoint.X - _originalLeft));
                     Cursor = Cursors.Hand;
-                }
-            }
-        }
-
-        void canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            rect = e.Source as Rectangle;
-
-            if (rect != null)
-            {
-                AddOrUpdateFrame(rect);
-            }
-
-            StopDragging();
-            e.Handled = true;
-        }
-
-        void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (selected)
-            {
-                selected = false;
-                _isDrawing = true;
-                if (selectedElement != null)
-                {
-                    var adorners = aLayer.GetAdorners(selectedElement);
-                    if (adorners != null && adorners.Any())
-                    {
-                        aLayer.Remove(aLayer.GetAdorners(selectedElement).First());
-                    }
-
-                    selectedElement = null;
                 }
             }
         }
@@ -183,7 +175,10 @@ namespace MikiEditorUI.View
                 if (selectedElement != null)
                 {
                     // Remove the adorner from the selected element
-                    aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
+                    if (aLayer.GetAdorners(selectedElement) != null && aLayer.GetAdorners(selectedElement).Any())
+                    {
+                        aLayer.Remove(aLayer.GetAdorners(selectedElement)[0]);
+                    }
                     selectedElement = null;
                 }
             }
@@ -241,20 +236,6 @@ namespace MikiEditorUI.View
             }
         }
 
-        // Handler for drag stopping on user choise
-        private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
-        {
-            rect = e.Source as Rectangle;
-
-            if (rect != null)
-            {
-                AddOrUpdateFrame(rect);
-            }
-
-            StopDragging();
-            e.Handled = true;
-        }
-
         private void Page_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var model = this.DataContext as ShellViewModel;
@@ -270,7 +251,8 @@ namespace MikiEditorUI.View
                         StrokeThickness = 2,
                         Fill = Brushes.Transparent,
                         Width = Math.Abs(frame.Coordinates.TopLeft.X - frame.Coordinates.TopRight.X),
-                        Height = Math.Abs(frame.Coordinates.TopLeft.Y - frame.Coordinates.BottomLeft.Y)
+                        Height = Math.Abs(frame.Coordinates.TopLeft.Y - frame.Coordinates.BottomLeft.Y),
+                        Name = frame.Id
                     };
 
                     Canvas.SetLeft(rect, frame.Coordinates.TopLeft.X);
