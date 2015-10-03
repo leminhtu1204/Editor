@@ -10,9 +10,14 @@ namespace newAdorner
 {
     class HelperAdorner:Adorner
     {
+        private double initialAngle;
+        private RotateTransform rotateTransform;
+        private Vector startVector;
+        private Point centerPoint;
+
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
-        Thumb topLeft, topRight, bottomLeft, bottomRight;
+        Thumb topLeft, topRight, bottomLeft, bottomRight, centerTop, centerRigth, centerBottom, centerLeft;
 
         // To store and manage the adorner's visual children.
         VisualCollection visualChildren;
@@ -28,15 +33,68 @@ namespace newAdorner
             BuildAdornerCorner(ref topRight, Cursors.SizeNESW);
             BuildAdornerCorner(ref bottomLeft, Cursors.SizeNESW);
             BuildAdornerCorner(ref bottomRight, Cursors.SizeNWSE);
+            BuildAdornerCorner(ref centerTop, Cursors.Hand);
+
 
             // Add handlers for resizing.
             bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
             bottomRight.DragDelta += new DragDeltaEventHandler(HandleBottomRight);
             topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
             topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
+            centerTop.DragDelta += new DragDeltaEventHandler(HandleCenterTop);
+            centerTop.DragStarted += new DragStartedEventHandler(this.RotateThumb_DragStarted);
         }
 
-         // Handler for resizing from the bottom-right.
+        private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            Thumb hitThumb = sender as Thumb;
+
+            if (adornedElement == null || hitThumb == null) return;
+            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
+
+            if (parentElement != null)
+            {
+                this.centerPoint = adornedElement.TranslatePoint(
+                    new Point(adornedElement.Width * adornedElement.RenderTransformOrigin.X,
+                              adornedElement.Height * adornedElement.RenderTransformOrigin.Y),
+                              parentElement);
+
+                Point startPoint = Mouse.GetPosition(parentElement);
+                this.startVector = Point.Subtract(startPoint, this.centerPoint);
+
+                this.rotateTransform = adornedElement.RenderTransform as RotateTransform;
+                if (this.rotateTransform == null)
+                {
+                    adornedElement.RenderTransform = new RotateTransform(0);
+                    this.initialAngle = 0;
+                }
+                else
+                {
+                    this.initialAngle = this.rotateTransform.Angle;
+                }
+            }
+        }
+
+        private void HandleCenterTop(object sender, DragDeltaEventArgs e)
+        {
+            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            Thumb hitThumb = sender as Thumb;
+
+            if (adornedElement == null || hitThumb == null) return;
+            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
+
+            Point currentPoint = Mouse.GetPosition(parentElement);
+            Vector deltaVector = Point.Subtract(currentPoint, centerPoint);
+
+            double angle = Vector.AngleBetween(this.startVector, deltaVector);
+
+            RotateTransform rotateTransform = adornedElement.RenderTransform as RotateTransform;
+            rotateTransform.Angle = this.initialAngle + Math.Round(angle, 0);
+            adornedElement.InvalidateMeasure();
+        }
+
+        // Handler for resizing from the bottom-right.
         void HandleBottomRight(object sender, DragDeltaEventArgs args)
         {
             FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
@@ -145,7 +203,7 @@ namespace newAdorner
             topRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
             bottomLeft.Arrange(new Rect(-adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
             bottomRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
-
+            centerTop.Arrange(new Rect(desiredWidth - adornerWidth + 5 / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
             // Return the final size.
             return finalSize;
         }
