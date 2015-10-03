@@ -61,6 +61,10 @@ namespace MikiEditorUI.View
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (double.IsNaN(canvas.Width) && double.IsNaN(canvas.Height))
+            {
+                return;
+            }
             if (_isDrawing)
             {
                 startPoint = e.GetPosition(canvas);
@@ -102,11 +106,21 @@ namespace MikiEditorUI.View
             }
         }
 
-        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        private bool CheckAvailableRect(Rectangle rectangle)
         {
-            if (rect == null || double.IsNaN(rect.Width) || rect.Width < 10 || double.IsNaN(rect.Height) || rect.Height < 10)
+            if (rectangle == null || double.IsNaN(rectangle.Width) || rectangle.Width < 10 || double.IsNaN(rectangle.Height) || rectangle.Height < 10)
             {
                 removeAdorner();
+                canvas.Children.Remove(rectangle);
+                return false;
+            }
+            return true;
+        }
+
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!CheckAvailableRect(rect))
+            {
                 return;
             }
 
@@ -123,7 +137,7 @@ namespace MikiEditorUI.View
             canvas.MouseLeave += canvas_MouseLeave;
 
             canvas.PreviewMouseLeftButtonDown += myCanvas_PreviewMouseLeftButtonDown;
-            //canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
+            canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
         }
 
         void canvas_MouseLeave(object sender, MouseEventArgs e)
@@ -167,6 +181,10 @@ namespace MikiEditorUI.View
         // Handler for element selection on the canvas providing resizing adorner
         private void myCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (double.IsNaN(canvas.Width) && double.IsNaN(canvas.Height))
+            {
+                return;
+            }
             // Remove selection on clicking anywhere the window
             if (selected)
             {
@@ -216,6 +234,7 @@ namespace MikiEditorUI.View
                 if (selectedElement != null)
                 {
                     canvas.Children.Remove(rect);
+                    RemoveFrame(rect);
                     rect = null;
                     selectedElement = null;
                     _isDrawing = true;
@@ -260,6 +279,25 @@ namespace MikiEditorUI.View
                     canvas.Children.Add(rect);
                 }
             }
+        }
+
+        // Handler for drag stopping on user choise
+        private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
+        {
+            if (!CheckAvailableRect(rect))
+            {
+                return;
+            }
+            AddOrUpdateFrame(rect);
+            StopDragging();
+            e.Handled = true;
+        }
+
+        private void RemoveFrame(Rectangle rect)
+        {
+            var model = this.DataContext as ShellViewModel;
+
+            model.RemoveFrame(rect.Name);
         }
 
         private void AddOrUpdateFrame(Rectangle rect)

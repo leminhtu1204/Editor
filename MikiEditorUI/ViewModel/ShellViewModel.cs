@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Windows;
 using System.Windows.Forms;
 
 using MessageBox = System.Windows.Forms.MessageBox;
+using Point = System.Windows.Point;
 
 namespace MikiEditorUI.ViewModel
 {
@@ -592,6 +593,15 @@ namespace MikiEditorUI.ViewModel
                 frame.Coordinates.TopRight = topRight;
                 frame.Coordinates.BottomLeft = bottomLeft;
                 frame.Coordinates.BottomRight = bottomRight;
+            }
+        }
+
+        public void RemoveFrame(string id)
+        {
+            var frame = this.currentPage.Frames.FirstOrDefault(x => x.Id.ToString() == id);
+            if (frame != null)
+            {
+                this.currentPage.Frames.Remove(frame);
             }
         }
     }

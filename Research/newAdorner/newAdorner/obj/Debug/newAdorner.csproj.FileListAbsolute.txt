@@ -24,3 +24,6 @@ D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorn
 D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.g.resources
 D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.Properties.Resources.resources
 D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csproj.GenerateResource.Cache
+C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.exe.config
+C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.exe
+C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.pdb
