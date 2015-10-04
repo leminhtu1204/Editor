@@ -25,11 +25,8 @@ D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorn
 D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.Properties.Resources.resources
 D:\freelance\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csproj.GenerateResource.Cache
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.exe.config
-C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.exe
-C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.pdb
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.exe
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\bin\Debug\newAdorner.pdb
-C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csprojResolveAssemblyReference.cache
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\MainWindow.baml
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\MainWindow.g.cs
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\App.g.cs
@@ -37,3 +34,6 @@ C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorne
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.g.resources
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.Properties.Resources.resources
 C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csproj.GenerateResource.Cache
+C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.exe
+C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.pdb
+C:\LeMinhtu\MikiEditor\Editor\Research\newAdorner\newAdorner\obj\Debug\newAdorner.csprojResolveAssemblyReference.cache

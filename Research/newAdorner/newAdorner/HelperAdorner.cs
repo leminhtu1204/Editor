@@ -63,7 +63,7 @@ namespace newAdorner
                 Point startPoint = Mouse.GetPosition(parentElement);
                 this.startVector = Point.Subtract(startPoint, this.centerPoint);
 
-                this.rotateTransform = adornedElement.RenderTransform as RotateTransform;
+                rotateTransform = adornedElement.RenderTransform as RotateTransform;
                 if (this.rotateTransform == null)
                 {
                     adornedElement.RenderTransform = new RotateTransform(0);
@@ -203,7 +203,7 @@ namespace newAdorner
             topRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
             bottomLeft.Arrange(new Rect(-adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
             bottomRight.Arrange(new Rect(desiredWidth - adornerWidth / 2, desiredHeight - adornerHeight / 2, adornerWidth, adornerHeight));
-            centerTop.Arrange(new Rect(desiredWidth - adornerWidth + 5 / 2, -adornerHeight / 2, adornerWidth, adornerHeight));
+            centerTop.Arrange(new Rect(desiredWidth - adornerWidth + 5 / 2, (-adornerHeight / 2) - 10, adornerWidth, adornerHeight));
             // Return the final size.
             return finalSize;
         }
@@ -218,7 +218,7 @@ namespace newAdorner
 
             // Set some arbitrary visual characteristics.
             cornerThumb.Cursor = customizedCursor;
-            cornerThumb.Height = cornerThumb.Width = 10;
+            cornerThumb.Height = cornerThumb.Width = 8;
             cornerThumb.Opacity = 0.40;
             cornerThumb.Background = new SolidColorBrush(Colors.MediumBlue);
 
