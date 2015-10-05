@@ -8,6 +8,7 @@ using Caliburn.Micro;
 namespace MikiEditorUI.BusinessObject
 {
     using System.Drawing;
+    using System.IO;
 
     public class Page : PropertyChangedBase
     {
@@ -53,9 +54,17 @@ namespace MikiEditorUI.BusinessObject
         {
             if (imgPath != null)
             {
-                Image temp = System.Drawing.Image.FromFile(imgPath);
+                try
+                {
+                    Image temp = System.Drawing.Image.FromFile(imgPath);
+                    return temp.Width;
+                }
+                catch (Exception)
+                {
 
-                return temp.Width;
+                    return 0;
+                }
+               
             }
             return 0;
         }
@@ -64,9 +73,17 @@ namespace MikiEditorUI.BusinessObject
         {
             if (imgPath != null)
             {
-                Image temp = System.Drawing.Image.FromFile(imgPath);
+                try
+                {
+                    Image temp = System.Drawing.Image.FromFile(imgPath);
+                    return temp.Height;
+                }
+                catch (Exception)
+                {
 
-                return temp.Height;
+                    return 0;
+                }
+               
             }
             return 0;
         }
