@@ -15,6 +15,10 @@ namespace newAdorner
         private Vector startVector;
         private Point centerPoint;
 
+        private FrameworkElement adornedElement;
+
+        private FrameworkElement parentElement;
+
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
         Thumb topLeft, topRight, bottomLeft, bottomRight, centerTop, centerRigth, centerBottom, centerLeft;
@@ -47,11 +51,11 @@ namespace newAdorner
 
         private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+            adornedElement = this.AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;
-            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
+            parentElement = adornedElement.Parent as FrameworkElement;
 
             if (parentElement != null)
             {
@@ -63,7 +67,7 @@ namespace newAdorner
                 Point startPoint = Mouse.GetPosition(parentElement);
                 this.startVector = Point.Subtract(startPoint, this.centerPoint);
 
-                rotateTransform = adornedElement.RenderTransform as RotateTransform;
+                this.rotateTransform = adornedElement.RenderTransform as RotateTransform;
                 if (this.rotateTransform == null)
                 {
                     adornedElement.RenderTransform = new RotateTransform(
@@ -80,11 +84,9 @@ namespace newAdorner
 
         private void HandleCenterTop(object sender, DragDeltaEventArgs e)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;
-            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
 
             Point currentPoint = Mouse.GetPosition(parentElement);
             Vector deltaVector = Point.Subtract(currentPoint, centerPoint);
