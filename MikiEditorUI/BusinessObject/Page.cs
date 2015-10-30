@@ -38,7 +38,7 @@ namespace MikiEditorUI.BusinessObject
         {
             get
             {
-                return this.GetWidth(imgPath);
+                return this.GetWidth(imgPath)/4;
             }
         }
 
@@ -46,7 +46,7 @@ namespace MikiEditorUI.BusinessObject
         {
             get
             {
-                return this.GetHeight(imgPath);
+                return this.GetHeight(imgPath)/4;
             }
         }
 

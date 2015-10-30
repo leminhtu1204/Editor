@@ -60,8 +60,8 @@ namespace newAdorner
             if (parentElement != null)
             {
                 this.centerPoint = adornedElement.TranslatePoint(
-                    new Point(adornedElement.Width * adornedElement.RenderTransformOrigin.X,
-                              adornedElement.Height * adornedElement.RenderTransformOrigin.Y),
+                    new Point(adornedElement.Width * 0.1,
+                              adornedElement.Height * 0.1),
                               parentElement);
 
                 Point startPoint = Mouse.GetPosition(parentElement);
@@ -70,7 +70,7 @@ namespace newAdorner
                 this.rotateTransform = adornedElement.RenderTransform as RotateTransform;
                 if (this.rotateTransform == null)
                 {
-                    adornedElement.RenderTransform = new RotateTransform(0);
+                    adornedElement.RenderTransform = new RotateTransform( 0, this.adornedElement.Width * 0.5, this.adornedElement.Height * 0.5);
                     this.initialAngle = 0;
                 }
                 else

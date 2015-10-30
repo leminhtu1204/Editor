@@ -25,6 +25,8 @@ namespace MikiEditorUI.ViewModel
             OnActive();
         }
 
+        private int scale = 4;
+
         private Thread thread;
 
         private Helper helper = new Helper();
@@ -578,10 +580,10 @@ namespace MikiEditorUI.ViewModel
                                 Coordinates =
                                     new Coordinate
                                         {
-                                            TopLeft = topLeft,
-                                            TopRight = topRight,
-                                            BottomLeft = bottomLeft,
-                                            BottomRight = bottomRight
+                                            TopLeft = ToOriginal(topLeft, scale),
+                                            TopRight = ToOriginal(topRight, scale),
+                                            BottomLeft = ToOriginal(bottomLeft, scale),
+                                            BottomRight = ToOriginal(bottomRight, scale)
                                         }
                             };
 
@@ -589,11 +591,18 @@ namespace MikiEditorUI.ViewModel
             }
             else
             {
-                frame.Coordinates.TopLeft = topLeft;
-                frame.Coordinates.TopRight = topRight;
-                frame.Coordinates.BottomLeft = bottomLeft;
-                frame.Coordinates.BottomRight = bottomRight;
+                frame.Coordinates.TopLeft = ToOriginal(topLeft, scale);
+                frame.Coordinates.TopRight = ToOriginal(topRight, scale);
+                frame.Coordinates.BottomLeft = ToOriginal(bottomLeft, scale);
+                frame.Coordinates.BottomRight = ToOriginal(bottomRight, scale);
             }
+        }
+
+        private Point ToOriginal(Point point, int scale)
+        {
+            double x = point.X * scale;
+            double y = point.Y * scale;
+            return new Point(x, y);
         }
 
         public void RemoveFrame(string id)
