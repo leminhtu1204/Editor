@@ -16,6 +16,8 @@ using newAdorner;
 
 namespace MikiEditorUI.View
 {
+    using System.Globalization;
+
     /// <summary>
     /// Interaction logic for ShellView.xaml
     /// </summary>
@@ -28,12 +30,17 @@ namespace MikiEditorUI.View
         private bool _isDragging;
         private bool selected = false;
         private UIElement selectedElement = null;
-
         private Point _startPoint;
         private double _originalLeft;
         private double _originalTop;
         private Point startPoint;
-        private Rectangle rect;
+        //private Rectangle rect;
+
+        private Label label;
+
+        private int scale = 4;
+
+        private int noOfLabel = 1;
 
         public ShellView()
         {
@@ -69,17 +76,16 @@ namespace MikiEditorUI.View
             {
                 startPoint = e.GetPosition(canvas);
 
-                rect = new Rectangle
-                {
-                    Stroke = Brushes.LightBlue,
-                    StrokeThickness = 2,
-                    Fill = Brushes.Transparent
-                };
-
-                Canvas.SetLeft(rect, startPoint.X);
-                Canvas.SetTop(rect, startPoint.X);
-                rect.Name = "A" + new Random().Next(50000);
-                canvas.Children.Add(rect);
+                label = new Label
+                            {
+                                BorderBrush = Brushes.Aqua,
+                                BorderThickness = new Thickness(2, 2, 2, 2)
+                            };
+                Canvas.SetLeft(label, startPoint.X);
+                Canvas.SetTop(label, startPoint.X);
+                label.Name = "A" + new Random().Next(50000);
+                canvas.Children.Add(label);
+                label.Content = canvas.Children.Count;
             }
         }
 
@@ -87,7 +93,7 @@ namespace MikiEditorUI.View
         {
             if (_isDrawing)
             {
-                if (e.LeftButton == MouseButtonState.Released || rect == null)
+                if (e.LeftButton == MouseButtonState.Released || label == null)
                     return;
 
                 var pos = e.GetPosition(canvas);
@@ -98,62 +104,58 @@ namespace MikiEditorUI.View
                 var w = Math.Max(pos.X, startPoint.X) - x;
                 var h = Math.Max(pos.Y, startPoint.Y) - y;
 
-                rect.Width = w;
-                rect.Height = h;
+                label.Width = w;
+                label.Height = h;
 
-                Canvas.SetLeft(rect, x);
-                Canvas.SetTop(rect, y);
+                Canvas.SetLeft(label, x);
+                Canvas.SetTop(label, y);
+            }
+            else
+            {
+                Label_MouseMove(sender, e);
             }
         }
 
-        private bool CheckAvailableRect(Rectangle rectangle, MouseButtonEventArgs e)
+        private bool CheckAvailableRect(Label _label, MouseButtonEventArgs e)
         {
-            if (rectangle == null || double.IsNaN(rectangle.Width) || rectangle.Width < 10 || double.IsNaN(rectangle.Height) || rectangle.Height < 10)
+            if (_label == null || double.IsNaN(_label.Width) || _label.Width < 10 || double.IsNaN(_label.Height) || _label.Height < 10)
             {
                 removeAdorner();
-                canvas.Children.Remove(rectangle);
+                canvas.Children.Remove(_label);
                 return false;
             }
-
-
-            var pos = e.GetPosition(canvas);
-            this.Text(pos.X, pos.Y, "abc", Colors.Red);
             return true;
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!CheckAvailableRect(rect, e))
+            if (!CheckAvailableRect(label, e))
             {
                 return;
             }
-
-          
-            AddOrUpdateFrame(rect);
+            AddOrUpdateFrame(label);
             StopDragging();
             e.Handled = true;
-
-            rect = null;
+            label = null;
+            noOfLabel += 1;
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
-            canvas.MouseMove += canvas_MouseMove;
-            canvas.MouseLeave += canvas_MouseLeave;
-
+            canvas.MouseLeave += Label_MouseLeave;
             canvas.PreviewMouseLeftButtonDown += myCanvas_PreviewMouseLeftButtonDown;
             canvas.PreviewMouseLeftButtonUp += DragFinishedMouseHandler;
         }
 
-        void canvas_MouseLeave(object sender, MouseEventArgs e)
+        void Label_MouseLeave(object sender, MouseEventArgs e)
         {
             StopDragging();
-            e.Handled = true;
+            //e.Handled = true;
         }
 
-        void canvas_MouseMove(object sender, MouseEventArgs e)
+        void Label_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((e.LeftButton == MouseButtonState.Pressed || rect == null) && _isDown)
+            if ((e.LeftButton == MouseButtonState.Pressed || label == null) && _isDown)
             {
                 if ((_isDragging == false) &&
                     ((Math.Abs(e.GetPosition(canvas).X - _startPoint.X) >
@@ -216,7 +218,7 @@ namespace MikiEditorUI.View
 
                 selectedElement = e.Source as UIElement;
 
-                rect = e.Source as Rectangle;
+                label = e.Source as Label;
 
                 _originalLeft = Canvas.GetLeft(selectedElement);
                 _originalTop = Canvas.GetTop(selectedElement);
@@ -238,25 +240,21 @@ namespace MikiEditorUI.View
             {
                 if (selectedElement != null)
                 {
-                    canvas.Children.Remove(rect);
-                    RemoveFrame(rect);
-                    rect = null;
+                    UpdateFrameIndex(canvas, int.Parse(label.Content.ToString()));
+                    canvas.Children.Remove(label);
+                    RemoveFrame(label);
+                    label = null;
                     selectedElement = null;
                     _isDrawing = true;
                 }
             }
         }
 
-        private void menuExit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         private void AdornerLayer_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (rect != null)
+            if (label != null)
             {
-                AddOrUpdateFrame(rect);
+                AddOrUpdateFrame(label);
             }
         }
 
@@ -269,68 +267,87 @@ namespace MikiEditorUI.View
             {
                 foreach (var frame in model.CurrentPage.Frames)
                 {
-                    rect = new Rectangle
+                    label = new Label()
                     {
-                        Stroke = Brushes.LightBlue,
-                        StrokeThickness = 2,
-                        Fill = Brushes.Transparent,
-                        Width = Math.Abs(frame.Coordinates.TopLeft.X - frame.Coordinates.TopRight.X),
-                        Height = Math.Abs(frame.Coordinates.TopLeft.Y - frame.Coordinates.BottomLeft.Y),
+                        BorderBrush = Brushes.Aqua,
+                        BorderThickness = new Thickness(2, 2, 2, 2),
+                        Content = frame.Index,
+                        Width = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, scale).X - ToOriginal(frame.Coordinates.TopRight, scale).X),
+                        Height = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, scale).Y - ToOriginal(frame.Coordinates.BottomLeft, scale).Y),
                         Name = frame.Id
                     };
 
-                    Canvas.SetLeft(rect, frame.Coordinates.TopLeft.X);
-                    Canvas.SetTop(rect, frame.Coordinates.TopLeft.Y);
-                    canvas.Children.Add(rect);
+                    Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, scale).X);
+                    Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, scale).Y);
+                    canvas.Children.Add(label);
                 }
             }
+        }
+
+        private Point ToOriginal(Point point, int _scale)
+        {
+            double x = point.X / _scale;
+            double y = point.Y / _scale;
+            return new Point(x, y);
         }
 
         // Handler for drag stopping on user choise
         private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!CheckAvailableRect(rect, e))
+            if (!CheckAvailableRect(label, e))
             {
                 return;
             }
-            AddOrUpdateFrame(rect);
+            AddOrUpdateFrame(label);
             StopDragging();
             e.Handled = true;
         }
 
-        private void RemoveFrame(Rectangle rect)
+        private void RemoveFrame(Label _label)
         {
             var model = this.DataContext as ShellViewModel;
 
-            model.RemoveFrame(rect.Name);
+            model.RemoveFrame(_label.Name);
         }
 
-        private void AddOrUpdateFrame(Rectangle rect)
+        private void AddOrUpdateFrame(Label _label)
         {
             var model = this.DataContext as ShellViewModel;
 
-            var x = Canvas.GetLeft(rect);
-            var y = Canvas.GetTop(rect);
+            var x = Canvas.GetLeft(_label);
+            var y = Canvas.GetTop(_label);
 
-            var w = rect.Width;
-            var h = rect.Height;
+            var w = _label.Width;
+            var h = _label.Height;
 
             var topLeft = new Point() { X = x, Y = y };
             var topRight = new Point() { X = x + w, Y = y };
             var bottomLeft = new Point() { X = x, Y = y + h };
             var bottomRight = new Point() { X = x + h, Y = y + w };
 
-            model.AddOrUpdateFrame(rect.Name, topLeft, topRight, bottomLeft, bottomRight);
+            model.AddOrUpdateFrame(_label.Name, topLeft, topRight, bottomLeft, bottomRight, int.Parse(_label.Content.ToString()));
         }
 
-        private void Text(double x, double y, string text, Color color)
+        private void menuExit_Click(object sender, RoutedEventArgs e)
         {
-            TextBlock textBlock = new TextBlock();
-            textBlock.Text = text;
-            textBlock.Foreground = new SolidColorBrush(color);
-            Canvas.SetLeft(textBlock, x);
-            Canvas.SetTop(textBlock, y);
-            canvas.Children.Add(textBlock);
+            this.Close();
+        }
+
+        private void UpdateFrameIndex(Canvas _canvas, int deletedIndex)
+        {
+            if (_canvas.Children.Count == 0)
+            {
+                return;
+            }
+
+            foreach (Label item in _canvas.Children)
+            {
+                var currentIndex = int.Parse(item.Content.ToString());
+                if (currentIndex > deletedIndex)
+                {
+                    item.Content = (currentIndex - 1).ToString();
+                }
+            }
         }
     }
 }

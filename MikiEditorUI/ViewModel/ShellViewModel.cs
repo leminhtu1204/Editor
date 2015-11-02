@@ -568,7 +568,7 @@ namespace MikiEditorUI.ViewModel
             list[oldIndex].Index = lowerIndex;
         }
 
-        public void AddOrUpdateFrame(string id, Point topLeft, Point topRight, Point bottomLeft, Point bottomRight)
+        public void AddOrUpdateFrame(string id, Point topLeft, Point topRight, Point bottomLeft, Point bottomRight, int index)
         {
             var frame = this.currentPage.Frames.FirstOrDefault(x => x.Id.ToString() == id);
             if (frame == null)
@@ -576,7 +576,7 @@ namespace MikiEditorUI.ViewModel
                 frame = new Frame
                             {
                                 Id = id,
-                                Index = this.currentPage.Frames.Count + 1,
+                                Index = index,
                                 Coordinates =
                                     new Coordinate
                                         {

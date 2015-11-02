@@ -137,7 +137,7 @@
             </Grid>
             <DockPanel x:Name="MiddleGrid" Grid.Column="1" Background="Gainsboro" Margin="0,3,0,0" ClipToBounds="True">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <Canvas Width="{Binding CurrentPage.ImgWidth}" Height="{Binding CurrentPage.ImgHeight}" Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
+                    <Canvas Width="{Binding CurrentPage.ImgWidth}" Height="{Binding CurrentPage.ImgHeight}" Name="canvas" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseLeftButtonUp="Canvas_MouseUp" MouseUp="Canvas_MouseUp">
                         <Canvas.Background>
                             <ImageBrush Stretch="Fill" ImageSource="{Binding CurrentPage.ImgPath}"/>
                         </Canvas.Background>
