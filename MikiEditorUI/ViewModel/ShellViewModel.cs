@@ -598,10 +598,10 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
-        private Point ToOriginal(Point point, int scale)
+        private Point ToOriginal(Point point, int scaleInput)
         {
-            double x = point.X * scale;
-            double y = point.Y * scale;
+            double x = point.X * scaleInput;
+            double y = point.Y * scaleInput;
             return new Point(x, y);
         }
 
@@ -612,6 +612,69 @@ namespace MikiEditorUI.ViewModel
             {
                 this.currentPage.Frames.Remove(frame);
             }
+        }
+
+        public void ZoomIn()
+        {
+            if (scale == 1)
+            {
+                return;
+            }
+            scale = scale - 1;
+            SetDefaultSizeFrame(currentPage);
+        }
+
+        public void ZoomOut()
+        {
+            scale = scale + 1;
+            SetDefaultSizeFrame(currentPage);
+        }
+
+        private void SetDefaultSizeFrame(Page defaultPage)
+        {
+            if (defaultPage != null)
+            {
+                var h = GetHeight(defaultPage.ImgPath) / scale;
+                var w = GetWidth(defaultPage.ImgPath) / scale;
+            }
+        }
+
+        private int GetWidth(string imgPath)
+        {
+            if (imgPath != null)
+            {
+                try
+                {
+                    Image temp = System.Drawing.Image.FromFile(imgPath);
+                    return temp.Width;
+                }
+                catch (Exception)
+                {
+
+                    return 0;
+                }
+
+            }
+            return 0;
+        }
+
+        private int GetHeight(string imgPath)
+        {
+            if (imgPath != null)
+            {
+                try
+                {
+                    Image temp = System.Drawing.Image.FromFile(imgPath);
+                    return temp.Height;
+                }
+                catch (Exception)
+                {
+
+                    return 0;
+                }
+
+            }
+            return 0;
         }
     }
 }

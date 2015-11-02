@@ -34,19 +34,31 @@ namespace MikiEditorUI.BusinessObject
             }
         }
 
+        private int imgWidth;
         public int ImgWidth
         {
             get
             {
-                return this.GetWidth(imgPath)/4;
+                return imgWidth = this.GetWidth(imgPath) / 4;
+            }
+            set
+            {
+                imgWidth = value;
+                this.NotifyOfPropertyChange(() => this.ImgWidth);
             }
         }
 
+        private int imgHeight;
         public int ImgHeight
         {
             get
             {
-                return this.GetHeight(imgPath)/4;
+                return imgHeight = this.GetHeight(imgPath) / 4;
+            }
+            set
+            {
+                imgHeight = value;
+                this.NotifyOfPropertyChange(() => this.ImgHeight);
             }
         }
 

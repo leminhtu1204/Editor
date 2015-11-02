@@ -54,6 +54,16 @@
                         <Image Margin="0,0,0,0"  Source="../Image/info-2-xxl.png" Width="48" Height="32"/>
                     </StackPanel>
                 </Button>
+                <Button ToolTip="Zoom In" cal:Message.Attach="[Event Click] = [Action ZoomIn()]" Height="48" VerticalAlignment="Top" Width="75">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="0,0,0,0"  Source="../Image/Zoom-In-icon.png" Width="48" Height="32"/>
+                    </StackPanel>
+                </Button>
+                <Button ToolTip="Zoom Out" cal:Message.Attach="[Event Click] = [Action ZoomOut()]" Height="48" VerticalAlignment="Top" Width="75">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="0,0,0,0"  Source="../Image/Zoom-Out-icon.png" Width="48" Height="32"/>
+                    </StackPanel>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Grid DockPanel.Dock="Bottom">
