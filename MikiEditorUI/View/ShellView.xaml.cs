@@ -106,7 +106,7 @@ namespace MikiEditorUI.View
             }
         }
 
-        private bool CheckAvailableRect(Rectangle rectangle)
+        private bool CheckAvailableRect(Rectangle rectangle, MouseButtonEventArgs e)
         {
             if (rectangle == null || double.IsNaN(rectangle.Width) || rectangle.Width < 10 || double.IsNaN(rectangle.Height) || rectangle.Height < 10)
             {
@@ -114,16 +114,21 @@ namespace MikiEditorUI.View
                 canvas.Children.Remove(rectangle);
                 return false;
             }
+
+
+            var pos = e.GetPosition(canvas);
+            this.Text(pos.X, pos.Y, "abc", Colors.Red);
             return true;
         }
 
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (!CheckAvailableRect(rect))
+            if (!CheckAvailableRect(rect, e))
             {
                 return;
             }
 
+          
             AddOrUpdateFrame(rect);
             StopDragging();
             e.Handled = true;
@@ -284,7 +289,7 @@ namespace MikiEditorUI.View
         // Handler for drag stopping on user choise
         private void DragFinishedMouseHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!CheckAvailableRect(rect))
+            if (!CheckAvailableRect(rect, e))
             {
                 return;
             }
@@ -316,6 +321,16 @@ namespace MikiEditorUI.View
             var bottomRight = new Point() { X = x + h, Y = y + w };
 
             model.AddOrUpdateFrame(rect.Name, topLeft, topRight, bottomLeft, bottomRight);
+        }
+
+        private void Text(double x, double y, string text, Color color)
+        {
+            TextBlock textBlock = new TextBlock();
+            textBlock.Text = text;
+            textBlock.Foreground = new SolidColorBrush(color);
+            Canvas.SetLeft(textBlock, x);
+            Canvas.SetTop(textBlock, y);
+            canvas.Children.Add(textBlock);
         }
     }
 }
