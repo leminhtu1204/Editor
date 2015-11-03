@@ -75,7 +75,9 @@ namespace MikiEditorUI.View
                                 FontSize = 30,
                                 BorderBrush = Brushes.RoyalBlue,
                                 BorderThickness = new Thickness(2, 2, 2, 2),
-                                Foreground = Brushes.RoyalBlue
+                                Foreground = Brushes.RoyalBlue,
+                                Width = 0,
+                                Height = 0
                             };
                 Canvas.SetLeft(label, startPoint.X);
                 Canvas.SetTop(label, startPoint.X);
