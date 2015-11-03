@@ -81,6 +81,19 @@ namespace MikiEditorUI.ViewModel
             }
         }
 
+        public bool CanZoom
+        {
+            get
+            {
+                if (this.currentPage != null && this.currentPage.Frames != null && this.currentPage.Frames.Count > 0)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         public string TotalPage
         {
             get
@@ -595,6 +608,8 @@ namespace MikiEditorUI.ViewModel
                 frame.Coordinates.BottomLeft = ToOriginal(bottomLeft, currentPage.Zoom);
                 frame.Coordinates.BottomRight = ToOriginal(bottomRight, currentPage.Zoom);
             }
+
+            this.NotifyOfPropertyChange(() => this.CanZoom);
         }
 
         private Point ToOriginal(Point point, int scaleInput)
@@ -610,12 +625,12 @@ namespace MikiEditorUI.ViewModel
             if (frame != null)
             {
                 this.currentPage.Frames.Remove(frame);
+                this.NotifyOfPropertyChange(()=>this.CanZoom);
             }
         }
 
         public void ZoomIn()
         {
-            
             if (CurrentPage != null)
             {
                 if (CurrentPage.Zoom == 1)
@@ -624,7 +639,7 @@ namespace MikiEditorUI.ViewModel
                 }
                 CurrentPage.Zoom = CurrentPage.Zoom - 1;
             }
-           
+
         }
 
         public void ZoomOut()
