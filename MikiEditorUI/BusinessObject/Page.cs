@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Caliburn.Micro;
 
 namespace MikiEditorUI.BusinessObject
 {
     using System.Drawing;
-    using System.IO;
 
     public class Page : PropertyChangedBase
     {
@@ -34,31 +29,36 @@ namespace MikiEditorUI.BusinessObject
             }
         }
 
-        private int imgWidth;
-        public int ImgWidth
+        private int zoom = 4;
+        public int Zoom
         {
             get
             {
-                return imgWidth = this.GetWidth(imgPath) / 4;
+                return zoom;
             }
             set
             {
-                imgWidth = value;
+                zoom = value;
+                this.NotifyOfPropertyChange(() => this.Zoom);
+                this.NotifyOfPropertyChange(() => this.ImgHeight);
                 this.NotifyOfPropertyChange(() => this.ImgWidth);
             }
         }
 
-        private int imgHeight;
+        public int ImgWidth
+        {
+            get
+            {
+                return this.GetWidth(imgPath) / Zoom;
+            }
+        }
+
+
         public int ImgHeight
         {
             get
             {
-                return imgHeight = this.GetHeight(imgPath) / 4;
-            }
-            set
-            {
-                imgHeight = value;
-                this.NotifyOfPropertyChange(() => this.ImgHeight);
+                return this.GetHeight(imgPath) / Zoom;
             }
         }
 

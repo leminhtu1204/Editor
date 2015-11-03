@@ -616,65 +616,24 @@ namespace MikiEditorUI.ViewModel
 
         public void ZoomIn()
         {
-            if (scale == 1)
+            
+            if (CurrentPage != null)
             {
-                return;
+                if (CurrentPage.Zoom == 1)
+                {
+                    return;
+                }
+                CurrentPage.Zoom = CurrentPage.Zoom - 1;
             }
-            scale = scale - 1;
-            SetDefaultSizeFrame(currentPage);
+           
         }
 
         public void ZoomOut()
         {
-            scale = scale + 1;
-            SetDefaultSizeFrame(currentPage);
-        }
-
-        private void SetDefaultSizeFrame(Page defaultPage)
-        {
-            if (defaultPage != null)
+            if (CurrentPage != null)
             {
-                var h = GetHeight(defaultPage.ImgPath) / scale;
-                var w = GetWidth(defaultPage.ImgPath) / scale;
+                CurrentPage.Zoom = CurrentPage.Zoom + 1;
             }
-        }
-
-        private int GetWidth(string imgPath)
-        {
-            if (imgPath != null)
-            {
-                try
-                {
-                    Image temp = System.Drawing.Image.FromFile(imgPath);
-                    return temp.Width;
-                }
-                catch (Exception)
-                {
-
-                    return 0;
-                }
-
-            }
-            return 0;
-        }
-
-        private int GetHeight(string imgPath)
-        {
-            if (imgPath != null)
-            {
-                try
-                {
-                    Image temp = System.Drawing.Image.FromFile(imgPath);
-                    return temp.Height;
-                }
-                catch (Exception)
-                {
-
-                    return 0;
-                }
-
-            }
-            return 0;
         }
     }
 }

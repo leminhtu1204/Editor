@@ -1,9 +1,5 @@
-﻿using System;
-
-namespace MikiEditorUI.BusinessObject
+﻿namespace MikiEditorUI.BusinessObject
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// The frame.
     /// </summary>
