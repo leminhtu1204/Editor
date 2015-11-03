@@ -70,10 +70,10 @@ namespace MikiEditorUI.View
             if (_isDrawing)
             {
                 startPoint = e.GetPosition(canvas);
-
                 label = new Label
                             {
-                                BorderBrush = Brushes.Aqua,
+                                FontSize = 30,
+                                BorderBrush = Brushes.Chartreuse,
                                 BorderThickness = new Thickness(2, 2, 2, 2)
                             };
                 Canvas.SetLeft(label, startPoint.X);
@@ -113,7 +113,7 @@ namespace MikiEditorUI.View
 
         private bool CheckAvailableRect(Label _label, MouseButtonEventArgs e)
         {
-            if (_label == null || double.IsNaN(_label.Width) || _label.Width < 10 || double.IsNaN(_label.Height) || _label.Height < 10)
+            if (_label == null || double.IsNaN(_label.Width) || _label.Width < 2 || double.IsNaN(_label.Height) || _label.Height < 2)
             {
                 removeAdorner();
                 canvas.Children.Remove(_label);
@@ -144,7 +144,7 @@ namespace MikiEditorUI.View
         void Label_MouseLeave(object sender, MouseEventArgs e)
         {
             StopDragging();
-            //e.Handled = true;
+            e.Handled = true;
         }
 
         void Label_MouseMove(object sender, MouseEventArgs e)
@@ -182,10 +182,6 @@ namespace MikiEditorUI.View
         // Handler for element selection on the canvas providing resizing adorner
         private void myCanvas_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (double.IsNaN(canvas.Width) && double.IsNaN(canvas.Height))
-            {
-                return;
-            }
             // Remove selection on clicking anywhere the window
             if (selected)
             {
@@ -268,8 +264,8 @@ namespace MikiEditorUI.View
                 {
                     label = new Label()
                     {
-                        BorderBrush = Brushes.Aqua,
-                        BorderThickness = new Thickness(2, 2, 2, 2),
+                        FontSize = 30,
+                        BorderBrush = Brushes.Chartreuse,
                         Content = frame.Index,
                         Width = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X - ToOriginal(frame.Coordinates.TopRight, model.CurrentPage.Zoom).X),
                         Height = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y - ToOriginal(frame.Coordinates.BottomLeft, model.CurrentPage.Zoom).Y),
