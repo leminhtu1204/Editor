@@ -25,8 +25,6 @@ namespace MikiEditorUI.ViewModel
             OnActive();
         }
 
-        private int scale = 4;
-
         private Thread thread;
 
         private Helper helper = new Helper();
@@ -580,10 +578,10 @@ namespace MikiEditorUI.ViewModel
                                 Coordinates =
                                     new Coordinate
                                         {
-                                            TopLeft = ToOriginal(topLeft, scale),
-                                            TopRight = ToOriginal(topRight, scale),
-                                            BottomLeft = ToOriginal(bottomLeft, scale),
-                                            BottomRight = ToOriginal(bottomRight, scale)
+                                            TopLeft = ToOriginal(topLeft, currentPage.Zoom),
+                                            TopRight = ToOriginal(topRight, currentPage.Zoom),
+                                            BottomLeft = ToOriginal(bottomLeft, currentPage.Zoom),
+                                            BottomRight = ToOriginal(bottomRight, currentPage.Zoom)
                                         }
                             };
 
@@ -591,10 +589,11 @@ namespace MikiEditorUI.ViewModel
             }
             else
             {
-                frame.Coordinates.TopLeft = ToOriginal(topLeft, scale);
-                frame.Coordinates.TopRight = ToOriginal(topRight, scale);
-                frame.Coordinates.BottomLeft = ToOriginal(bottomLeft, scale);
-                frame.Coordinates.BottomRight = ToOriginal(bottomRight, scale);
+                frame.Index = index;
+                frame.Coordinates.TopLeft = ToOriginal(topLeft, currentPage.Zoom);
+                frame.Coordinates.TopRight = ToOriginal(topRight, currentPage.Zoom);
+                frame.Coordinates.BottomLeft = ToOriginal(bottomLeft, currentPage.Zoom);
+                frame.Coordinates.BottomRight = ToOriginal(bottomRight, currentPage.Zoom);
             }
         }
 

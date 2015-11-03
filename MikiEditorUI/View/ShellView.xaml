@@ -3,12 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:cal="http://www.caliburnproject.org"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converter="clr-namespace:MikiEditorUI.Converter"
     mc:Ignorable="d" x:Class="MikiEditorUI.View.ShellView"
         Icon="../Image/logo-ldpage.ico"
         Title="Miki Editor" Height="730" Width="1000" Left="200" Top="0" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded_1" PreviewKeyDown="Window_PreviewKeyDown_1" >
     <Window.Resources>
-        <converter:VisibilityConverter x:Key="visibilityConverter" />
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">

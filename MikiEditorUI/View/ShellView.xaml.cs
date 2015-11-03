@@ -35,12 +35,7 @@ namespace MikiEditorUI.View
         private double _originalTop;
         private Point startPoint;
         //private Rectangle rect;
-
         private Label label;
-
-        private int scale = 4;
-
-        private int noOfLabel = 1;
 
         public ShellView()
         {
@@ -137,7 +132,6 @@ namespace MikiEditorUI.View
             StopDragging();
             e.Handled = true;
             label = null;
-            noOfLabel += 1;
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
@@ -260,6 +254,11 @@ namespace MikiEditorUI.View
 
         private void Page_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ReloadingFrame();
+        }
+
+        private void ReloadingFrame()
+        {
             var model = this.DataContext as ShellViewModel;
             canvas.Children.Clear();
 
@@ -272,13 +271,13 @@ namespace MikiEditorUI.View
                         BorderBrush = Brushes.Aqua,
                         BorderThickness = new Thickness(2, 2, 2, 2),
                         Content = frame.Index,
-                        Width = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, scale).X - ToOriginal(frame.Coordinates.TopRight, scale).X),
-                        Height = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, scale).Y - ToOriginal(frame.Coordinates.BottomLeft, scale).Y),
+                        Width = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X - ToOriginal(frame.Coordinates.TopRight, model.CurrentPage.Zoom).X),
+                        Height = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y - ToOriginal(frame.Coordinates.BottomLeft, model.CurrentPage.Zoom).Y),
                         Name = frame.Id
                     };
 
-                    Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, scale).X);
-                    Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, scale).Y);
+                    Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X);
+                    Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y);
                     canvas.Children.Add(label);
                 }
             }
@@ -346,7 +345,33 @@ namespace MikiEditorUI.View
                 if (currentIndex > deletedIndex)
                 {
                     item.Content = (currentIndex - 1).ToString();
+                    AddOrUpdateFrame(item);
                 }
+            }
+        }
+
+        public void ZoomIn()
+        {
+            var model = this.DataContext as ShellViewModel;
+            if (model.CurrentPage != null)
+            {
+                if (model.CurrentPage.Zoom == 1)
+                {
+                    return;
+                }
+                model.CurrentPage.Zoom = model.CurrentPage.Zoom - 1;
+                ReloadingFrame();
+            }
+
+        }
+
+        public void ZoomOut()
+        {
+            var model = this.DataContext as ShellViewModel;
+            if (model.CurrentPage != null)
+            {
+                model.CurrentPage.Zoom = model.CurrentPage.Zoom + 1;
+                ReloadingFrame();
             }
         }
     }
