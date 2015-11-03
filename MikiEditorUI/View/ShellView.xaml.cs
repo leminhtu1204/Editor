@@ -73,8 +73,9 @@ namespace MikiEditorUI.View
                 label = new Label
                             {
                                 FontSize = 30,
-                                BorderBrush = Brushes.Chartreuse,
-                                BorderThickness = new Thickness(2, 2, 2, 2)
+                                BorderBrush = Brushes.RoyalBlue,
+                                BorderThickness = new Thickness(2, 2, 2, 2),
+                                Foreground = Brushes.RoyalBlue
                             };
                 Canvas.SetLeft(label, startPoint.X);
                 Canvas.SetTop(label, startPoint.X);
@@ -265,8 +266,9 @@ namespace MikiEditorUI.View
                     label = new Label()
                     {
                         FontSize = 30,
-                        BorderBrush = Brushes.Chartreuse,
-                        Content = frame.Index,
+                        BorderBrush = Brushes.RoyalBlue,
+                        BorderThickness = new Thickness(2, 2, 2, 2),
+                        Foreground = Brushes.RoyalBlue,
                         Width = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X - ToOriginal(frame.Coordinates.TopRight, model.CurrentPage.Zoom).X),
                         Height = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y - ToOriginal(frame.Coordinates.BottomLeft, model.CurrentPage.Zoom).Y),
                         Name = frame.Id
@@ -275,6 +277,7 @@ namespace MikiEditorUI.View
                     Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X);
                     Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y);
                     canvas.Children.Add(label);
+                    label.Content = canvas.Children.Count;
                 }
             }
         }
