@@ -282,6 +282,8 @@ namespace MikiEditorUI.View
                     label.Content = canvas.Children.Count;
                 }
             }
+
+           model.NotifyZoom();
         }
 
         private Point ToOriginal(Point point, int _scale)
