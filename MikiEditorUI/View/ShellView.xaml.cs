@@ -9,7 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-
+using MikiEditorUI.BusinessObject;
 using MikiEditorUI.ViewModel;
 
 using newAdorner;
@@ -61,6 +61,20 @@ namespace MikiEditorUI.View
             }
         }
 
+        private Label InitLabel(double w, Double h, string id=null)
+        {
+            return new Label
+            {
+                FontSize = 25,
+                BorderBrush = Brushes.RoyalBlue,
+                BorderThickness = new Thickness(2, 2, 2, 2),
+                Foreground = Brushes.RoyalBlue,
+                Width = w,
+                Height = h,
+                Name = id
+            };
+        }
+
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (double.IsNaN(canvas.Width) && double.IsNaN(canvas.Height))
@@ -70,15 +84,7 @@ namespace MikiEditorUI.View
             if (_isDrawing)
             {
                 startPoint = e.GetPosition(canvas);
-                label = new Label
-                            {
-                                FontSize = 30,
-                                BorderBrush = Brushes.RoyalBlue,
-                                BorderThickness = new Thickness(2, 2, 2, 2),
-                                Foreground = Brushes.RoyalBlue,
-                                Width = 0,
-                                Height = 0
-                            };
+                label = InitLabel(0, 0);
                 Canvas.SetLeft(label, startPoint.X);
                 Canvas.SetTop(label, startPoint.X);
                 label.Name = "A" + new Random().Next(50000);
@@ -265,16 +271,12 @@ namespace MikiEditorUI.View
             {
                 foreach (var frame in model.CurrentPage.Frames)
                 {
-                    label = new Label()
-                    {
-                        FontSize = 30,
-                        BorderBrush = Brushes.RoyalBlue,
-                        BorderThickness = new Thickness(2, 2, 2, 2),
-                        Foreground = Brushes.RoyalBlue,
-                        Width = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X - ToOriginal(frame.Coordinates.TopRight, model.CurrentPage.Zoom).X),
-                        Height = Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y - ToOriginal(frame.Coordinates.BottomLeft, model.CurrentPage.Zoom).Y),
-                        Name = frame.Id
-                    };
+                    label =
+                        InitLabel(
+                            Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X -
+                                     ToOriginal(frame.Coordinates.TopRight, model.CurrentPage.Zoom).X),
+                            Math.Abs(ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y -
+                                     ToOriginal(frame.Coordinates.BottomLeft, model.CurrentPage.Zoom).Y), frame.Id);
 
                     Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X);
                     Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y);
@@ -286,11 +288,11 @@ namespace MikiEditorUI.View
            model.NotifyZoom();
         }
 
-        private Point ToOriginal(Point point, int _scale)
+        private FramePoint ToOriginal(FramePoint point, int _scale)
         {
             double x = point.X / _scale;
             double y = point.Y / _scale;
-            return new Point(x, y);
+            return new FramePoint {X = x, Y = y};
         }
 
         // Handler for drag stopping on user choise

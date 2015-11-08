@@ -49,6 +49,7 @@ namespace newAdorner
         private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
+           
             Thumb hitThumb = sender as Thumb;
 
             if (adornedElement == null || hitThumb == null) return;
@@ -74,6 +75,8 @@ namespace newAdorner
                 }
                 else
                 {
+                    adornedElement.RenderTransform = new RotateTransform(
+                            this.rotateTransform.Angle, adornedElement.Width * 0.5, adornedElement.Height * 0.5);
                     this.initialAngle = this.rotateTransform.Angle;
                 }
             }

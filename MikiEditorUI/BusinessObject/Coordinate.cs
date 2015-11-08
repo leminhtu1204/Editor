@@ -10,21 +10,22 @@
         /// <summary>
         /// Gets or sets the top left.
         /// </summary>
-        public Point TopLeft { get; set; }
+        public FramePoint TopLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the top right.
         /// </summary>
-        public Point TopRight { get; set; }
+        public FramePoint TopRight { get; set; }
 
         /// <summary>
         /// Gets or sets the bottom left.
         /// </summary>
-        public Point BottomLeft { get; set; }
+        public FramePoint BottomLeft { get; set; }
 
         /// <summary>
         /// Gets or sets the bottom right.
         /// </summary>
-        public Point BottomRight { get; set; }
+        public FramePoint BottomRight { get; set; }
+
     }
 }

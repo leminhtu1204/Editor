@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -97,6 +98,19 @@ namespace MikiEditorUI.ViewModel
         public void NotifyZoom()
         {
             this.NotifyOfPropertyChange(() => this.CanZoom);
+            this.NotifyOfPropertyChange(() => this.HideZoomButton);
+        }
+
+        public Visibility HideZoomButton
+        {
+            get
+            {
+                if (CanZoom)
+                {
+                    return Visibility.Visible;
+                }
+                return Visibility.Hidden;
+            }
         }
 
         public string TotalPage
@@ -620,11 +634,11 @@ namespace MikiEditorUI.ViewModel
             NotifyZoom();
         }
 
-        private Point ToOriginal(Point point, int scaleInput)
+        private FramePoint ToOriginal(Point point, int scaleInput)
         {
             double x = point.X * scaleInput;
             double y = point.Y * scaleInput;
-            return new Point(x, y);
+            return new FramePoint {X = x, Y = y};
         }
 
         public void RemoveFrame(string id)
@@ -634,6 +648,7 @@ namespace MikiEditorUI.ViewModel
             {
                 this.currentPage.Frames.Remove(frame);
                 this.NotifyOfPropertyChange(() => this.CanZoom);
+                this.NotifyOfPropertyChange(() => this.HideZoomButton);
             }
         }
 
