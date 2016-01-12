@@ -280,6 +280,8 @@ namespace MikiEditorUI.View
 
                     Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X);
                     Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y);
+                    label.RenderTransform = new RotateTransform(
+                            frame.Angle, label.Width * 0.5, label.Height * 0.5);
                     canvas.Children.Add(label);
                     label.Content = canvas.Children.Count;
                 }
@@ -316,10 +318,18 @@ namespace MikiEditorUI.View
 
         private void AddOrUpdateFrame(Label _label)
         {
+            double angel = 0;
             var model = this.DataContext as ShellViewModel;
 
             var x = Canvas.GetLeft(_label);
             var y = Canvas.GetTop(_label);
+
+            var rotateTransform = _label.RenderTransform as RotateTransform;
+
+            if (rotateTransform != null)
+            {
+                angel = rotateTransform.Angle;
+            }
 
             var w = _label.Width;
             var h = _label.Height;
@@ -327,9 +337,9 @@ namespace MikiEditorUI.View
             var topLeft = new Point() { X = x, Y = y };
             var topRight = new Point() { X = x + w, Y = y };
             var bottomLeft = new Point() { X = x, Y = y + h };
-            var bottomRight = new Point() { X = x + h, Y = y + w };
+            var bottomRight = new Point() { X = x + w, Y = y + h };
 
-            model.AddOrUpdateFrame(_label.Name, topLeft, topRight, bottomLeft, bottomRight, int.Parse(_label.Content.ToString()));
+            model.AddOrUpdateFrame(_label.Name, topLeft, topRight, bottomLeft, bottomRight, int.Parse(_label.Content.ToString()), angel);
         }
 
         private void menuExit_Click(object sender, RoutedEventArgs e)

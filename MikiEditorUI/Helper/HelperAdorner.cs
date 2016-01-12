@@ -30,10 +30,10 @@ namespace newAdorner
 
             // Call a helper method to initialize the Thumbs
             // with a customized cursors.
-            BuildAdornerCorner(ref topLeft, Cursors.SizeNWSE);
-            BuildAdornerCorner(ref topRight, Cursors.SizeNESW);
-            BuildAdornerCorner(ref bottomLeft, Cursors.SizeNESW);
-            BuildAdornerCorner(ref bottomRight, Cursors.SizeNWSE);
+            BuildAdornerCorner(ref topLeft, Cursors.Hand);
+            BuildAdornerCorner(ref topRight, Cursors.Hand);
+            BuildAdornerCorner(ref bottomLeft, Cursors.Hand);
+            BuildAdornerCorner(ref bottomRight, Cursors.Hand);
             BuildAdornerCorner(ref centerTop, Cursors.Hand);
 
 
@@ -69,7 +69,7 @@ namespace newAdorner
                 if (this.rotateTransform == null)
                 {
                     adornedElement.RenderTransform = new RotateTransform(
-                            0, adornedElement.Width * 0.5, adornedElement.Height * 0.5);
+                            Math.PI / 180.0, adornedElement.Width * 0.5, adornedElement.Height * 0.5);
 
                     this.initialAngle = 0;
                 }

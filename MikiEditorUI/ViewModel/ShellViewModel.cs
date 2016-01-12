@@ -601,7 +601,7 @@ namespace MikiEditorUI.ViewModel
             list[oldIndex].Index = lowerIndex;
         }
 
-        public void AddOrUpdateFrame(string id, Point topLeft, Point topRight, Point bottomLeft, Point bottomRight, int index)
+        public void AddOrUpdateFrame(string id, Point topLeft, Point topRight, Point bottomLeft, Point bottomRight, int index, double angle)
         {
             var frame = this.currentPage.Frames.FirstOrDefault(x => x.Id.ToString() == id);
             if (frame == null)
@@ -617,7 +617,8 @@ namespace MikiEditorUI.ViewModel
                                             TopRight = ToOriginal(topRight, currentPage.Zoom),
                                             BottomLeft = ToOriginal(bottomLeft, currentPage.Zoom),
                                             BottomRight = ToOriginal(bottomRight, currentPage.Zoom)
-                                        }
+                                        },
+                                Angle = angle
                             };
 
                 this.currentPage.Frames.Add(frame);
@@ -629,6 +630,7 @@ namespace MikiEditorUI.ViewModel
                 frame.Coordinates.TopRight = ToOriginal(topRight, currentPage.Zoom);
                 frame.Coordinates.BottomLeft = ToOriginal(bottomLeft, currentPage.Zoom);
                 frame.Coordinates.BottomRight = ToOriginal(bottomRight, currentPage.Zoom);
+                frame.Angle = angle;
             }
 
             NotifyZoom();
