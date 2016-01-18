@@ -324,13 +324,6 @@ namespace MikiEditorUI.View
             var x = Canvas.GetLeft(_label);
             var y = Canvas.GetTop(_label);
 
-            var rotateTransform = _label.RenderTransform as RotateTransform;
-
-            if (rotateTransform != null)
-            {
-                angel = rotateTransform.Angle;
-            }
-
             var w = _label.Width;
             var h = _label.Height;
 
@@ -338,6 +331,23 @@ namespace MikiEditorUI.View
             var topRight = new Point() { X = x + w, Y = y };
             var bottomLeft = new Point() { X = x, Y = y + h };
             var bottomRight = new Point() { X = x + w, Y = y + h };
+
+            var rotateTransform = _label.RenderTransform as RotateTransform;
+
+            if (rotateTransform != null)
+            {
+                angel = rotateTransform.Angle;
+                topLeft = new Point() { X = x, Y = y };
+                topRight = new Point() { X = x + w, Y = y };
+                bottomLeft = new Point() { X = x, Y = y + h };
+                bottomRight = new Point() { X = x + w, Y = y + h };
+                Console.Write(angel + ";");
+                Console.Write(topLeft + ";");
+                Console.Write(topRight + ";");
+                Console.Write(bottomLeft + ";");
+                Console.Write(bottomRight + ";");
+                Console.WriteLine();
+            }
 
             model.AddOrUpdateFrame(_label.Name, topLeft, topRight, bottomLeft, bottomRight, int.Parse(_label.Content.ToString()), angel);
         }

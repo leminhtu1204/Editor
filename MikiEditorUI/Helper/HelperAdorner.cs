@@ -14,6 +14,19 @@ namespace newAdorner
         private RotateTransform rotateTransform;
         private Vector startVector;
         private Point centerPoint;
+        private ContentControl designerItem;
+        private Canvas canvas;
+        private double angle;
+        private Point transformOrigin;
+
+        enum positionEnum
+        {
+            topLeft,
+            topRight,
+            bottomLeft,
+            bottomRight,
+            center
+        };
 
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
@@ -28,170 +41,83 @@ namespace newAdorner
         {
             visualChildren = new VisualCollection(this);
 
+            adornedElement.RenderTransformOrigin = new Point(0.5, 0.5);
             // Call a helper method to initialize the Thumbs
             // with a customized cursors.
-            BuildAdornerCorner(ref topLeft, Cursors.Hand);
-            BuildAdornerCorner(ref topRight, Cursors.Hand);
-            BuildAdornerCorner(ref bottomLeft, Cursors.Hand);
-            BuildAdornerCorner(ref bottomRight, Cursors.Hand);
-            BuildAdornerCorner(ref centerTop, Cursors.Hand);
+            BuildAdornerCorner(ref topLeft, Cursors.Hand, positionEnum.topLeft);
+            BuildAdornerCorner(ref topRight, Cursors.Hand, positionEnum.topRight);
+            BuildAdornerCorner(ref bottomLeft, Cursors.Hand, positionEnum.bottomLeft);
+            BuildAdornerCorner(ref bottomRight, Cursors.Hand, positionEnum.bottomRight);
+            BuildAdornerCorner(ref centerTop, Cursors.Hand, positionEnum.center);
 
 
             // Add handlers for resizing.
-            bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
-            bottomRight.DragDelta += new DragDeltaEventHandler(HandleBottomRight);
-            topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
-            topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
+
+            topLeft.DragStarted += new DragStartedEventHandler(this.ResizeThumb_DragStarted);
+            topLeft.DragDelta += new DragDeltaEventHandler(this.ResizeThumb_DragDeltaTopLeft);
+
+            topRight.DragStarted += new DragStartedEventHandler(this.ResizeThumb_DragStarted);
+            topRight.DragDelta += new DragDeltaEventHandler(this.ResizeThumb_DragDeltaTopRight);
+
+            bottomLeft.DragStarted += new DragStartedEventHandler(this.ResizeThumb_DragStarted);
+            bottomLeft.DragDelta += new DragDeltaEventHandler(this.ResizeThumb_DragDeltaBottomLeft);
+
+            bottomRight.DragStarted += new DragStartedEventHandler(this.ResizeThumb_DragStarted);
+            bottomRight.DragDelta += new DragDeltaEventHandler(this.ResizeThumb_DragDeltaBottomRight);
+
+            //bottomLeft.DragDelta += new DragDeltaEventHandler(HandleBottomLeft);
+            //bottomRight.DragDelta += new DragDeltaEventHandler(HandleBottomRight);
+            //topLeft.DragDelta += new DragDeltaEventHandler(HandleTopLeft);
+            //topRight.DragDelta += new DragDeltaEventHandler(HandleTopRight);
             centerTop.DragDelta += new DragDeltaEventHandler(HandleCenterTop);
             centerTop.DragStarted += new DragStartedEventHandler(this.RotateThumb_DragStarted);
         }
 
         private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
-           
-            Thumb hitThumb = sender as Thumb;
+            this.designerItem = this.AdornedElement as ContentControl;
 
-            if (adornedElement == null || hitThumb == null) return;
-            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
-
-            if (parentElement != null)
+            if (this.designerItem != null)
             {
-                this.centerPoint = adornedElement.TranslatePoint(
-                                      new Point(adornedElement.Width * 0.5,
-                                      adornedElement.Height * 0.5),
-                                      parentElement);
+                this.canvas = VisualTreeHelper.GetParent(this.designerItem) as Canvas;
 
-                Point startPoint = Mouse.GetPosition(parentElement);
-                this.startVector = Point.Subtract(startPoint, this.centerPoint);
-
-                rotateTransform = adornedElement.RenderTransform as RotateTransform;
-                if (this.rotateTransform == null)
+                if (this.canvas != null)
                 {
-                    adornedElement.RenderTransform = new RotateTransform(
-                            Math.PI / 180.0, adornedElement.Width * 0.5, adornedElement.Height * 0.5);
+                    this.centerPoint = this.designerItem.TranslatePoint(
+                        new Point(this.designerItem.Width * this.designerItem.RenderTransformOrigin.X,
+                                  this.designerItem.Height * this.designerItem.RenderTransformOrigin.Y),
+                                  this.canvas);
 
-                    this.initialAngle = 0;
-                }
-                else
-                {
-                    adornedElement.RenderTransform = new RotateTransform(
-                            this.rotateTransform.Angle, adornedElement.Width * 0.5, adornedElement.Height * 0.5);
-                    this.initialAngle = this.rotateTransform.Angle;
+                    Point startPoint = Mouse.GetPosition(this.canvas);
+                    this.startVector = Point.Subtract(startPoint, this.centerPoint);
+
+                    this.rotateTransform = this.designerItem.RenderTransform as RotateTransform;
+                    if (this.rotateTransform == null)
+                    {
+                        this.designerItem.RenderTransform = new RotateTransform(0);
+                        this.initialAngle = 0;
+                    }
+                    else
+                    {
+                        this.initialAngle = this.rotateTransform.Angle;
+                    }
                 }
             }
         }
 
         private void HandleCenterTop(object sender, DragDeltaEventArgs e)
         {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
-            Thumb hitThumb = sender as Thumb;
+            if (this.designerItem != null && this.canvas != null)
+            {
+                Point currentPoint = Mouse.GetPosition(this.canvas);
+                Vector deltaVector = Point.Subtract(currentPoint, this.centerPoint);
 
-            if (adornedElement == null || hitThumb == null) return;
-            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
+                double angle = Vector.AngleBetween(this.startVector, deltaVector);
 
-            Point currentPoint = Mouse.GetPosition(parentElement);
-            Vector deltaVector = Point.Subtract(currentPoint, centerPoint);
-
-            double angle = Vector.AngleBetween(this.startVector, deltaVector);
-
-            RotateTransform rotateTransform = adornedElement.RenderTransform as RotateTransform;
-            rotateTransform.Angle = this.initialAngle + Math.Round(angle, 0);
-            adornedElement.InvalidateMeasure();
-        }
-
-        // Handler for resizing from the bottom-right.
-        void HandleBottomRight(object sender, DragDeltaEventArgs args)
-        {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
-            Thumb hitThumb = sender as Thumb;
-
-            if (adornedElement == null || hitThumb == null) return;
-            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
-
-            // Ensure that the Width and Height are properly initialized after the resize.
-            EnforceSize(adornedElement);
-
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
-            adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
-        }
-
-        // Handler for resizing from the top-right.
-        void HandleTopRight(object sender, DragDeltaEventArgs args)
-        {
-            FrameworkElement adornedElement = this.AdornedElement as FrameworkElement;
-            Thumb hitThumb = sender as Thumb;
-
-            if (adornedElement == null || hitThumb == null) return;
-            FrameworkElement parentElement = adornedElement.Parent as FrameworkElement;
-
-            // Ensure that the Width and Height are properly initialized after the resize.
-            EnforceSize(adornedElement);
-
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            adornedElement.Width = Math.Max(adornedElement.Width + args.HorizontalChange, hitThumb.DesiredSize.Width);
-            //adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
-
-            double height_old = adornedElement.Height;
-            double height_new = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
-            double top_old = Canvas.GetTop(adornedElement);
-            adornedElement.Height = height_new;
-            Canvas.SetTop(adornedElement, top_old - (height_new - height_old));
-        }
-
-        // Handler for resizing from the top-left.
-        void HandleTopLeft(object sender, DragDeltaEventArgs args)
-        {
-            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
-            Thumb hitThumb = sender as Thumb;
-
-            if (adornedElement == null || hitThumb == null) return;
-
-            // Ensure that the Width and Height are properly initialized after the resize.
-            EnforceSize(adornedElement);
-
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
-            //adornedElement.Height = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
-
-            double width_old = adornedElement.Width;
-            double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
-            double left_old = Canvas.GetLeft(adornedElement);
-            adornedElement.Width = width_new;
-            Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
-
-            double height_old = adornedElement.Height;
-            double height_new = Math.Max(adornedElement.Height - args.VerticalChange, hitThumb.DesiredSize.Height);
-            double top_old = Canvas.GetTop(adornedElement);
-            adornedElement.Height = height_new;
-            Canvas.SetTop(adornedElement, top_old - (height_new - height_old));
-        }
-
-        // Handler for resizing from the bottom-left.
-        void HandleBottomLeft(object sender, DragDeltaEventArgs args)
-        {
-            FrameworkElement adornedElement = AdornedElement as FrameworkElement;
-            Thumb hitThumb = sender as Thumb;
-
-            if (adornedElement == null || hitThumb == null) return;
-
-            // Ensure that the Width and Height are properly initialized after the resize.
-            EnforceSize(adornedElement);
-
-            // Change the size by the amount the user drags the mouse, as long as it's larger 
-            // than the width or height of an adorner, respectively.
-            //adornedElement.Width = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
-            adornedElement.Height = Math.Max(args.VerticalChange + adornedElement.Height, hitThumb.DesiredSize.Height);
-
-            double width_old = adornedElement.Width;
-            double width_new = Math.Max(adornedElement.Width - args.HorizontalChange, hitThumb.DesiredSize.Width);
-            double left_old = Canvas.GetLeft(adornedElement);
-            adornedElement.Width = width_new;
-            Canvas.SetLeft(adornedElement, left_old - (width_new - width_old));
+                RotateTransform rotateTransform = this.designerItem.RenderTransform as RotateTransform;
+                rotateTransform.Angle = this.initialAngle + Math.Round(angle, 0);
+                this.designerItem.InvalidateMeasure();
+            }
         }
 
         // Arrange the Adorners.
@@ -216,7 +142,7 @@ namespace newAdorner
 
         // Helper method to instantiate the corner Thumbs, set the Cursor property, 
         // set some appearance properties, and add the elements to the visual tree.
-        void BuildAdornerCorner(ref Thumb cornerThumb, Cursor customizedCursor)
+        void BuildAdornerCorner(ref Thumb cornerThumb, Cursor customizedCursor, positionEnum positionEnum)
         {
             if (cornerThumb != null) return;
 
@@ -227,30 +153,238 @@ namespace newAdorner
             cornerThumb.Height = cornerThumb.Width = 8;
             cornerThumb.Opacity = 0.40;
             cornerThumb.Background = new SolidColorBrush(Colors.MediumBlue);
+            switch (positionEnum)
+            {
+                case positionEnum.topLeft:
+                    cornerThumb.VerticalAlignment = VerticalAlignment.Top;
+                    cornerThumb.HorizontalAlignment = HorizontalAlignment.Left;
+                    break;
+                case positionEnum.topRight:
+                    cornerThumb.VerticalAlignment = VerticalAlignment.Top;
+                    cornerThumb.HorizontalAlignment = HorizontalAlignment.Right;
+                    break;
+                case positionEnum.bottomLeft:
+                    cornerThumb.VerticalAlignment = VerticalAlignment.Bottom;
+                    cornerThumb.HorizontalAlignment = HorizontalAlignment.Left;
+                    break;
+                case positionEnum.bottomRight:
+                    cornerThumb.VerticalAlignment = VerticalAlignment.Bottom;
+                    cornerThumb.HorizontalAlignment = HorizontalAlignment.Right;
+                    break;
+            }
 
             visualChildren.Add(cornerThumb);
         }
 
-        // This method ensures that the Widths and Heights are initialized.  Sizing to content produces
-        // Width and Height values of Double.NaN.  Because this Adorner explicitly resizes, the Width and Height
-        // need to be set first.  It also sets the maximum size of the adorned element.
-        void EnforceSize(FrameworkElement adornedElement)
-        {
-            if (adornedElement.Width.Equals(Double.NaN))
-                adornedElement.Width = adornedElement.DesiredSize.Width;
-            if (adornedElement.Height.Equals(Double.NaN))
-                adornedElement.Height = adornedElement.DesiredSize.Height;
-
-            FrameworkElement parent = adornedElement.Parent as FrameworkElement;
-            if (parent != null)
-            {
-                adornedElement.MaxHeight = parent.ActualHeight;
-                adornedElement.MaxWidth = parent.ActualWidth;
-            }
-        }
         // Override the VisualChildrenCount and GetVisualChild properties to interface with 
         // the adorner's visual collection.
         protected override int VisualChildrenCount { get { return visualChildren.Count; } }
         protected override Visual GetVisualChild(int index) { return visualChildren[index]; }
+
+        private void ResizeThumb_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            this.designerItem = this.AdornedElement as ContentControl;
+
+            if (this.designerItem != null)
+            {
+                this.canvas = VisualTreeHelper.GetParent(this.designerItem) as Canvas;
+
+                if (this.canvas != null)
+                {
+                    this.transformOrigin = this.designerItem.RenderTransformOrigin;
+
+                    this.rotateTransform = this.designerItem.RenderTransform as RotateTransform;
+                    if (this.rotateTransform != null)
+                    {
+                        this.angle = this.rotateTransform.Angle * Math.PI / 180.0;
+                    }
+                    else
+                    {
+                        this.angle = 0.0d;
+                    }
+                }
+            }
+        }
+
+        private void ResizeThumb_DragDeltaTopLeft(object sender, DragDeltaEventArgs e)
+        {
+            if (this.designerItem != null)
+            {
+                double deltaVertical, deltaHorizontal;
+
+                switch (topLeft.VerticalAlignment)
+                {
+                    case System.Windows.VerticalAlignment.Bottom:
+                        deltaVertical = Math.Min(-e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) - deltaVertical * this.transformOrigin.Y * Math.Sin(-this.angle));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    case System.Windows.VerticalAlignment.Top:
+                        deltaVertical = Math.Min(e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaVertical * Math.Cos(-this.angle) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaVertical * Math.Sin(-this.angle) - (this.transformOrigin.Y * deltaVertical * Math.Sin(-this.angle)));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (topLeft.HorizontalAlignment)
+                {
+                    case System.Windows.HorizontalAlignment.Left:
+                        deltaHorizontal = Math.Min(e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaHorizontal * Math.Sin(this.angle) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaHorizontal * Math.Cos(this.angle) + (this.transformOrigin.X * deltaHorizontal * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    case System.Windows.HorizontalAlignment.Right:
+                        deltaHorizontal = Math.Min(-e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + (deltaHorizontal * this.transformOrigin.X * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            e.Handled = true;
+        }
+        private void ResizeThumb_DragDeltaTopRight(object sender, DragDeltaEventArgs e)
+        {
+            if (this.designerItem != null)
+            {
+                double deltaVertical, deltaHorizontal;
+
+                switch (topRight.VerticalAlignment)
+                {
+                    case System.Windows.VerticalAlignment.Bottom:
+                        deltaVertical = Math.Min(-e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) - deltaVertical * this.transformOrigin.Y * Math.Sin(-this.angle));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    case System.Windows.VerticalAlignment.Top:
+                        deltaVertical = Math.Min(e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaVertical * Math.Cos(-this.angle) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaVertical * Math.Sin(-this.angle) - (this.transformOrigin.Y * deltaVertical * Math.Sin(-this.angle)));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (topRight.HorizontalAlignment)
+                {
+                    case System.Windows.HorizontalAlignment.Left:
+                        deltaHorizontal = Math.Min(e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaHorizontal * Math.Sin(this.angle) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaHorizontal * Math.Cos(this.angle) + (this.transformOrigin.X * deltaHorizontal * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    case System.Windows.HorizontalAlignment.Right:
+                        deltaHorizontal = Math.Min(-e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + (deltaHorizontal * this.transformOrigin.X * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            e.Handled = true;
+        }
+        private void ResizeThumb_DragDeltaBottomLeft(object sender, DragDeltaEventArgs e)
+        {
+            if (this.designerItem != null)
+            {
+                double deltaVertical, deltaHorizontal;
+
+                switch (bottomLeft.VerticalAlignment)
+                {
+                    case System.Windows.VerticalAlignment.Bottom:
+                        deltaVertical = Math.Min(-e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) - deltaVertical * this.transformOrigin.Y * Math.Sin(-this.angle));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    case System.Windows.VerticalAlignment.Top:
+                        deltaVertical = Math.Min(e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaVertical * Math.Cos(-this.angle) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaVertical * Math.Sin(-this.angle) - (this.transformOrigin.Y * deltaVertical * Math.Sin(-this.angle)));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (bottomRight.HorizontalAlignment)
+                {
+                    case System.Windows.HorizontalAlignment.Left:
+                        deltaHorizontal = Math.Min(e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaHorizontal * Math.Sin(this.angle) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaHorizontal * Math.Cos(this.angle) + (this.transformOrigin.X * deltaHorizontal * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    case System.Windows.HorizontalAlignment.Right:
+                        deltaHorizontal = Math.Min(-e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + (deltaHorizontal * this.transformOrigin.X * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            e.Handled = true;
+        }
+        private void ResizeThumb_DragDeltaBottomRight(object sender, DragDeltaEventArgs e)
+        {
+            if (this.designerItem != null)
+            {
+                double deltaVertical, deltaHorizontal;
+
+                switch (bottomRight.VerticalAlignment)
+                {
+                    case System.Windows.VerticalAlignment.Bottom:
+                        deltaVertical = Math.Min(-e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) - deltaVertical * this.transformOrigin.Y * Math.Sin(-this.angle));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    case System.Windows.VerticalAlignment.Top:
+                        deltaVertical = Math.Min(e.VerticalChange, this.designerItem.ActualHeight - this.designerItem.MinHeight);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaVertical * Math.Cos(-this.angle) + (this.transformOrigin.Y * deltaVertical * (1 - Math.Cos(-this.angle))));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaVertical * Math.Sin(-this.angle) - (this.transformOrigin.Y * deltaVertical * Math.Sin(-this.angle)));
+                        this.designerItem.Height -= deltaVertical;
+                        break;
+                    default:
+                        break;
+                }
+
+                switch (bottomRight.HorizontalAlignment)
+                {
+                    case System.Windows.HorizontalAlignment.Left:
+                        deltaHorizontal = Math.Min(e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) + deltaHorizontal * Math.Sin(this.angle) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + deltaHorizontal * Math.Cos(this.angle) + (this.transformOrigin.X * deltaHorizontal * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    case System.Windows.HorizontalAlignment.Right:
+                        deltaHorizontal = Math.Min(-e.HorizontalChange, this.designerItem.ActualWidth - this.designerItem.MinWidth);
+                        Canvas.SetTop(this.designerItem, Canvas.GetTop(this.designerItem) - this.transformOrigin.X * deltaHorizontal * Math.Sin(this.angle));
+                        Canvas.SetLeft(this.designerItem, Canvas.GetLeft(this.designerItem) + (deltaHorizontal * this.transformOrigin.X * (1 - Math.Cos(this.angle))));
+                        this.designerItem.Width -= deltaHorizontal;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            e.Handled = true;
+        }
     }
 }

@@ -20,10 +20,6 @@
         /// </summary>
         public Coordinate Coordinates { get; set; }
 
-		/// <summary>
-        /// Gets or sets the Angle.
-        /// </summary>
-        public Coordinate Coordinates { get; set; }
         public double Angle { get; set; }
     }
 }

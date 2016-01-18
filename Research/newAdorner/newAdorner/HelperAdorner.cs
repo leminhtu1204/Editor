@@ -21,7 +21,7 @@ namespace newAdorner
 
         // Resizing adorner uses Thumbs for visual elements.  
         // The Thumbs have built-in mouse input handling.
-        Thumb topLeft, topRight, bottomLeft, bottomRight, centerTop, centerRigth, centerBottom, centerLeft;
+        Thumb topLeft, topRight, bottomLeft, bottomRight, centerTop;
 
         // To store and manage the adorner's visual children.
         VisualCollection visualChildren;
