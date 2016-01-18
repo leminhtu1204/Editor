@@ -280,8 +280,7 @@ namespace MikiEditorUI.View
 
                     Canvas.SetLeft(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).X);
                     Canvas.SetTop(label, ToOriginal(frame.Coordinates.TopLeft, model.CurrentPage.Zoom).Y);
-                    label.RenderTransform = new RotateTransform(
-                            frame.Angle, label.Width * 0.5, label.Height * 0.5);
+                    label.RenderTransform = new RotateTransform(frame.Angle);
                     canvas.Children.Add(label);
                     label.Content = canvas.Children.Count;
                 }
@@ -337,16 +336,6 @@ namespace MikiEditorUI.View
             if (rotateTransform != null)
             {
                 angel = rotateTransform.Angle;
-                topLeft = new Point() { X = x, Y = y };
-                topRight = new Point() { X = x + w, Y = y };
-                bottomLeft = new Point() { X = x, Y = y + h };
-                bottomRight = new Point() { X = x + w, Y = y + h };
-                Console.Write(angel + ";");
-                Console.Write(topLeft + ";");
-                Console.Write(topRight + ";");
-                Console.Write(bottomLeft + ";");
-                Console.Write(bottomRight + ";");
-                Console.WriteLine();
             }
 
             model.AddOrUpdateFrame(_label.Name, topLeft, topRight, bottomLeft, bottomRight, int.Parse(_label.Content.ToString()), angel);
